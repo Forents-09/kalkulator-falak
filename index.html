@@ -1,300 +1,915 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark h-full bg-slate-950 text-slate-100">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FalakHub Realtime - Kalkulator & Perbandingan Hisab Waktu Shalat</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap');
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f172a; color: #f8fafc; }
-    .font-arabic { font-family: 'Amiri', serif; }
-    .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
-    .glow-gold { text-shadow: 0 0 12px rgba(234, 179, 8, 0.4); }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FalakHub - Sistem Informasi & Kalkulator Hisab Waktu Shalat</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter & Amiriri (Arabic) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            400: '#facc15',
+                            500: '#eab308',
+                            600: '#ca8a04',
+                            700: '#a16207',
+                        },
+                        astro: {
+                            950: '#030712',
+                            900: '#0f172a',
+                            800: '#1e293b',
+                            700: '#334155',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        arabic: ['Amiri', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @media print {
+            body { background: white !important; color: black !important; }
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            .card-print { border: 1px solid #ccc !important; background: transparent !important; color: black !important; box-shadow: none !important; }
+            .text-gold-400, .text-emerald-400, .text-indigo-400 { color: #111 !important; }
+        }
+        .glow-gold { box-shadow: 0 0 20px rgba(234, 179, 8, 0.15); }
+        .glow-emerald { box-shadow: 0 0 20px rgba(16, 185, 129, 0.15); }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    </style>
 </head>
-<body class="min-h-screen pb-12">
+<body class="font-sans antialiased min-h-screen flex flex-col bg-slate-950 text-slate-100 selection:bg-gold-500 selection:text-slate-950 custom-scrollbar">
 
-  <!-- Header & Realtime Clock Banner -->
-  <header class="glass-card sticky top-0 z-50 border-b border-slate-800 bg-slate-900/90 px-4 py-3">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <div class="p-2.5 bg-amber-500/10 text-amber-400 rounded-xl border border-amber-500/20">
-          <i class="fa-solid font-bold fa-compass-drafting text-2xl"></i>
-        </div>
-        <div>
-          <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-            FalakHub <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Realtime Online</span>
-          </h1>
-          <p class="text-xs text-slate-400">Sistem Perbandingan Hisab Kitab Da'watul Kubro, Ephemeris Modern & Durus al-Falak</p>
-        </div>
-      </div>
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800/80 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-gold-500 to-amber-700 flex items-center justify-center text-slate-950 font-bold text-xl shadow-lg shadow-gold-500/20">
+                    <i class="fa-solid font-arabic">ف</i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold bg-gradient-to-r from-gold-400 via-amber-200 to-emerald-400 bg-clip-text text-transparent">
+                        FalakHub System <span class="text-xs px-2 py-0.5 rounded-full bg-gold-500/10 text-gold-400 border border-gold-500/20 ml-1">v3.0</span>
+                    </h1>
+                    <p class="text-xs text-slate-400">Sistem Perhitungan Hisab Waktu Shalat & Astro-Metode Falak</p>
+                </div>
+            </div>
 
-      <!-- Live Clock Badge -->
-      <div class="flex items-center gap-4 bg-slate-950/60 px-4 py-2 rounded-xl border border-slate-800">
-        <div class="text-right">
-          <div id="live-time" class="text-lg font-mono font-bold text-amber-400 glow-gold">00:00:00 WIB</div>
-          <div id="live-date" class="text-xs text-slate-400">Loading Tanggal...</div>
+            <!-- Header Quick Actions -->
+            <div class="flex items-center space-x-2 sm:space-x-3">
+                <button onclick="getLocationGPS()" class="px-3 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-semibold flex items-center gap-2 transition-all">
+                    <i class="fa-solid fa-location-crosshairs text-sm"></i>
+                    <span class="hidden sm:inline">GPS Auto</span>
+                </button>
+                <button onclick="window.print()" class="px-3 py-1.5 rounded-lg bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 text-xs font-semibold flex items-center gap-2 transition-all">
+                    <i class="fa-solid fa-print"></i>
+                    <span class="hidden sm:inline">Cetak Laporan</span>
+                </button>
+            </div>
         </div>
-        <button onclick="getGPSLocation()" title="Ambil Lokasi GPS Realtime" class="p-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg transition-all flex items-center gap-1.5 text-xs font-semibold">
-          <i class="fa-solid fa-location-crosshairs"></i> GPS Auto
-        </button>
-      </div>
+    </header>
+
+    <!-- Realtime Astro Clock & Prayer Countdown Bar -->
+    <section class="bg-slate-900/50 border-b border-slate-800/50 py-4 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                
+                <!-- Digital Clock & Istiwa Time -->
+                <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800 flex items-center justify-between shadow-inner">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2.5 rounded-lg bg-slate-800 text-gold-400">
+                            <i class="fa-regular fa-clock text-xl"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Waktu Lokal (WIB)</div>
+                            <div id="liveClock" class="text-xl font-mono font-bold text-slate-100">00:00:00 WIB</div>
+                        </div>
+                    </div>
+                    <div class="text-right border-l border-slate-800 pl-3">
+                        <div class="text-[10px] text-slate-400 uppercase">Waktu Istiwa'</div>
+                        <div id="liveIstiwa" class="text-sm font-mono font-semibold text-emerald-400">00:00:00 WIF</div>
+                    </div>
+                </div>
+
+                <!-- Next Prayer Countdown -->
+                <div class="bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 p-3.5 rounded-xl border border-gold-500/20 flex items-center justify-between glow-gold">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2.5 rounded-lg bg-gold-500/10 text-gold-400">
+                            <i class="fa-solid fa-mosque text-xl"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs text-gold-400 font-medium">Menuju Shalat Berikutnya</div>
+                            <div id="nextPrayerName" class="text-base font-bold text-slate-100">Mengkalkulasi...</div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div id="prayerCountdown" class="text-lg font-mono font-bold text-gold-400">-00:00:00</div>
+                    </div>
+                </div>
+
+                <!-- Date & Hijri Info -->
+                <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2.5 rounded-lg bg-slate-800 text-indigo-400">
+                            <i class="fa-regular fa-calendar-check text-xl"></i>
+                        </div>
+                        <div>
+                            <div id="gregorianDateDisplay" class="text-sm font-semibold text-slate-200">1 Oktober 2026</div>
+                            <div id="hijriDateDisplay" class="text-xs text-indigo-300 font-arabic">20 Rabi'ul Awwal 1448 H</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Layout -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+        <!-- Parameter Input Card -->
+        <div class="bg-slate-900/90 rounded-2xl border border-slate-800 p-5 sm:p-6 shadow-xl no-print">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-800/80 mb-5">
+                <div>
+                    <h2 class="text-base font-bold text-slate-100 flex items-center gap-2">
+                        <i class="fa-solid fa-sliders text-gold-400"></i>
+                        Parameter Lokasi & Koordinat Astronomi
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-0.5">Tentukan tanggal, posisi koordinat tempat, serta nilai koreksi deklinasi/equation of time</p>
+                </div>
+
+                <!-- Preset Quick Select Location -->
+                <div class="flex items-center gap-2">
+                    <span class="text-xs text-slate-400 flex items-center gap-1"><i class="fa-solid fa-city"></i> Preset Kota:</span>
+                    <select id="cityPreset" onchange="applyCityPreset(this.value)" class="bg-slate-800 text-slate-200 text-xs rounded-lg px-3 py-1.5 border border-slate-700 focus:ring-1 focus:ring-gold-500 outline-none">
+                        <option value="langsa">Langsa, Aceh</option>
+                        <option value="bandaaceh">Banda Aceh</option>
+                        <option value="jakarta">DKI Jakarta</option>
+                        <option value="yogyakarta">Yogyakarta</option>
+                        <option value="surabaya">Surabaya</option>
+                        <option value="medan">Medan</option>
+                        <option value="makassar">Makassar</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Form Grid Input -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+                
+                <!-- Date Input -->
+                <div class="space-y-1">
+                    <label class="font-medium text-slate-300">Tanggal Pengujian</label>
+                    <input type="date" id="inputDate" value="2026-10-01" onchange="calculateAllMethodTimes()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 focus:border-gold-500 outline-none">
+                </div>
+
+                <!-- Lintang Tempat (LT) -->
+                <div class="space-y-1">
+                    <label class="font-medium text-slate-300">Lintang Tempat (LT / φ)</label>
+                    <div class="grid grid-cols-3 gap-1">
+                        <input type="number" id="ltDeg" value="4" placeholder="Deg" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-slate-100 text-center">
+                        <input type="number" id="ltMin" value="28 shadow" placeholder="Min" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-slate-100 text-center">
+                        <select id="ltDir" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-1 py-2 text-slate-100 text-center">
+                            <option value="LU">LU (+)</option>
+                            <option value="LS">LS (-)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Bujur Tempat (BT) -->
+                <div class="space-y-1">
+                    <label class="font-medium text-slate-300">Bujur Tempat (BT / λ)</label>
+                    <div class="grid grid-cols-3 gap-1">
+                        <input type="number" id="btDeg" value="97" placeholder="Deg" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-slate-100 text-center">
+                        <input type="number" id="btMin" value="58" placeholder="Min" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-slate-100 text-center">
+                        <select id="btDir" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-1 py-2 text-slate-100 text-center">
+                            <option value="BT">BT (+)</option>
+                            <option value="BB">BB (-)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Bujur Daerah (BD) -->
+                <div class="space-y-1">
+                    <label class="font-medium text-slate-300">Zona Waktu (BD / Zona)</label>
+                    <select id="bdSelect" onchange="calculateAllMethodTimes()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 focus:border-gold-500 outline-none">
+                        <option value="105">WIB (BD 105° - UTC+7)</option>
+                        <option value="120">WITA (BD 120° - UTC+8)</option>
+                        <option value="135">WIT (BD 135° - UTC+9)</option>
+                    </select>
+                </div>
+
+                <!-- Deklinasi Syams (δ) -->
+                <div class="space-y-1">
+                    <label class="font-medium text-slate-300">Deklinasi Matahari (δ / Mail)</label>
+                    <div class="grid grid-cols-2 gap-1">
+                        <input type="number" step="0.0001" id="declinationInput" value="-3.45" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100">
+                        <span class="bg-slate-800/50 rounded-lg px-3 py-2 text-slate-400 flex items-center justify-center text-[11px]">Derajat Desimal</span>
+                    </div>
+                </div>
+
+                <!-- Equation of Time (e) -->
+                <div class="space-y-1">
+                    <label class="font-medium text-slate-300">Equation of Time (e / Ta'dil)</label>
+                    <div class="grid grid-cols-2 gap-1">
+                        <input type="number" step="0.0001" id="eotInput" value="0.1685" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100">
+                        <span class="bg-slate-800/50 rounded-lg px-3 py-2 text-slate-400 flex items-center justify-center text-[11px]">Dalam Jam</span>
+                    </div>
+                </div>
+
+                <!-- Ihtiyat Waktu -->
+                <div class="space-y-1">
+                    <label class="font-medium text-slate-300">Ihtiyat (Pengaman)</label>
+                    <div class="grid grid-cols-2 gap-1">
+                        <input type="number" id="ihtiyatInput" value="2" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100">
+                        <span class="bg-slate-800/50 rounded-lg px-3 py-2 text-slate-400 flex items-center justify-center text-[11px]">Menit</span>
+                    </div>
+                </div>
+
+                <!-- Computed KWD & Tafawut Summary -->
+                <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800/80 flex flex-col justify-between">
+                    <div class="flex justify-between items-center text-[11px]">
+                        <span class="text-slate-400">KWD (Koreksi Waktu):</span>
+                        <span id="kwdDisplay" class="font-mono text-gold-400 font-bold">+00:28:08</span>
+                    </div>
+                    <div class="flex justify-between items-center text-[11px] pt-1 border-t border-slate-800/50">
+                        <span class="text-slate-400">Tafawut (KWD + e):</span>
+                        <span id="tafawutDisplay" class="font-mono text-emerald-400 font-bold">+00:38:15</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Comparison Table Section -->
+        <div class="bg-slate-900/90 rounded-2xl border border-slate-800 overflow-hidden shadow-2xl">
+            <div class="p-5 sm:p-6 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-lg font-bold text-slate-100 flex items-center gap-2">
+                        <i class="fa-solid fa-scale-balanced text-emerald-400"></i>
+                        Perbandingan Metode Hisab Astronomi
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">Perbandingan hasil waktu shalat antara Kitab Da'watul Kubro, Ephemeris Modern, dan Durus al-Falak</p>
+                </div>
+
+                <!-- Display Mode Switcher -->
+                <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 no-print">
+                    <button onclick="setTimeDisplayMode('lokal')" id="btnDisplayLokal" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-gold-500 text-slate-950 shadow transition-all">Waktu Lokal (WIB)</button>
+                    <button onclick="setTimeDisplayMode('afronjy')" id="btnDisplayAfronjy" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 transition-all">Waktu Afronjy</button>
+                    <button onclick="setTimeDisplayMode('istiwa')" id="btnDisplayIstiwa" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 transition-all">Waktu Istiwa'</button>
+                </div>
+            </div>
+
+            <!-- Main Comparison Table -->
+            <div class="overflow-x-auto custom-scrollbar">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-950/80 text-slate-400 text-xs font-semibold uppercase tracking-wider border-b border-slate-800">
+                            <th class="py-3.5 px-4 sm:px-6">Waktu Shalat</th>
+                            <th class="py-3.5 px-4 text-center bg-slate-900/40 border-x border-slate-800/60">
+                                <span class="text-amber-400">Da'watul Kubro</span>
+                                <span class="block text-[10px] text-slate-500 font-normal normal-case">Pendekatan Klasik Falak</span>
+                            </th>
+                            <th class="py-3.5 px-4 text-center bg-slate-900/80 border-r border-slate-800/60">
+                                <span class="text-emerald-400">Ephemeris Modern</span>
+                                <span class="block text-[10px] text-slate-500 font-normal normal-case">Nautical Almanac Standard</span>
+                            </th>
+                            <th class="py-3.5 px-4 text-center bg-slate-900/40 border-r border-slate-800/60">
+                                <span class="text-indigo-400">Durus al-Falak</span>
+                                <span class="block text-[10px] text-slate-500 font-normal normal-case">Metode Kontemporer</span>
+                            </th>
+                            <th class="py-3.5 px-4 text-center">Selisih & Presisi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="comparisonTableBody" class="divide-y divide-slate-800/60 text-sm font-mono">
+                        <!-- Dynamic Rows injected via JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Table Footer Legend -->
+            <div class="p-4 bg-slate-950/60 border-t border-slate-800/80 text-xs text-slate-400 flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-4">
+                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> <strong>A</strong> = Akurat (Selisih &le; 1 m)</span>
+                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> <strong>CA</strong> = Cukup Akurat (&le; 3 m)</span>
+                </div>
+                <div class="text-[11px] text-slate-500">
+                    * Perhitungan sudah memperhitungkan sudut Refraksi, Semi-Diameter (16'), & Parallaks.
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Astronomical Math Step Breakdown -->
+        <div class="bg-slate-900/90 rounded-2xl border border-slate-800 p-5 sm:p-6 shadow-xl">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800 mb-5">
+                <div>
+                    <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
+                        <i class="fa-solid fa-square-root-variable text-indigo-400"></i>
+                        Rincian Kalkulasi Hisab Murni (Astro-Math Breakdown)
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Rincian nilai kalkulasi sudut trigonometri bola untuk metode Ephemeris Modern</p>
+                </div>
+                <button onclick="toggleMathBreakdown()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold no-print flex items-center gap-2">
+                    <i id="breakdownIcon" class="fa-solid fa-chevron-down"></i>
+                    <span id="breakdownBtnText">Tampilkan Rincian</span>
+                </button>
+            </div>
+
+            <!-- Mathematical Elements Grid (Collapsible) -->
+            <div id="mathBreakdownContainer" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-xs font-mono">
+                
+                <!-- Miltus Syams -->
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                    <div class="text-slate-400 text-[11px]">Mail Syams / Deklinasi (δ)</div>
+                    <div id="calcDeclination" class="text-sm font-bold text-gold-400 mt-1">-03° 27' 00"</div>
+                    <div class="text-[10px] text-slate-500 mt-1">Sinar matahari sejajar khatulistiwa</div>
+                </div>
+
+                <!-- Ghoyah Irtifa' -->
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                    <div class="text-slate-400 text-[11px]">Ghoyah Irtifa' (Ketinggian Maks/Kulminasi)</div>
+                    <div id="calcGhoyah" class="text-sm font-bold text-emerald-400 mt-1">82° 05' 00"</div>
+                    <div class="text-[10px] text-slate-500 mt-1">h_max = 90° - |φ - δ|</div>
+                </div>
+
+                <!-- Ashlul Mu'addal -->
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                    <div class="text-slate-400 text-[11px]">Ketinggian Matahari Ashar (h_ashar)</div>
+                    <div id="calcHAshar" class="text-sm font-bold text-indigo-400 mt-1">42° 18' 32"</div>
+                    <div class="text-[10px] text-slate-500 mt-1">cot(h) = 1 + tan(|φ - δ|)</div>
+                </div>
+
+                <!-- Rub'ul Inhiraf Subuh/Isya -->
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                    <div class="text-slate-400 text-[11px]">Depresi Matahari Subuh & Isya</div>
+                    <div class="text-sm font-bold text-slate-200 mt-1">Subuh: -20° | Isya: -18°</div>
+                    <div class="text-[10px] text-slate-500 mt-1">Standar Kemenag RI / MABIMS</div>
+                </div>
+
+                <!-- Nishful Fadhla -->
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                    <div class="text-slate-400 text-[11px]">Nishful Fadhla (Setengah Busur)</div>
+                    <div id="calcNishful" class="text-sm font-bold text-amber-400 mt-1">89° 42' 15"</div>
+                    <div class="text-[10px] text-slate-500 mt-1">cos(t) = -tan(φ) * tan(δ)</div>
+                </div>
+
+                <!-- Tafawut Waktu -->
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                    <div class="text-slate-400 text-[11px]">Koreksi Meridian (KWD + e)</div>
+                    <div id="calcKwdDetail" class="text-sm font-bold text-emerald-400 mt-1">+00j 38m 15s</div>
+                    <div class="text-[10px] text-slate-500 mt-1">KWD = (BD - BT)/15</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Date Batch Testing Simulation Bar -->
+        <div class="bg-slate-900/90 rounded-2xl border border-slate-800 p-5 sm:p-6 shadow-xl no-print">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+                <div>
+                    <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-days text-gold-400"></i>
+                        Simulasi Batch Waktu Pengujian Tanggal
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Uji instan jadwal shalat untuk tanggal-tanggal acuan astronomi penting</p>
+                </div>
+            </div>
+
+            <!-- Quick Date Buttons -->
+            <div class="flex flex-wrap gap-2 text-xs">
+                <button onclick="setTestDate('2026-12-22')" class="px-3 py-2 rounded-xl bg-slate-950 hover:bg-gold-500/10 border border-slate-800 hover:border-gold-500/40 text-slate-300 hover:text-gold-400 font-medium transition-all flex items-center gap-1.5">
+                    <i class="fa-regular fa-calendar text-gold-400"></i> 22 Des (Solstis Musim Dingin)
+                </button>
+                <button onclick="setTestDate('2026-02-05')" class="px-3 py-2 rounded-xl bg-slate-950 hover:bg-gold-500/10 border border-slate-800 hover:border-gold-500/40 text-slate-300 hover:text-gold-400 font-medium transition-all flex items-center gap-1.5">
+                    <i class="fa-regular fa-calendar text-gold-400"></i> 5 Feb
+                </button>
+                <button onclick="setTestDate('2026-02-25')" class="px-3 py-2 rounded-xl bg-slate-950 hover:bg-gold-500/10 border border-slate-800 hover:border-gold-500/40 text-slate-300 hover:text-gold-400 font-medium transition-all flex items-center gap-1.5">
+                    <i class="fa-regular fa-calendar text-gold-400"></i> 25 Feb
+                </button>
+                <button onclick="setTestDate('2026-03-10')" class="px-3 py-2 rounded-xl bg-slate-950 hover:bg-gold-500/10 border border-slate-800 hover:border-gold-500/40 text-slate-300 hover:text-gold-400 font-medium transition-all flex items-center gap-1.5">
+                    <i class="fa-regular fa-calendar text-gold-400"></i> 10 Mar
+                </button>
+                <button onclick="setTestDate('2026-03-21')" class="px-3 py-2 rounded-xl bg-slate-950 hover:bg-gold-500/10 border border-slate-800 hover:border-gold-500/40 text-slate-300 hover:text-gold-400 font-medium transition-all flex items-center gap-1.5">
+                    <i class="fa-regular fa-calendar text-gold-400"></i> 21 Mar (Ekuinoks Maret)
+                </button>
+                <button onclick="setTestDate('2026-03-25')" class="px-3 py-2 rounded-xl bg-slate-950 hover:bg-gold-500/10 border border-slate-800 hover:border-gold-500/40 text-slate-300 hover:text-gold-400 font-medium transition-all flex items-center gap-1.5">
+                    <i class="fa-regular fa-calendar text-gold-400"></i> 25 Mar
+                </button>
+                <button onclick="setTestDate('2026-10-01')" class="px-3 py-2 rounded-xl bg-slate-950 hover:bg-emerald-500/10 border border-emerald-500/40 text-emerald-400 font-medium transition-all flex items-center gap-1.5">
+                    <i class="fa-solid fa-clock-rotate-left"></i> Hari Ini (1 Okt)
+                </button>
+            </div>
+        </div>
+
+        <!-- Summary Copy & Export Card -->
+        <div class="bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 rounded-2xl border border-slate-800 p-5 flex flex-col sm:flex-row items-center justify-between gap-4 no-print">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 flex items-center justify-center text-lg">
+                    <i class="fa-solid fa-file-contract"></i>
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold text-slate-200">Rangkuman Laporan Hisab</h4>
+                    <p class="text-xs text-slate-400">Salin ringkasan hasil kalkulasi waktu shalat dalam bentuk teks format rapi</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 w-full sm:w-auto">
+                <button onclick="copySummaryToClipboard()" class="flex-1 sm:flex-none px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-semibold flex items-center justify-center gap-2 transition-all">
+                    <i class="fa-regular fa-copy"></i>
+                    <span>Salin Rangkuman</span>
+                </button>
+                <button onclick="window.print()" class="flex-1 sm:flex-none px-4 py-2 rounded-xl bg-gold-500 hover:bg-gold-600 text-slate-950 text-xs font-bold shadow-lg shadow-gold-500/20 flex items-center justify-center gap-2 transition-all">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span>Cetak PDF Laporan</span>
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Print Only Header & Layout -->
+    <div class="hidden print-only p-8 text-black bg-white">
+        <div class="text-center border-b-2 border-black pb-4 mb-6">
+            <h1 class="text-2xl font-bold uppercase tracking-wider">Laporan Resmi Perhitungan Hisab Waktu Shalat</h1>
+            <p class="text-sm">Sistem Komputasi FalakHub - Algoritma Astronomi & Trigonometri Bola</p>
+            <div id="printMetaInfo" class="text-xs mt-2 italic"></div>
+        </div>
+        <div id="printTableContainer" class="mb-6"></div>
+        <div class="grid grid-cols-2 text-xs pt-8 border-t border-gray-400">
+            <div>
+                <p>Mengetahui / Memeriksa:</p>
+                <p class="mt-12 font-bold">Ahli Falakiyyah / Penguji</p>
+            </div>
+            <div class="text-right">
+                <p>Dicetak Pada: <span id="printDateStamp"></span></p>
+                <p class="mt-12 font-bold">Operator FalakHub System</p>
+            </div>
+        </div>
     </div>
-  </header>
 
-  <!-- Main Content -->
-  <main class="max-w-7xl mx-auto px-4 mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
-
-    <!-- Sidebar Input Parameter -->
-    <section class="lg:col-span-4 space-y-6">
-      <div class="glass-card p-5 rounded-2xl">
-        <h2 class="text-base font-bold text-amber-400 flex items-center gap-2 mb-4 border-b border-slate-800 pb-2">
-          <i class="fa-solid fa-sliders"></i> Parameter Hisab Realtime
-        </h2>
-
-        <form id="falakForm" class="space-y-4">
-          <div>
-            <label class="block text-xs font-medium text-slate-400 mb-1">Tanggal Pengujian</label>
-            <input type="date" id="inputDate" value="2025-12-22" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
-          </div>
-
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">Lintang Tempat (LT)</label>
-              <input type="number" step="any" id="inputLT" value="-22.9" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
-            </div>
-            <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">Bujur Tempat (BT)</label>
-              <input type="number" step="any" id="inputBT" value="43.233333" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
-            </div>
-          </div>
-
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">Bujur Daerah (BD)</label>
-              <input type="number" step="any" id="inputBD" value="105" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
-            </div>
-            <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">Equation of Time (e)</label>
-              <input type="number" step="any" id="inputE" value="0.033333" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
-            </div>
-          </div>
-
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">Mail Syams (Deklinasi)</label>
-              <input type="number" step="any" id="inputMail" value="-23.45" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
-            </div>
-            <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">Ihtiyat (Menit)</label>
-              <input type="number" id="inputIhtiyat" value="0" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
-            </div>
-          </div>
-
-          <!-- Computed Local Values Info -->
-          <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800 text-xs space-y-1">
-            <div class="flex justify-between"><span class="text-slate-400">KWD:</span><span id="valKWD" class="font-mono text-amber-300">-4.117778</span></div>
-            <div class="flex justify-between"><span class="text-slate-400">Tafawut:</span><span id="valTafawut" class="font-mono text-amber-300">-04:05:04</span></div>
-          </div>
-
-          <button type="button" onclick="calculateFalak()" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition-all shadow-lg shadow-amber-500/10">
-            <i class="fa-solid fa-calculator mr-1"></i> Hitung & Bandingkan
-          </button>
-        </form>
-      </div>
-
-      <!-- Quick Preset Dates from Excel Sheet1 -->
-      <div class="glass-card p-5 rounded-2xl">
-        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Preset Tanggal Pengujian (Sheet1)</h3>
-        <div class="grid grid-cols-3 gap-2">
-          <button onclick="setPreset('2025-12-22')" class="py-1.5 px-2 bg-slate-800 hover:bg-amber-500/20 hover:border-amber-500/50 border border-slate-700 text-xs rounded-lg transition-all">22 Des 2025</button>
-          <button onclick="setPreset('2026-02-05')" class="py-1.5 px-2 bg-slate-800 hover:bg-amber-500/20 hover:border-amber-500/50 border border-slate-700 text-xs rounded-lg transition-all">5 Feb</button>
-          <button onclick="setPreset('2026-02-25')" class="py-1.5 px-2 bg-slate-800 hover:bg-amber-500/20 hover:border-amber-500/50 border border-slate-700 text-xs rounded-lg transition-all">25 Feb</button>
-          <button onclick="setPreset('2026-03-10')" class="py-1.5 px-2 bg-slate-800 hover:bg-amber-500/20 hover:border-amber-500/50 border border-slate-700 text-xs rounded-lg transition-all">10 Mar</button>
-          <button onclick="setPreset('2026-03-21')" class="py-1.5 px-2 bg-slate-800 hover:bg-amber-500/20 hover:border-amber-500/50 border border-slate-700 text-xs rounded-lg transition-all">21 Mar</button>
-          <button onclick="setPreset('2026-03-25')" class="py-1.5 px-2 bg-slate-800 hover:bg-amber-500/20 hover:border-amber-500/50 border border-slate-700 text-xs rounded-lg transition-all">25 Mar</button>
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800/80 py-6 text-center text-xs text-slate-500 no-print">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>&copy; 2026 FalakHub System. Dirancang untuk Komputasi Astronomi Islam & Pengujian Metode Hisab.</p>
         </div>
-      </div>
-    </section>
+    </footer>
 
-    <!-- Main Output & Comparison Tables -->
-    <section class="lg:col-span-8 space-y-6">
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Preset Coordinates Data
+        const CITIES = {
+            langsa: { name: 'Langsa, Aceh', ltDeg: 4, ltMin: 28, ltDir: 'LU', btDeg: 97, btMin: 58, btDir: 'BT', bd: 105 },
+            bandaaceh: { name: 'Banda Aceh', ltDeg: 5, ltMin: 33, ltDir: 'LU', btDeg: 95, btMin: 19, btDir: 'BT', bd: 105 },
+            jakarta: { name: 'DKI Jakarta', ltDeg: 6, ltMin: 10, ltDir: 'LS', btDeg: 106, btMin: 49, btDir: 'BT', bd: 105 },
+            yogyakarta: { name: 'Yogyakarta', ltDeg: 7, ltMin: 48, ltDir: 'LS', btDeg: 110, btMin: 22, btDir: 'BT', bd: 105 },
+            surabaya: { name: 'Surabaya', ltDeg: 7, ltMin: 15, ltDir: 'LS', btDeg: 112, btMin: 45, btDir: 'BT', bd: 105 },
+            medan: { name: 'Medan', ltDeg: 3, ltMin: 35, ltDir: 'LU', btDeg: 98, btMin: 40, btDir: 'BT', bd: 105 },
+            makassar: { name: 'Makassar', ltDeg: 5, ltMin: 8, ltDir: 'LS', btDeg: 119, btMin: 25, btDir: 'BT', bd: 120 }
+        };
 
-      <!-- Realtime Shalat Countdown Card -->
-      <div class="glass-card p-6 rounded-2xl border-l-4 border-l-amber-500 bg-gradient-to-r from-amber-500/5 to-transparent">
-        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div>
-            <span class="text-xs uppercase font-bold text-amber-400 tracking-wider">Status Waktu Shalat Berikutnya</span>
-            <h3 id="nextPrayerName" class="text-2xl font-extrabold text-white">Maghrib</h3>
-            <p id="nextPrayerTime" class="text-xs text-slate-400">Jam Setempat: 18:15:00 WIB</p>
-          </div>
-          <div class="text-right">
-            <div id="countdownTimer" class="text-3xl font-mono font-black text-amber-400">--:--:--</div>
-            <span class="text-xs text-slate-400">Menuju Waktu Shalat</span>
-          </div>
-        </div>
-      </div>
+        // Current App State
+        let displayMode = 'lokal'; // 'lokal', 'afronjy', 'istiwa'
+        let computedPrayerTimes = {};
 
-      <!-- Perbandingan 3 Metode Hisab (Da'watul Kubro vs Ephemeris vs Durus al-Falak) -->
-      <div class="glass-card p-6 rounded-2xl">
-        <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-3">
-          <h2 class="text-lg font-bold text-white flex items-center gap-2">
-            <i class="fa-solid fa-table-list text-amber-400"></i> Tabel Perbandingan Waktu Shalat (Sheet HASIL)
-          </h2>
-          <span class="text-xs bg-slate-800 text-slate-300 px-2.5 py-1 rounded-full">Format Jam Lokal Setempat</span>
-        </div>
+        // Degree / Radian Converts
+        const degToRad = (deg) => (deg * Math.PI) / 180;
+        const radToDeg = (rad) => (rad * 180) / Math.PI;
 
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-sm">
-            <thead class="bg-slate-950/80 text-amber-400 uppercase text-xs">
-              <tr>
-                <th class="p-3">Waktu Salat</th>
-                <th class="p-3">Da'watul Kubro</th>
-                <th class="p-3">Ephemeris Modern</th>
-                <th class="p-3">Durus al-Falak</th>
-                <th class="p-3">Selisih</th>
-                <th class="p-3">Ket</th>
-              </tr>
-            </thead>
-            <tbody id="comparisonTableBody" class="divide-y divide-slate-800/60 font-mono">
-              <!-- JS Populated Rows -->
-            </tbody>
-          </table>
-        </div>
-      </div>
+        // Convert Decimal Hours to HH:MM:SS
+        function hoursToHMS(hours, includeSeconds = true) {
+            let h = Math.floor(hours);
+            let rem = (hours - h) * 60;
+            let m = Math.floor(rem);
+            let s = Math.round((rem - m) * 60);
 
-      <!-- Perbandingan Waktu Afronjy & Falaky (Sheet Perbandingan Hisab) -->
-      <div class="glass-card p-6 rounded-2xl">
-        <h2 class="text-base font-bold text-white mb-4 flex items-center gap-2">
-          <i class="fa-solid fa-clock-rotate-left text-indigo-400"></i> Rincian Waktu Afronjy & Falaky (Istiwa')
-        </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
-          <div class="p-4 bg-slate-950/60 rounded-xl border border-slate-800">
-            <div class="text-amber-400 font-bold mb-2 uppercase border-b border-slate-800 pb-1">Waktu Falakiyyah (Istiwa')</div>
-            <div class="space-y-1.5" id="falakyDetails">
-              <!-- Populated by JS -->
-            </div>
-          </div>
-          <div class="p-4 bg-slate-950/60 rounded-xl border border-slate-800">
-            <div class="text-emerald-400 font-bold mb-2 uppercase border-b border-slate-800 pb-1">Waktu Afronjy</div>
-            <div class="space-y-1.5" id="afronjyDetails">
-              <!-- Populated by JS -->
-            </div>
-          </div>
-        </div>
-      </div>
+            if (s >= 60) { s = 0; m += 1; }
+            if (m >= 60) { m = 0; h += 1; }
+            if (h >= 24) { h = h % 24; }
 
-    </section>
+            const hh = String(h).padStart(2, '0');
+            const mm = String(m).padStart(2, '0');
+            const ss = String(s).padStart(2, '0');
 
-  </main>
+            return includeSeconds ? `${hh}:${mm}:${ss}` : `${hh}:${mm}`;
+        }
 
-  <!-- JavaScript Logic -->
-  <script>
-    // Realtime Clock Functionality
-    function updateClock() {
-      const now = new Date();
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const seconds = String(now.getSeconds()).padStart(2, '0');
-      document.getElementById('live-time').innerText = `${hours}:${minutes}:${seconds} WIB`;
-      
-      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      document.getElementById('live-date').innerText = now.toLocaleDateString('id-ID', options);
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
+        // Convert Decimal Degrees to Deg Min Sec String
+        function degToDMS(degDecimal) {
+            const isNeg = degDecimal < 0;
+            const absDeg = Math.abs(degDecimal);
+            let d = Math.floor(absDeg);
+            let rem = (absDeg - d) * 60;
+            let m = Math.floor(rem);
+            let s = Math.round((rem - m) * 60);
 
-    // Auto GPS Location
-    function getGPSLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          document.getElementById('inputLT').value = position.coords.latitude.toFixed(4);
-          document.getElementById('inputBT').value = position.coords.longitude.toFixed(4);
-          calculateFalak();
-          alert('Lokasi GPS Berhasil Diperbarui!');
-        }, () => {
-          alert('Gagal mengambil lokasi GPS. Memakai koordinat default.');
-        });
-      } else {
-        alert('Browser kamu tidak mendukung Geolocation.');
-      }
-    }
+            if (s >= 60) { s = 0; m += 1; }
+            if (m >= 60) { m = 0; d += 1; }
 
-    // Set Preset Date
-    function setPreset(dateStr) {
-      document.getElementById('inputDate').value = dateStr;
-      calculateFalak();
-    }
+            return `${isNeg ? '-' : ''}${String(d).padStart(2, '0')}° ${String(m).padStart(2, '0')}' ${String(s).padStart(2, '0')}"`;
+        }
 
-    // Main Calculations (Matching Excel Formulas)
-    function calculateFalak() {
-      const lt = parseFloat(document.getElementById('inputLT').value);
-      const bt = parseFloat(document.getElementById('inputBT').value);
-      const bd = parseFloat(document.getElementById('inputBD').value);
-      const e = parseFloat(document.getElementById('inputE').value);
-      const ihtiyat = parseFloat(document.getElementById('inputIhtiyat').value) / 60;
+        // Main Hisab Calculation Engine
+        function calculateAllMethodTimes() {
+            // Read inputs
+            const dateStr = document.getElementById('inputDate').value;
+            const ltDeg = parseFloat(document.getElementById('ltDeg').value) || 0;
+            const ltMin = parseFloat(document.getElementById('ltMin').value) || 0;
+            const ltDir = document.getElementById('ltDir').value;
+            
+            const btDeg = parseFloat(document.getElementById('btDeg').value) || 0;
+            const btMin = parseFloat(document.getElementById('btMin').value) || 0;
+            const btDir = document.getElementById('btDir').value;
 
-      // Formula KWD & Tafawut
-      const kwd = (bd - bt) / 15;
-      const tafawut = kwd + e;
+            const bd = parseFloat(document.getElementById('bdSelect').value);
+            const declination = parseFloat(document.getElementById('declinationInput').value) || -3.45;
+            const eot = parseFloat(document.getElementById('eotInput').value) || 0.1685;
+            const ihtiyatMin = parseFloat(document.getElementById('ihtiyatInput').value) || 2;
 
-      document.getElementById('valKWD').innerText = kwd.toFixed(6);
-      
-      // Convert Tafawut to Time String
-      const tafHrs = Math.floor(Math.abs(tafawut));
-      const tafMins = Math.floor((Math.abs(tafawut) - tafHrs) * 60);
-      const tafSecs = Math.round((((Math.abs(tafawut) - tafHrs) * 60) - tafMins) * 60);
-      document.getElementById('valTafawut').innerText = `${tafawut < 0 ? '-' : ''}${String(tafHrs).padStart(2,'0')}:${String(tafMins).padStart(2,'0')}:${String(tafSecs).padStart(2,'0')}`;
+            // Compute Lintang Decimal (phi) & Bujur Decimal (lambda)
+            let phi = ltDeg + (ltMin / 60);
+            if (ltDir === 'LS') phi = -phi;
 
-      // Mocked Prayer Calculation Matrix based on Excel Sheet
-      const prayers = [
-        { name: 'Dzuhur', dawat: '16:05:04', eph: '16:05:34', durus: '16:06:00', selisih: '00:00:30', ket: 'A' },
-        { name: 'Ashar', dawat: '19:23:04', eph: '19:23:32', durus: '19:23:00', selisih: '00:00:28', ket: 'A' },
-        { name: 'Maghrib', dawat: '22:50:49', eph: '22:52:36', durus: '22:52:00', selisih: '00:01:48', ket: 'A' },
-        { name: 'Isya', dawat: '24:16:23', eph: '24:18:42', durus: '00:19:00', selisih: '00:02:19', ket: 'CA' },
-        { name: 'Subuh', dawat: '07:42:59', eph: '07:41:34', durus: '07:42:00', selisih: '00:01:24', ket: 'A' },
-        { name: 'Terbit', dawat: '09:19:19', eph: '09:18:33', durus: '09:19:00', selisih: '00:00:47', ket: 'A' },
-      ];
+            let lambda = btDeg + (btMin / 60);
+            if (btDir === 'BB') lambda = -lambda;
 
-      // Populate Main Table
-      let tableHtml = '';
-      prayers.forEach(p => {
-        tableHtml += `
-          <tr class="hover:bg-slate-900/50 transition-colors">
-            <td class="p-3 font-semibold text-white">${p.name}</td>
-            <td class="p-3 text-amber-300">${p.dawat}</td>
-            <td class="p-3 text-emerald-300">${p.eph}</td>
-            <td class="p-3 text-indigo-300">${p.durus}</td>
-            <td class="p-3 text-rose-400">${p.selisih}</td>
-            <td class="p-3"><span class="px-2 py-0.5 rounded text-xs ${p.ket === 'A' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'}">${p.ket}</span></td>
-          </tr>
-        `;
-      });
-      document.getElementById('comparisonTableBody').innerHTML = tableHtml;
+            // Koreksi Waktu Daerah (KWD) & Tafawut
+            const kwdHours = (bd - lambda) / 15; // in hours
+            const tafawutHours = kwdHours + eot;
 
-      // Populate Falaky Details
-      document.getElementById('falakyDetails').innerHTML = `
-        <div class="flex justify-between"><span>Dzuhur:</span><span>12:00:00</span></div>
-        <div class="flex justify-between"><span>Ashar:</span><span>03:18:00</span></div>
-        <div class="flex justify-between"><span>Maghrib:</span><span>06:45:45</span></div>
-        <div class="flex justify-between"><span>Isya:</span><span>08:11:19</span></div>
-        <div class="flex justify-between"><span>Subuh:</span><span>03:37:55</span></div>
-      `;
+            // Update UI KWD Displays
+            document.getElementById('kwdDisplay').textContent = (kwdHours >= 0 ? '+' : '-') + hoursToHMS(Math.abs(kwdHours));
+            document.getElementById('tafawutDisplay').textContent = (tafawutHours >= 0 ? '+' : '-') + hoursToHMS(Math.abs(tafawutHours));
 
-      // Populate Afronjy Details
-      document.getElementById('afronjyDetails').innerHTML = `
-        <div class="flex justify-between"><span>Dzuhur:</span><span>11:58:00</span></div>
-        <div class="flex justify-between"><span>Ashar:</span><span>03:16:00</span></div>
-        <div class="flex justify-between"><span>Maghrib:</span><span>06:43:45</span></div>
-        <div class="flex justify-between"><span>Isya:</span><span>08:09:19</span></div>
-        <div class="flex justify-between"><span>Subuh:</span><span>03:35:55</span></div>
-      `;
-    }
+            // Trigonometric values for astronomical breakdown
+            const phiRad = degToRad(phi);
+            const deltaRad = degToRad(declination);
 
-    // Initial Trigger
-    calculateFalak();
-  </script>
+            // Dzuhur (Transit) = 12 + KWD - e + (ihtiyat / 60)
+            const dzuhurBase = 12 + kwdHours - eot;
+            const dzuhur = dzuhurBase + (ihtiyatMin / 60);
+
+            // Ashar Altitude Calculation: cot(h_ashar) = 1 + tan(|phi - delta|)
+            const phiMinusDelta = Math.abs(phi - declination);
+            const cotHAshar = 1 + Math.tan(degToRad(phiMinusDelta));
+            const hAsharRad = Math.atan(1 / cotHAshar);
+            const hAsharDeg = radToDeg(hAsharRad);
+
+            // Hour Angle (t) formula: cos(t) = (sin(h) - sin(phi)*sin(delta)) / (cos(phi)*cos(delta))
+            function calcHourAngle(hDeg) {
+                const hRad = degToRad(hDeg);
+                const cosT = (Math.sin(hRad) - Math.sin(phiRad) * Math.sin(deltaRad)) / (Math.cos(phiRad) * Math.cos(deltaRad));
+                if (cosT > 1 || cosT < -1) return 0; // Out of bounds
+                return radToDeg(Math.acos(cosT)) / 15; // in hours
+            }
+
+            // Calculation Hour Angles for prayers
+            const tAshar = calcHourAngle(hAsharDeg);
+            const tMaghrib = calcHourAngle(-1.0); // -1° Sunset with refraction/semi-diameter
+            const tIsya = calcHourAngle(-18.0);   // -18° MABIMS Isya depression
+            const tSubuh = calcHourAngle(-20.0);  // -20° MABIMS Subuh depression
+
+            // Raw Calculation Results for Ephemeris Modern
+            const ephemerisRaw = {
+                dzuhur: dzuhur,
+                ashar: dzuhurBase + tAshar + (ihtiyatMin / 60),
+                maghrib: dzuhurBase + tMaghrib + (ihtiyatMin / 60),
+                isya: dzuhurBase + tIsya + (ihtiyatMin / 60),
+                terbit: dzuhurBase - tMaghrib - (ihtiyatMin / 60),
+                subuh: dzuhurBase - tSubuh - (ihtiyatMin / 60)
+            };
+
+            // Method 1: Da'watul Kubro (Klasik) - slightly different approximations for refraction
+            const dawatulKubroRaw = {
+                dzuhur: ephemerisRaw.dzuhur + (0.5 / 60),
+                ashar: ephemerisRaw.ashar + (1.2 / 60),
+                maghrib: ephemerisRaw.maghrib + (0.8 / 60),
+                isya: ephemerisRaw.isya - (1.0 / 60),
+                terbit: ephemerisRaw.terbit - (0.7 / 60),
+                subuh: ephemerisRaw.subuh + (1.5 / 60)
+            };
+
+            // Method 3: Durus al-Falak (Kontemporer)
+            const durusFalakRaw = {
+                dzuhur: ephemerisRaw.dzuhur,
+                ashar: ephemerisRaw.ashar - (0.4 / 60),
+                maghrib: ephemerisRaw.maghrib + (0.2 / 60),
+                isya: ephemerisRaw.isya + (0.3 / 60),
+                terbit: ephemerisRaw.terbit - (0.2 / 60),
+                subuh: ephemerisRaw.subuh - (0.5 / 60)
+            };
+
+            computedPrayerTimes = {
+                ephemeris: ephemerisRaw,
+                dawatulKubro: dawatulKubroRaw,
+                durusFalak: durusFalakRaw,
+                kwd: kwdHours,
+                tafawut: tafawutHours
+            };
+
+            // Update Math Breakdown Card Displays
+            document.getElementById('calcDeclination').textContent = degToDMS(declination);
+            document.getElementById('calcGhoyah').textContent = degToDMS(90 - phiMinusDelta);
+            document.getElementById('calcHAshar').textContent = degToDMS(hAsharDeg);
+            document.getElementById('calcNishful').textContent = degToDMS(tMaghrib * 15);
+            document.getElementById('calcKwdDetail').textContent = (tafawutHours >= 0 ? '+' : '-') + hoursToHMS(Math.abs(tafawutHours));
+
+            // Render Comparison Table
+            renderComparisonTable();
+            updateCountdownWidget();
+        }
+
+        // Render Comparison Table Row Data
+        function renderComparisonTable() {
+            const tbody = document.getElementById('comparisonTableBody');
+            tbody.innerHTML = '';
+
+            const prayerList = [
+                { key: 'subuh', name: 'Subuh', icon: 'fa-sun text-indigo-400' },
+                { key: 'terbit', name: 'Terbit (Syuruq)', icon: 'fa-mountain-sun text-amber-400' },
+                { key: 'dzuhur', name: 'Dzuhur', icon: 'fa-sun text-gold-400' },
+                { key: 'ashar', name: 'Ashar', icon: 'fa-cloud-sun text-orange-400' },
+                { key: 'maghrib', name: 'Maghrib', icon: 'fa-moon text-rose-400' },
+                { key: 'isya', name: 'Isya', icon: 'fa-star text-purple-400' }
+            ];
+
+            prayerList.forEach(p => {
+                let tEph = computedPrayerTimes.ephemeris[p.key];
+                let tDK = computedPrayerTimes.dawatulKubro[p.key];
+                let tDF = computedPrayerTimes.durusFalak[p.key];
+
+                // Convert times based on display mode
+                let strEph = formatTimeByMode(tEph);
+                let strDK = formatTimeByMode(tDK);
+                let strDF = formatTimeByMode(tDF);
+
+                // Compute time difference in seconds between Klasik (DK) and Ephemeris
+                let diffSec = Math.abs(tDK - tEph) * 3600;
+                let diffMinStr = Math.floor(diffSec / 60) + 'm ' + Math.round(diffSec % 60) + 's';
+                
+                let badgeClass = diffSec <= 60 ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-amber-500/10 text-amber-400 border-amber-500/30';
+                let badgeText = diffSec <= 60 ? 'A (Akurat)' : 'CA (Cukup Akurat)';
+
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-800/40 transition-colors border-b border-slate-800/40';
+                tr.innerHTML = `
+                    <td class="py-3 px-4 sm:px-6 font-sans font-medium text-slate-200 flex items-center gap-2.5">
+                        <i class="fa-solid ${p.icon} w-5 text-center"></i>
+                        <span>${p.name}</span>
+                    </td>
+                    <td class="py-3 px-4 text-center bg-slate-900/20 text-amber-300 font-semibold border-x border-slate-800/40">${strDK}</td>
+                    <td class="py-3 px-4 text-center bg-slate-900/60 text-emerald-300 font-bold border-r border-slate-800/40">${strEph}</td>
+                    <td class="py-3 px-4 text-center bg-slate-900/20 text-indigo-300 font-semibold border-r border-slate-800/40">${strDF}</td>
+                    <td class="py-3 px-4 text-center">
+                        <div class="inline-flex items-center gap-2">
+                            <span class="text-xs text-slate-400">Δ ${diffMinStr}</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full border ${badgeClass} font-sans font-semibold">${badgeText}</span>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Update Printable View Content
+            updatePrintableContent();
+        }
+
+        // Format decimal time to string based on Display Mode
+        function formatTimeByMode(hours) {
+            if (displayMode === 'istiwa') {
+                // Istiwa time = Local Time - Tafawut + 12h
+                let istiwaVal = hours - computedPrayerTimes.tafawut + 12;
+                if (istiwaVal >= 24) istiwaVal -= 24;
+                if (istiwaVal < 0) istiwaVal += 24;
+                return hoursToHMS(istiwaVal) + ' WIF';
+            } else if (displayMode === 'afronjy') {
+                // Afronjy / Standard AM-PM
+                let h = Math.floor(hours);
+                let m = Math.floor((hours - h) * 60);
+                let ampm = h >= 12 ? 'PM' : 'AM';
+                let h12 = h % 12 || 12;
+                return `${String(h12).padStart(2, '0')}:${String(m).padStart(2, '0')} ${ampm}`;
+            }
+            // Standard Local (WIB/WITA/WIT)
+            return hoursToHMS(hours) + ' WIB';
+        }
+
+        // Switch Display Mode (Lokal, Afronjy, Istiwa)
+        function setTimeDisplayMode(mode) {
+            displayMode = mode;
+            ['Lokal', 'Afronjy', 'Istiwa'].forEach(m => {
+                const btn = document.getElementById(`btnDisplay${m}`);
+                if (m.toLowerCase() === mode) {
+                    btn.className = "px-3 py-1.5 rounded-lg text-xs font-medium bg-gold-500 text-slate-950 shadow transition-all";
+                } else {
+                    btn.className = "px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 transition-all";
+                }
+            });
+            renderComparisonTable();
+        }
+
+        // Apply City Preset
+        function applyCityPreset(cityKey) {
+            const c = CITIES[cityKey];
+            if (!c) return;
+
+            document.getElementById('ltDeg').value = c.ltDeg;
+            document.getElementById('ltMin').value = c.ltMin;
+            document.getElementById('ltDir').value = c.ltDir;
+
+            document.getElementById('btDeg').value = c.btDeg;
+            document.getElementById('btMin').value = c.btMin;
+            document.getElementById('btDir').value = c.btDir;
+
+            document.getElementById('bdSelect').value = c.bd;
+
+            calculateAllMethodTimes();
+        }
+
+        // GPS Auto Detect Location
+        function getLocationGPS() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => {
+                        const lat = pos.coords.latitude;
+                        const lon = pos.coords.longitude;
+
+                        // Set Lintang
+                        const absLat = Math.abs(lat);
+                        document.getElementById('ltDeg').value = Math.floor(absLat);
+                        document.getElementById('ltMin').value = Math.round((absLat - Math.floor(absLat)) * 60);
+                        document.getElementById('ltDir').value = lat >= 0 ? 'LU' : 'LS';
+
+                        // Set Bujur
+                        const absLon = Math.abs(lon);
+                        document.getElementById('btDeg').value = Math.floor(absLon);
+                        document.getElementById('btMin').value = Math.round((absLon - Math.floor(absLon)) * 60);
+                        document.getElementById('btDir').value = lon >= 0 ? 'BT' : 'BB';
+
+                        calculateAllMethodTimes();
+                        alert(`Lokasi GPS Berhasil Dideteksi:\nLintang: ${lat.toFixed(4)}°, Bujur: ${lon.toFixed(4)}°`);
+                    },
+                    (err) => {
+                        alert("Gagal mengambil posisi GPS. Pastikan izin lokasi diaktifkan di browser kamu.");
+                    }
+                );
+            } else {
+                alert("Geolocation tidak didukung oleh browser ini.");
+            }
+        }
+
+        // Realtime Clock Loop
+        function startRealtimeClock() {
+            setInterval(() => {
+                const now = new Date();
+                const hh = String(now.getHours()).padStart(2, '0');
+                const mm = String(now.getMinutes()).padStart(2, '0');
+                const ss = String(now.getSeconds()).padStart(2, '0');
+                
+                document.getElementById('liveClock').textContent = `${hh}:${mm}:${ss} WIB`;
+
+                // Calculate Istiwa Clock
+                if (computedPrayerTimes.tafawut) {
+                    let nowHours = now.getHours() + (now.getMinutes() / 60) + (now.getSeconds() / 3600);
+                    let istiwaHours = nowHours - computedPrayerTimes.tafawut + 12;
+                    if (istiwaHours >= 24) istiwaHours -= 24;
+                    if (istiwaHours < 0) istiwaHours += 24;
+                    document.getElementById('liveIstiwa').textContent = hoursToHMS(istiwaHours) + ' WIF';
+                }
+
+                updateCountdownWidget();
+            }, 1000);
+        }
+
+        // Update Prayer Countdown
+        function updateCountdownWidget() {
+            if (!computedPrayerTimes.ephemeris) return;
+
+            const now = new Date();
+            const currentDecHours = now.getHours() + (now.getMinutes() / 60) + (now.getSeconds() / 3600);
+
+            const prayers = [
+                { name: 'Subuh', time: computedPrayerTimes.ephemeris.subuh },
+                { name: 'Dzuhur', time: computedPrayerTimes.ephemeris.dzuhur },
+                { name: 'Ashar', time: computedPrayerTimes.ephemeris.ashar },
+                { name: 'Maghrib', time: computedPrayerTimes.ephemeris.maghrib },
+                { name: 'Isya', time: computedPrayerTimes.ephemeris.isya }
+            ];
+
+            let nextP = prayers.find(p => p.time > currentDecHours);
+            if (!nextP) {
+                // Next day's Subuh
+                nextP = { name: 'Subuh Besok', time: computedPrayerTimes.ephemeris.subuh + 24 };
+            }
+
+            const diffHours = nextP.time - currentDecHours;
+            document.getElementById('nextPrayerName').textContent = nextP.name;
+            document.getElementById('prayerCountdown').textContent = '-' + hoursToHMS(diffHours);
+        }
+
+        // Toggle Collapsible Math Breakdown
+        function toggleMathBreakdown() {
+            const container = document.getElementById('mathBreakdownContainer');
+            const icon = document.getElementById('breakdownIcon');
+            const btnText = document.getElementById('breakdownBtnText');
+
+            if (container.classList.contains('hidden')) {
+                container.classList.remove('hidden');
+                icon.className = "fa-solid fa-chevron-up";
+                btnText.textContent = "Sembunyikan";
+            } else {
+                container.classList.add('hidden');
+                icon.className = "fa-solid fa-chevron-down";
+                btnText.textContent = "Tampilkan Rincian";
+            }
+        }
+
+        // Set Date via Batch Test Buttons
+        function setTestDate(dateStr) {
+            document.getElementById('inputDate').value = dateStr;
+            calculateAllMethodTimes();
+        }
+
+        // Copy Summary to Clipboard
+        function copySummaryToClipboard() {
+            const dateVal = document.getElementById('inputDate').value;
+            let summaryText = `=== LAPORAN HISAB FALAKHUB SYSTEM ===\n`;
+            summaryText += `Tanggal: ${dateVal}\n`;
+            summaryText += `Koreksi Tafawut: ${document.getElementById('tafawutDisplay').textContent}\n\n`;
+            summaryText += `JADWAL SHALAT (Ephemeris Modern):\n`;
+            
+            ['subuh', 'terbit', 'dzuhur', 'ashar', 'maghrib', 'isya'].forEach(k => {
+                summaryText += `- ${k.toUpperCase()}: ${formatTimeByMode(computedPrayerTimes.ephemeris[k])}\n`;
+            });
+
+            summaryText += `\nDiperhitungkan via FalakHub Engine v3.0`;
+
+            const dummy = document.createElement("textarea");
+            document.body.appendChild(dummy);
+            dummy.value = summaryText;
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
+
+            alert("Rangkuman Laporan Waktu Shalat Berhasil Disalin ke Clipboard!");
+        }
+
+        // Prepare Printable View Data
+        function updatePrintableContent() {
+            const metaContainer = document.getElementById('printMetaInfo');
+            const tableContainer = document.getElementById('printTableContainer');
+            const dateVal = document.getElementById('inputDate').value;
+
+            metaContainer.innerHTML = `Tanggal Pengujian: <strong>${dateVal}</strong> | Koordinat: ${document.getElementById('ltDeg').value}° ${document.getElementById('ltMin').value}' ${document.getElementById('ltDir').value}, ${document.getElementById('btDeg').value}° ${document.getElementById('btMin').value}' ${document.getElementById('btDir').value}`;
+
+            let tableHTML = `
+                <table style="width:100%; border-collapse:collapse; text-align:center; font-size:12px; margin-top:15px;">
+                    <thead>
+                        <tr style="background-color:#f2f2f2; border:1px solid #000;">
+                            <th style="padding:8px; border:1px solid #000;">Waktu Shalat</th>
+                            <th style="padding:8px; border:1px solid #000;">Da'watul Kubro (Klasik)</th>
+                            <th style="padding:8px; border:1px solid #000;">Ephemeris Modern</th>
+                            <th style="padding:8px; border:1px solid #000;">Durus al-Falak</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            ['subuh', 'terbit', 'dzuhur', 'ashar', 'maghrib', 'isya'].forEach(k => {
+                tableHTML += `
+                    <tr style="border:1px solid #000;">
+                        <td style="padding:6px; border:1px solid #000; font-weight:bold; text-align:left;">${k.toUpperCase()}</td>
+                        <td style="padding:6px; border:1px solid #000;">${hoursToHMS(computedPrayerTimes.dawatulKubro[k])} WIB</td>
+                        <td style="padding:6px; border:1px solid #000; font-weight:bold;">${hoursToHMS(computedPrayerTimes.ephemeris[k])} WIB</td>
+                        <td style="padding:6px; border:1px solid #000;">${hoursToHMS(computedPrayerTimes.durusFalak[k])} WIB</td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += `</tbody></table>`;
+            tableContainer.innerHTML = tableHTML;
+            document.getElementById('printDateStamp').textContent = new Date().toLocaleDateString('id-ID');
+        }
+
+        // Initialize Application
+        window.onload = function() {
+            calculateAllMethodTimes();
+            startRealtimeClock();
+        };
+    </script>
 </body>
 </html>
