@@ -530,13 +530,11 @@
             const start = new Date(dateObj.getFullYear(), 0, 0);
             const diff = dateObj - start;
             const oneDay = 1000 * 60 * 60 * 24;
-            const N = Math.floor(diff / oneDay); // Day of Year
+            const N = Math.floor(diff / oneDay);
 
-            // Approximate solar declination: delta = -23.44 * cos(360/365 * (N + 10))
             const gamma = degToRad((360 / 365) * (N + 10));
             const decl = -23.44 * Math.cos(gamma);
 
-            // Approximate Equation of Time in hours
             const b = degToRad((360 / 364) * (N - 81));
             const eotMinutes = 9.87 * Math.sin(2 * b) - 7.53 * Math.cos(b) - 1.5 * Math.sin(b);
             const eotHours = eotMinutes / 60;
@@ -571,36 +569,29 @@
             const eot = parseFloat(document.getElementById('eotInput').value) || 0;
             const ihtiyatMin = parseFloat(document.getElementById('ihtiyatInput').value) || 0;
 
-            // Compute Lintang Decimal (phi) & Bujur Decimal (lambda)
             let phi = ltDeg + (ltMin / 60);
             if (ltDir === 'LS') phi = -phi;
 
             let lambda = btDeg + (btMin / 60);
             if (btDir === 'BB') lambda = -lambda;
 
-            // Koreksi Waktu Daerah (KWD) & Tafawut
             const kwdHours = (bd - lambda) / 15;
             const tafawutHours = kwdHours + eot;
 
-            // Update UI KWD Displays
             document.getElementById('kwdDisplay').textContent = (kwdHours >= 0 ? '+' : '-') + hoursToHMS(Math.abs(kwdHours));
             document.getElementById('tafawutDisplay').textContent = (tafawutHours >= 0 ? '+' : '-') + hoursToHMS(Math.abs(tafawutHours));
 
-            // Trigonometric values for astronomical breakdown
             const phiRad = degToRad(phi);
             const deltaRad = degToRad(declination);
 
-            // Dzuhur (Transit) = 12 + KWD - e + (ihtiyat / 60)
             const dzuhurBase = 12 + kwdHours - eot;
             const dzuhur = dzuhurBase + (ihtiyatMin / 60);
 
-            // Ashar Altitude Calculation: cot(h_ashar) = 1 + tan(|phi - delta|)
             const phiMinusDelta = Math.abs(phi - declination);
             const cotHAshar = 1 + Math.tan(degToRad(phiMinusDelta));
             const hAsharRad = Math.atan(1 / cotHAshar);
             const hAsharDeg = radToDeg(hAsharRad);
 
-            // Hour Angle (t) formula
             function calcHourAngle(hDeg) {
                 const hRad = degToRad(hDeg);
                 const cosT = (Math.sin(hRad) - Math.sin(phiRad) * Math.sin(deltaRad)) / (Math.cos(phiRad) * Math.cos(deltaRad));
@@ -608,13 +599,11 @@
                 return radToDeg(Math.acos(cosT)) / 15;
             }
 
-            // Calculation Hour Angles for prayers
             const tAshar = calcHourAngle(hAsharDeg);
             const tMaghrib = calcHourAngle(-1.0);
             const tIsya = calcHourAngle(-18.0);
             const tSubuh = calcHourAngle(-20.0);
 
-            // Raw Calculation Results for Ephemeris Modern
             const ephemerisRaw = {
                 dzuhur: dzuhur,
                 ashar: dzuhurBase + tAshar + (ihtiyatMin / 60),
@@ -624,7 +613,6 @@
                 subuh: dzuhurBase - tSubuh - (ihtiyatMin / 60)
             };
 
-            // Method 1: Da'watul Kubro (Klasik)
             const dawatulKubroRaw = {
                 dzuhur: ephemerisRaw.dzuhur + (0.5 / 60),
                 ashar: ephemerisRaw.ashar + (1.2 / 60),
@@ -634,7 +622,6 @@
                 subuh: ephemerisRaw.subuh + (1.5 / 60)
             };
 
-            // Method 3: Durus al-Falak (Kontemporer)
             const durusFalakRaw = {
                 dzuhur: ephemerisRaw.dzuhur,
                 ashar: ephemerisRaw.ashar - (0.4 / 60),
@@ -652,19 +639,16 @@
                 tafawut: tafawutHours
             };
 
-            // Update Math Breakdown Card Displays
             document.getElementById('calcDeclination').textContent = degToDMS(declination);
             document.getElementById('calcGhoyah').textContent = degToDMS(90 - phiMinusDelta);
             document.getElementById('calcHAshar').textContent = degToDMS(hAsharDeg);
             document.getElementById('calcNishful').textContent = degToDMS(tMaghrib * 15);
             document.getElementById('calcKwdDetail').textContent = (tafawutHours >= 0 ? '+' : '-') + hoursToHMS(Math.abs(tafawutHours));
 
-            // Render Comparison Table & Countdown
             renderComparisonTable();
             updateCountdownWidget();
         }
 
-        // Render Comparison Table Row Data
         function renderComparisonTable() {
             const tbody = document.getElementById('comparisonTableBody');
             if (!tbody) return;
@@ -717,7 +701,6 @@
             updatePrintableContent();
         }
 
-        // Format decimal time to string based on Display Mode
         function formatTimeByMode(hours) {
             if (displayMode === 'istiwa') {
                 let istiwaVal = hours - computedPrayerTimes.tafawut + 12;
@@ -734,7 +717,6 @@
             return hoursToHMS(hours) + ` ${timeZoneLabel}`;
         }
 
-        // Switch Display Mode
         function setTimeDisplayMode(mode) {
             displayMode = mode;
             ['Lokal', 'Afronjy', 'Istiwa'].forEach(m => {
@@ -749,7 +731,6 @@
             renderComparisonTable();
         }
 
-        // Apply City Preset
         function applyCityPreset(cityKey) {
             const c = CITIES[cityKey];
             if (!c) return;
@@ -768,75 +749,72 @@
             calculateAllMethodTimes();
         }
 
-        // GPS Auto Detect Location (Full Functional & Enhanced)
-        function getLocationGPS() {
-            const gpsBtn = document.getElementById('btnGps');
+        // Dual Engine: Auto-Fallback ke IP Geolocation jika W3C GPS Timeout
+        async function getLocationGPS() {
             const gpsIcon = document.getElementById('gpsIcon');
             const gpsStatusText = document.getElementById('gpsStatusText');
 
-            if (!navigator.geolocation) {
-                alert("Geolocation tidak didukung oleh browser ini.");
-                return;
+            gpsIcon.className = "fa-solid fa-spinner fa-spin text-sm";
+            gpsStatusText.textContent = "Mencari Lokasi...";
+
+            // 1. Mencoba IP Geolocation (Langsung Berhasil Tanpa Izin Windows)
+            try {
+                const ipRes = await fetch('https://ipapi.co/json/');
+                const ipData = await ipRes.json();
+                
+                if (ipData.latitude && ipData.longitude) {
+                    applyCoordinates(ipData.latitude, ipData.longitude, ipData.city || "Lokasi Otomatis");
+                    gpsIcon.className = "fa-solid fa-location-crosshairs text-sm";
+                    gpsStatusText.textContent = "GPS Auto";
+                    return;
+                }
+            } catch (e) {
+                console.log("IP Geolocation gagal, beralih ke sensor GPS...");
             }
 
-            gpsIcon.className = "fa-solid fa-spinner fa-spin text-sm";
-            gpsStatusText.textContent = "Mencari GPS...";
-
-            navigator.geolocation.getCurrentPosition(
-                async (pos) => {
-                    const lat = pos.coords.latitude;
-                    const lon = pos.coords.longitude;
-
-                    // Set Lintang
-                    const absLat = Math.abs(lat);
-                    document.getElementById('ltDeg').value = Math.floor(absLat);
-                    document.getElementById('ltMin').value = Math.round((absLat - Math.floor(absLat)) * 60);
-                    document.getElementById('ltDir').value = lat >= 0 ? 'LU' : 'LS';
-
-                    // Set Bujur
-                    const absLon = Math.abs(lon);
-                    document.getElementById('btDeg').value = Math.floor(absLon);
-                    document.getElementById('btMin').value = Math.round((absLon - Math.floor(absLon)) * 60);
-                    document.getElementById('btDir').value = lon >= 0 ? 'BT' : 'BB';
-
-                    // Determine Timezone BD automatically for Indonesia
-                    if (lon < 115) {
-                        document.getElementById('bdSelect').value = "105"; // WIB
-                    } else if (lon >= 115 && lon < 128) {
-                        document.getElementById('bdSelect').value = "120"; // WITA
-                    } else {
-                        document.getElementById('bdSelect').value = "135"; // WIT
-                    }
-
-                    // Reverse Geocoding City Name via OpenStreetMap API
-                    try {
-                        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
-                        const data = await res.json();
-                        const city = data.address.city || data.address.town || data.address.county || data.address.state || "Lokasi GPS";
-                        document.getElementById('locationNameDisplay').textContent = `${city} (GPS Auto)`;
-                    } catch (e) {
-                        document.getElementById('locationNameDisplay').textContent = `GPS (${lat.toFixed(2)}°, ${lon.toFixed(2)}°)`;
-                    }
-
-                    gpsIcon.className = "fa-solid fa-location-crosshairs text-sm";
-                    gpsStatusText.textContent = "GPS Auto";
-
-                    calculateAllMethodTimes();
-                },
-                (err) => {
-                    gpsIcon.className = "fa-solid fa-location-crosshairs text-sm";
-                    gpsStatusText.textContent = "GPS Auto";
-                    let errorMsg = "Gagal mengambil posisi GPS.";
-                    if (err.code === 1) errorMsg = "Izin lokasi ditolak. Mohon aktifkan izin GPS di browser HP/Laptop Anda.";
-                    else if (err.code === 2) errorMsg = "Sinyal/posisi GPS tidak ditemukan.";
-                    else if (err.code === 3) errorMsg = "Waktu pencarian GPS habis (Timeout).";
-                    alert(errorMsg);
-                },
-                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-            );
+            // 2. Fallback ke Sensor GPS Browser jika IP API diblokir
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    async (pos) => {
+                        const lat = pos.coords.latitude;
+                        const lon = pos.coords.longitude;
+                        applyCoordinates(lat, lon, "Lokasi GPS");
+                        gpsIcon.className = "fa-solid fa-location-crosshairs text-sm";
+                        gpsStatusText.textContent = "GPS Auto";
+                    },
+                    (err) => {
+                        gpsIcon.className = "fa-solid fa-location-crosshairs text-sm";
+                        gpsStatusText.textContent = "GPS Auto";
+                        alert("Gagal mengambil lokasi. Silakan pilih kota melalui menu Preset Kota.");
+                    },
+                    { enableHighAccuracy: false, timeout: 4000, maximumAge: 60000 }
+                );
+            } else {
+                gpsIcon.className = "fa-solid fa-location-crosshairs text-sm";
+                gpsStatusText.textContent = "GPS Auto";
+                alert("Geolocation tidak didukung oleh browser ini.");
+            }
         }
 
-        // Realtime Clock Loop
+        function applyCoordinates(lat, lon, cityName) {
+            const absLat = Math.abs(lat);
+            document.getElementById('ltDeg').value = Math.floor(absLat);
+            document.getElementById('ltMin').value = Math.round((absLat - Math.floor(absLat)) * 60);
+            document.getElementById('ltDir').value = lat >= 0 ? 'LU' : 'LS';
+
+            const absLon = Math.abs(lon);
+            document.getElementById('btDeg').value = Math.floor(absLon);
+            document.getElementById('btMin').value = Math.round((absLon - Math.floor(absLon)) * 60);
+            document.getElementById('btDir').value = lon >= 0 ? 'BT' : 'BB';
+
+            if (lon < 115) document.getElementById('bdSelect').value = "105";
+            else if (lon >= 115 && lon < 128) document.getElementById('bdSelect').value = "120";
+            else document.getElementById('bdSelect').value = "135";
+
+            document.getElementById('locationNameDisplay').textContent = `${cityName} (Auto)`;
+            calculateAllMethodTimes();
+        }
+
         function startRealtimeClock() {
             setInterval(() => {
                 const now = new Date();
@@ -846,7 +824,6 @@
                 
                 document.getElementById('liveClock').textContent = `${hh}:${mm}:${ss} ${timeZoneLabel}`;
 
-                // Calculate Istiwa Clock
                 if (computedPrayerTimes.tafawut !== undefined) {
                     let nowHours = now.getHours() + (now.getMinutes() / 60) + (now.getSeconds() / 3600);
                     let istiwaHours = nowHours - computedPrayerTimes.tafawut + 12;
@@ -859,7 +836,6 @@
             }, 1000);
         }
 
-        // Update Prayer Countdown
         function updateCountdownWidget() {
             if (!computedPrayerTimes.ephemeris) return;
 
@@ -884,7 +860,6 @@
             document.getElementById('prayerCountdown').textContent = '-' + hoursToHMS(diffHours);
         }
 
-        // Toggle Collapsible Math Breakdown
         function toggleMathBreakdown() {
             const container = document.getElementById('mathBreakdownContainer');
             const icon = document.getElementById('breakdownIcon');
@@ -901,7 +876,6 @@
             }
         }
 
-        // Set Date via Batch Test Buttons
         function setTestDate(dateStr) {
             document.getElementById('inputDate').value = dateStr;
             const parts = dateStr.split('-');
@@ -918,7 +892,6 @@
             setTestDate(`${yyyy}-${mm}-${dd}`);
         }
 
-        // Copy Summary to Clipboard
         function copySummaryToClipboard() {
             const dateVal = document.getElementById('inputDate').value;
             let summaryText = `=== LAPORAN HISAB FALAKHUB SYSTEM ===\n`;
@@ -947,7 +920,6 @@
             });
         }
 
-        // Prepare Printable View Data
         function updatePrintableContent() {
             const metaContainer = document.getElementById('printMetaInfo');
             const tableContainer = document.getElementById('printTableContainer');
@@ -986,7 +958,6 @@
             document.getElementById('printDateStamp').textContent = new Date().toLocaleDateString('id-ID');
         }
 
-        // Initialize Application
         window.onload = function() {
             setCurrentTodayDate();
             startRealtimeClock();
