@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FalakHub - Sistem Informasi & Kalkulator Hisab Waktu Shalat</title>
+    <title>Al-Ḍaḥwah al-Kubrā Digital - Rekonstruksi Digital Hisab Waktu Salat</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -65,14 +65,14 @@
     <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800/80 no-print">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-gold-500 to-amber-700 flex items-center justify-center text-slate-950 font-bold text-xl shadow-lg shadow-gold-500/20">
-                    <span class="font-arabic">ف</span>
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-slate-950 font-bold text-xl shadow-lg shadow-amber-500/20">
+                    <i class="fa-solid fa-moon text-slate-950 text-lg"></i>
                 </div>
                 <div>
-                    <h1 class="text-lg font-bold bg-gradient-to-r from-gold-400 via-amber-200 to-emerald-400 bg-clip-text text-transparent">
-                        FalakHub System <span class="text-xs px-2 py-0.5 rounded-full bg-gold-500/10 text-gold-400 border border-gold-500/20 ml-1">v3.0</span>
+                    <h1 class="text-lg font-bold bg-gradient-to-r from-amber-300 via-amber-200 to-emerald-400 bg-clip-text text-transparent">
+                        Al-Ḍaḥwah al-Kubrā Digital
                     </h1>
-                    <p class="text-xs text-slate-400">The Three Temporal Systems for Prayer Time Calculation in al-Ḍaḥwah al-Kubrā</p>
+                    <p class="text-xs text-slate-400">FALAK ACEH • Warisan Keilmuan & Inovasi Digital</p>
                 </div>
             </div>
 
@@ -90,9 +90,54 @@
         </div>
     </header>
 
-    <!-- Realtime Astro Clock & Prayer Countdown Bar -->
-    <section class="bg-slate-900/50 border-b border-slate-800/50 py-4 no-print">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Main Content Layout -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+        <!-- BRAND HERO BANNER (REVISI TAMPILAN SESUAI PERMINTAAN) -->
+        <section class="bg-gradient-to-br from-[#062c24] via-[#08382e] to-[#041f1a] rounded-2xl border border-emerald-800/40 p-6 sm:p-8 shadow-2xl relative overflow-hidden no-print">
+            <div class="relative z-10 max-w-3xl space-y-4">
+                <!-- Sub Brand Tag -->
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-400/20 border border-amber-400/30 flex items-center justify-center text-amber-300">
+                        <i class="fa-solid fa-moon text-lg"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-amber-300 uppercase tracking-widest">FALAK ACEH</div>
+                        <div class="text-[11px] text-emerald-300/80 tracking-wider">WARISAN KEILMUAN • INOVASI DIGITAL</div>
+                    </div>
+                </div>
+
+                <hr class="border-emerald-800/60 my-2">
+
+                <!-- Main Title -->
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                    Al-Ḍaḥwah al-Kubrā Digital
+                </h1>
+
+                <h2 class="text-base sm:text-lg font-semibold text-amber-300">
+                    Rekonstruksi Digital Hisab Waktu Salat
+                </h2>
+
+                <p class="text-xs sm:text-sm text-emerald-100/90 leading-relaxed font-light">
+                    Interpretasi digital atas metode hisab dalam kitab <em class="font-serif italic font-medium">al-Ḍaḥwah al-Kubrā fī 'Ilm al-Mīqāt</em> karya <strong>Teungku Muhammad Ali Irsyad</strong>, ulama falak dari Aceh.
+                </p>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap gap-3 pt-2">
+                    <a href="#kalkulatorSection" class="px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs shadow-lg transition-all flex items-center gap-2">
+                        <span>Jelajahi Kalkulator</span>
+                        <i class="fa-solid fa-arrow-down text-xs"></i>
+                    </a>
+                    <button onclick="document.getElementById('kitabInfoModal').classList.remove('hidden')" class="px-5 py-2.5 rounded-xl bg-emerald-950/60 hover:bg-emerald-900/80 border border-amber-400/40 text-amber-300 font-semibold text-xs transition-all flex items-center gap-2">
+                        <span>Kenali Kitab</span>
+                        <i class="fa-solid fa-book-open text-xs"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Realtime Astro Clock & Prayer Countdown Bar -->
+        <section class="bg-slate-900/50 border border-slate-800/80 rounded-2xl p-4 no-print">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
                 
                 <!-- Digital Clock & Istiwa Time -->
@@ -142,14 +187,10 @@
                 </div>
 
             </div>
-        </div>
-    </section>
-
-    <!-- Main Content Layout -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+        </section>
 
         <!-- Interactive Satellite Map Selector -->
-        <div class="bg-slate-900/90 rounded-2xl border border-slate-800 p-5 shadow-xl no-print space-y-3">
+        <div id="kalkulatorSection" class="bg-slate-900/90 rounded-2xl border border-slate-800 p-5 shadow-xl no-print space-y-3">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
                     <h2 class="text-base font-bold text-slate-100 flex items-center gap-2">
@@ -464,11 +505,40 @@
 
     </main>
 
+    <!-- Modal Informasi Kitab -->
+    <div id="kitabInfoModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-emerald-800/60 rounded-2xl max-w-lg w-full p-6 space-y-4 relative">
+            <button onclick="document.getElementById('kitabInfoModal').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-amber-400/20 text-amber-300 flex items-center justify-center text-lg">
+                    <i class="fa-solid fa-book-quran"></i>
+                </div>
+                <div>
+                    <h3 class="text-base font-bold text-white">Tentang Kitab Al-Ḍaḥwah al-Kubrā</h3>
+                    <p class="text-xs text-emerald-400">Karya Tgk. Muhammad Ali Irsyad (Aceh)</p>
+                </div>
+            </div>
+            <div class="text-xs text-slate-300 leading-relaxed space-y-2 font-light border-t border-slate-800 pt-3">
+                <p>
+                    Kitab <strong>al-Ḍaḥwah al-Kubrā fī 'Ilm al-Mīqāt</strong> merupakan salah satu karya monumental di bidang ilmu falak karangan ulama kharismatik Aceh, Teungku Muhammad Ali Irsyad.
+                </p>
+                <p>
+                    Aplikasi ini merekonstruksi formula dan tabel perhitungan waktu salat klasik ke dalam sistem komputasi digital modern, sehingga memungkinkan evaluasi serta komparasi presisi tinggi terhadap metode Ephemeris/Nautical Almanac.
+                </p>
+            </div>
+            <div class="pt-2 text-right">
+                <button onclick="document.getElementById('kitabInfoModal').classList.add('hidden')" class="px-4 py-2 rounded-xl bg-amber-400 text-slate-950 text-xs font-bold">Tutup</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Print Only Header & Layout -->
     <div class="hidden print-only p-8 text-black bg-white">
         <div class="text-center border-b-2 border-black pb-4 mb-6">
             <h1 class="text-2xl font-bold uppercase tracking-wider">Laporan Resmi Perhitungan Hisab Waktu Shalat</h1>
-            <p class="text-sm">Sistem Komputasi FalakHub - Algoritma Astronomi & Trigonometri Bola</p>
+            <p class="text-sm">Al-Ḍaḥwah al-Kubrā Digital - Algoritma Astronomi & Trigonometri Bola</p>
             <div id="printMetaInfo" class="text-xs mt-2 italic"></div>
         </div>
         <div id="printTableContainer" class="mb-6"></div>
@@ -479,7 +549,7 @@
             </div>
             <div class="text-right">
                 <p>Dicetak Pada: <span id="printDateStamp"></span></p>
-                <p class="mt-12 font-bold">Operator FalakHub System</p>
+                <p class="mt-12 font-bold">Operator System Al-Ḍaḥwah al-Kubrā Digital</p>
             </div>
         </div>
     </div>
@@ -487,7 +557,7 @@
     <!-- Footer -->
     <footer class="bg-slate-950 border-t border-slate-800/80 py-6 text-center text-xs text-slate-500 no-print">
         <div class="max-w-7xl mx-auto px-4">
-            <p>&copy; 2026 FalakHub System. Dirancang untuk Komputasi Astronomi Islam & Pengujian Metode Hisab.</p>
+            <p>&copy; 2026 Al-Ḍaḥwah al-Kubrā Digital (Falak Aceh). Dirancang untuk Komputasi Astronomi Islam & Pengujian Metode Hisab.</p>
         </div>
     </footer>
 
@@ -970,8 +1040,8 @@
 
         function copySummaryToClipboard() {
             const dateVal = document.getElementById('inputDate').value;
-            let summaryText = `=== LAPORAN HISAB FALAKHUB SYSTEM ===\n`;
-            summaryText += `Judul: The Three Temporal Systems for Prayer Time Calculation in al-Ḍaḥwah al-Kubrā\n`;
+            let summaryText = `=== LAPORAN HISAB AL-ḌAḤWAH AL-KUBRĀ DIGITAL ===\n`;
+            summaryText += `Sub Brand: FALAK ACEH - Warisan Keilmuan & Inovasi Digital\n`;
             summaryText += `Tanggal: ${dateVal}\n`;
             summaryText += `Lokasi: ${document.getElementById('locationNameDisplay').textContent}\n`;
             summaryText += `Koreksi Tafawut: ${document.getElementById('tafawutDisplay').textContent}\n\n`;
@@ -981,7 +1051,7 @@
                 summaryText += `- ${k.toUpperCase()}: ${formatTimeByMode(computedPrayerTimes.ephemeris[k])}\n`;
             });
 
-            summaryText += `\nDiperhitungkan via FalakHub Engine v3.0`;
+            summaryText += `\nDiperhitungkan via Al-Ḍaḥwah al-Kubrā Engine v3.0`;
 
             navigator.clipboard.writeText(summaryText).then(() => {
                 alert("Rangkuman Laporan Waktu Shalat Berhasil Disalin!");
