@@ -440,7 +440,7 @@
 
     </main>
 
-    <!-- MODAL INFORMASI KITAB (CATATAN METODOLOGIS DAH DIHAPUS) -->
+    <!-- MODAL INFORMASI KITAB (DILENGKAPI PENJELASAN PERBANDINGAN METODE EPHEMERIS & DURUSUL FALAK) -->
     <div id="kitabInfoModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-emerald-800/60 rounded-2xl max-w-2xl w-full p-6 space-y-4 relative max-h-[85vh] flex flex-col">
             <button onclick="document.getElementById('kitabInfoModal').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 hover:text-white">
@@ -453,7 +453,7 @@
                     <i class="fa-solid fa-book-quran"></i>
                 </div>
                 <div>
-                    <h3 class="text-base font-bold text-white">Tentang Kitab & Tiga Sistem Waktu</h3>
+                    <h3 class="text-base font-bold text-white">Tentang Kitab, Sistem Waktu & Perbandingan Metode</h3>
                     <p class="text-xs text-emerald-400">Kitab al-Ḍaḥwah al-Kubrā fī ‘Ilm al-Mīqāt • Tgk. Muhammad Ali Irsyad</p>
                 </div>
             </div>
@@ -513,6 +513,35 @@
                     <p>
                         Pada kalkulator digital ini, penjelasan dan penerapan konversi ditujukan untuk membantu pengguna memahami hubungan antara sistem Falaky, Araby/Syar‘i, dan Afranjy dalam metode hisab kitab al-Ḍaḥwah al-Kubrā.
                     </p>
+                </section>
+
+                <hr class="border-slate-800">
+
+                <!-- BAGIAN REVISI TAMBAHAN: PERBANDINGAN METODE -->
+                <section class="space-y-3">
+                    <h4 class="text-sm font-bold text-amber-300 flex items-center gap-2">
+                        <i class="fa-solid fa-code-compare text-xs"></i>
+                        Perbandingan Metode
+                    </h4>
+                    <p>
+                        Pada Al-Ḍaḥwah al-Kubrā Digital dapat dirancang untuk membandingkan hasil perhitungan waktu salat dari kitab al-Ḍaḥwah al-Kubrā dengan dua sumber pembanding, yaitu <strong>Ephemeris</strong> dan <strong>Durusul Falak</strong>.
+                    </p>
+
+                    <div class="space-y-2 pl-2 border-l-2 border-emerald-500/50">
+                        <div>
+                            <h5 class="text-xs font-bold text-emerald-400">1. Ephemeris</h5>
+                            <p class="text-slate-300">
+                                Sebagai acuan astronomi modern untuk membandingkan hasil perhitungan waktu salat, seperti Zuhur, Asar, Magrib, Isya, dan Subuh. Perbandingan dilakukan berdasarkan tanggal, koordinat lokasi, parameter astronomis, dan selisih waktu hasil perhitungan.
+                            </p>
+                        </div>
+
+                        <div class="pt-1">
+                            <h5 class="text-xs font-bold text-indigo-400">2. Durusul Falak</h5>
+                            <p class="text-slate-300">
+                                Sebagai metode pembanding dari literatur ilmu falak, untuk mengidentifikasi persamaan dan perbedaan langkah perhitungan, penggunaan parameter, serta hasil waktu salat dibandingkan dengan metode dalam al-Ḍaḥwah al-Kubrā.
+                            </p>
+                        </div>
+                    </div>
                 </section>
 
             </div>
