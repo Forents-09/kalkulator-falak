@@ -310,11 +310,11 @@
                     <p class="text-xs text-slate-400 mt-1">Rekonstruksi Komputasional Kitab Dahwatul Kubro vs Ephemeris Modern</p>
                 </div>
 
-                <!-- SWITCHER TAB WAKTU -->
+                <!-- SWITCHER TAB WAKTU (REVISI URUTAN: Afranjy, Araby, Falaky) -->
                 <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 no-print">
-                    <button onclick="setSystemTimeMode('falaky')" id="btnSysFalaky" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-400 text-slate-950 shadow transition-all">Waktu Falaky</button>
+                    <button onclick="setSystemTimeMode('afranjy')" id="btnSysAfranjy" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-400 text-slate-950 shadow transition-all">Waktu Afranjy</button>
                     <button onclick="setSystemTimeMode('arabi')" id="btnSysArabi" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all">Waktu Araby</button>
-                    <button onclick="setSystemTimeMode('afranjy')" id="btnSysAfranjy" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all">Waktu Afranjy</button>
+                    <button onclick="setSystemTimeMode('falaky')" id="btnSysFalaky" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all">Waktu Falaky</button>
                 </div>
             </div>
 
@@ -389,34 +389,41 @@
             </div>
         </div>
 
-        <!-- Date Batch Testing Simulation Bar (SUDAH DITAMBAH PRESET TANGGAL ASTRONOMI) -->
-        <div class="bg-slate-900/90 rounded-2xl border border-slate-800 p-5 sm:p-6 shadow-xl no-print">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+        <!-- Date Batch Testing Simulation Bar DENGAN DYNAMIC CRUD & NOTE DROPDOWN -->
+        <div class="bg-slate-900/90 rounded-2xl border border-slate-800 p-5 sm:p-6 shadow-xl no-print space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
                         <i class="fa-solid fa-calendar-days text-gold-400"></i>
                         Simulasi Batch Waktu Pengujian Tanggal
                     </h3>
-                    <p class="text-xs text-slate-400 mt-0.5">Uji instan jadwal shalat untuk tanggal-tanggal acuan astronomi penting</p>
+                    <p class="text-xs text-slate-400 mt-0.5">Uji instan jadwal shalat, kelola preset tanggal acuan, dan baca catatan astronomi</p>
                 </div>
+                <button onclick="openBatchModal()" class="px-3.5 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs shadow transition-all flex items-center gap-1.5 self-start sm:self-auto">
+                    <i class="fa-solid fa-plus text-xs"></i>
+                    <span>Tambah / Kelola Preset</span>
+                </button>
             </div>
 
-            <div class="flex flex-wrap gap-2 text-xs">
-                <button onclick="setCurrentTodayDate()" class="px-3.5 py-2 rounded-xl bg-slate-950 hover:bg-emerald-500/10 border border-emerald-500/40 text-emerald-400 font-medium transition-all flex items-center gap-2 cursor-pointer">
-                    <i class="fa-solid fa-clock-rotate-left"></i> Hari Ini
-                </button>
-                <button onclick="setTestDate('2026-03-21')" class="px-3.5 py-2 rounded-xl bg-slate-950 hover:bg-gold-500/10 border border-slate-800 hover:border-gold-500/40 text-slate-300 hover:text-gold-400 font-medium transition-all flex items-center gap-2 cursor-pointer">
-                    <i class="fa-regular fa-calendar text-gold-400"></i> 21 Maret (Ekuinoks)
-                </button>
-                <button onclick="setTestDate('2026-06-21')" class="px-3.5 py-2 rounded-xl bg-slate-950 hover:bg-gold-500/10 border border-slate-800 hover:border-gold-500/40 text-slate-300 hover:text-gold-400 font-medium transition-all flex items-center gap-2 cursor-pointer">
-                    <i class="fa-regular fa-calendar text-gold-400"></i> 21 Juni (Solstice Ut)
-                </button>
-                <button onclick="setTestDate('2026-09-23')" class="px-3.5 py-2 rounded-xl bg-slate-950 hover:bg-gold-500/10 border border-slate-800 hover:border-gold-500/40 text-slate-300 hover:text-gold-400 font-medium transition-all flex items-center gap-2 cursor-pointer">
-                    <i class="fa-regular fa-calendar text-gold-400"></i> 23 September
-                </button>
-                <button onclick="setTestDate('2026-12-22')" class="px-3.5 py-2 rounded-xl bg-slate-950 hover:bg-gold-500/10 border border-slate-800 hover:border-gold-500/40 text-slate-300 hover:text-gold-400 font-medium transition-all flex items-center gap-2 cursor-pointer">
-                    <i class="fa-regular fa-calendar text-gold-400"></i> 22 Desember (Solstice Sel)
-                </button>
+            <!-- List Preset Buttons -->
+            <div id="batchButtonsContainer" class="flex flex-wrap gap-2 text-xs">
+                <!-- Injected dynamically via JS -->
+            </div>
+
+            <!-- DROPDOWN BOX CATATAN TANGGAL -->
+            <div id="batchNoteDropdown" class="hidden bg-slate-950 border border-amber-500/30 rounded-xl p-4 space-y-2 transition-all glow-gold">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                    <div class="flex items-center gap-2 text-amber-300 font-bold text-xs">
+                        <i class="fa-solid fa-sticky-note text-amber-400"></i>
+                        <span id="noteTitle">Catatan Tanggal Pengujian</span>
+                    </div>
+                    <button onclick="closeNoteDropdown()" class="text-slate-400 hover:text-white text-xs">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <p id="noteContent" class="text-xs text-slate-300 leading-relaxed font-light">
+                    <!-- Dynamic Note Content -->
+                </p>
             </div>
         </div>
 
@@ -444,6 +451,61 @@
         </div>
 
     </main>
+
+    <!-- MODAL EDIT/TAMBAH PRESET TANGGAL SIMULASI -->
+    <div id="batchModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 space-y-4 relative shadow-2xl">
+            <button onclick="closeBatchModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="flex items-center gap-3 pb-3 border-b border-slate-800">
+                <div class="w-10 h-10 rounded-xl bg-amber-400/20 text-amber-300 flex items-center justify-center text-lg">
+                    <i class="fa-solid fa-calendar-plus"></i>
+                </div>
+                <div>
+                    <h3 id="batchModalTitle" class="text-base font-bold text-white">Kelola Preset Tanggal Simulasi</h3>
+                    <p class="text-xs text-slate-400">Tambah, ubah, atau hapus item simulasi batch beserta catatannya</p>
+                </div>
+            </div>
+
+            <form id="batchForm" onsubmit="saveBatchPreset(event)" class="space-y-3 text-xs">
+                <input type="hidden" id="batchId">
+                <div>
+                    <label class="block font-medium text-slate-300 mb-1">Nama Label Preset</label>
+                    <input type="text" id="batchLabel" required placeholder="misal: 21 Maret (Ekuinoks)" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 outline-none focus:border-amber-400">
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <div>
+                        <label class="block font-medium text-slate-300 mb-1">Tanggal</label>
+                        <input type="date" id="batchDate" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 outline-none focus:border-amber-400">
+                    </div>
+                    <div>
+                        <label class="block font-medium text-slate-300 mb-1">Deklinasi (δ)</label>
+                        <input type="number" step="0.0001" id="batchDecl" required value="0.0000" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 outline-none focus:border-amber-400">
+                    </div>
+                    <div>
+                        <label class="block font-medium text-slate-300 mb-1">Eq. of Time (e)</label>
+                        <input type="number" step="0.0001" id="batchEot" required value="0.000" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 outline-none focus:border-amber-400">
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-medium text-slate-300 mb-1">Catatan Astronomi / Keterangan (Dropdown Note)</label>
+                    <textarea id="batchNote" rows="3" placeholder="Tuliskan catatan khusus atau penjelasan penting fenomena pada tanggal ini..." class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 outline-none focus:border-amber-400 resize-none"></textarea>
+                </div>
+
+                <div class="flex items-center justify-between pt-2 border-t border-slate-800">
+                    <button type="button" id="btnDeleteBatch" onclick="deleteCurrentBatchPreset()" class="px-3.5 py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 font-semibold transition-all hidden">
+                        Hapus Preset
+                    </button>
+                    <div class="flex items-center gap-2 ml-auto">
+                        <button type="button" onclick="closeBatchModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 font-medium">Batal</button>
+                        <button type="submit" class="px-5 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold">Simpan Preset</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- MODAL INFORMASI KITAB -->
     <div id="kitabInfoModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
@@ -479,12 +541,12 @@
                 <hr class="border-slate-800">
 
                 <section class="space-y-2">
-                    <h5 class="text-xs font-bold text-emerald-400 uppercase tracking-wide">1. Sistem Falaky</h5>
+                    <h5 class="text-xs font-bold text-emerald-400 uppercase tracking-wide">1. Sistem Afranjy</h5>
                     <p>
-                        Sistem Falaky menetapkan awal hari berdasarkan <em>zawal</em>, yaitu saat Matahari melewati meridian atau mencapai titik kulminasi atas. Dengan demikian, pergantian hari dalam sistem ini berkaitan dengan peristiwa astronomis ketika Matahari berada pada posisi tertinggi dalam peredaran hariannya.
+                        Sistem Afranjy menggunakan <em>tengah malam pukul 00.00</em> sebagai awal hari. Sistem ini sejalan dengan pola penanggalan sipil yang umum digunakan dalam kehidupan sehari-hari.
                     </p>
                     <p class="text-slate-400">
-                        Sistem ini digunakan untuk memahami waktu berdasarkan pergerakan Matahari dan menjadi salah satu kerangka waktu dalam metode hisab yang dibahas dalam kitab al-Ḍaḥwah al-Kubrā.
+                        Dalam sistem ini, waktu disusun dari pukul 00.00 hingga pukul 23.59. Sistem Afranjy memudahkan pencatatan waktu dalam format jam sipil dan menjadi acuan yang familier bagi pengguna kalkulator digital.
                     </p>
                 </section>
 
@@ -499,12 +561,12 @@
                 </section>
 
                 <section class="space-y-2">
-                    <h5 class="text-xs font-bold text-emerald-400 uppercase tracking-wide">3. Sistem Afranjy</h5>
+                    <h5 class="text-xs font-bold text-emerald-400 uppercase tracking-wide">3. Sistem Falaky</h5>
                     <p>
-                        Sistem Afranjy menggunakan <em>tengah malam pukul 00.00</em> sebagai awal hari. Sistem ini sejalan dengan pola penanggalan sipil yang umum digunakan dalam kehidupan sehari-hari.
+                        Sistem Falaky menetapkan awal hari berdasarkan <em>zawal</em>, yaitu saat Matahari melewati meridian atau mencapai titik kulminasi atas. Dengan demikian, pergantian hari dalam sistem ini berkaitan dengan peristiwa astronomis ketika Matahari berada pada posisi tertinggi dalam peredaran hariannya.
                     </p>
                     <p class="text-slate-400">
-                        Dalam sistem ini, waktu disusun dari pukul 00.00 hingga pukul 23.59. Sistem Afranjy memudahkan pencatatan waktu dalam format jam sipil dan menjadi acuan yang familier bagi pengguna kalkulator digital.
+                        Sistem ini digunakan untuk memahami waktu berdasarkan pergerakan Matahari dan menjadi salah satu kerangka waktu dalam metode hisab yang dibahas dalam kitab al-Ḍaḥwah al-Kubrā.
                     </p>
                 </section>
 
@@ -587,11 +649,18 @@
             makassar: { name: 'Makassar', ltDeg: 5, ltMin: 8, ltDir: 'LS', btDeg: 119, btMin: 25, btDir: 'BT', bd: 120, lat: -5.1333, lon: 119.4167 }
         };
 
-        let systemMode = 'falaky';
-        let computedData = {};
-        let timeZoneLabel = 'WIB';
-        let rawCalculatedTimes = {};
+        // DEFAULT INITIAL BATCH PRESETS
+        const DEFAULT_BATCH_PRESETS = [
+            { id: 'p1', label: '21 Maret (Ekuinoks)', date: '2026-03-21', decl: 0.0000, eot: 0.1200, note: 'Ekuinoks Vernal: Posisi Matahari berada tepat di atas garis khatulistiwa. Panjang siang dan malam di seluruh bumi relatif sama (12 jam).' },
+            { id: 'p2', label: '21 Juni (Solstice Ut)', date: '2026-06-21', decl: 23.4368, eot: -0.0240, note: 'Solstice Musim Panas Utara: Matahari mencapai titik paling utara (+23.44°). Siang hari terpanjang di belahan bumi utara.' },
+            { id: 'p3', label: '23 September', date: '2026-09-23', decl: 0.0000, eot: 0.1200, note: 'Ekuinoks Musim Gugur: Matahari melintasi khatulistiwa kembali menuju belahan selatan.' },
+            { id: 'p4', label: '22 Desember (Solstice Sel)', date: '2026-12-22', decl: -23.4368, eot: 0.0330, note: 'Solstice Musim Dingin: Matahari mencapai titik paling selatan (-23.44°). Siang terpendek untuk wilayah belahan utara.' }
+        ];
 
+        let batchPresets = [];
+        let systemMode = 'afranjy';
+        let computedData = {};
+        let rawCalculatedTimes = {};
         let falakMap, locationMarker;
 
         const degToRad = (deg) => (deg * Math.PI) / 180;
@@ -606,6 +675,157 @@
             if (m >= 60) { m = 0; h++; }
             h = (h + 24) % 24;
             return `${String(h).padStart(2, '0')} : ${String(m).padStart(2, '0')} : ${String(s).padStart(2, '0')}`;
+        }
+
+        // LOAD / SAVE LOCAL STORAGE FOR BATCH PRESETS
+        function initBatchPresets() {
+            const saved = localStorage.getItem('falak_batch_presets');
+            if (saved) {
+                try {
+                    batchPresets = JSON.parse(saved);
+                } catch(e) {
+                    batchPresets = [...DEFAULT_BATCH_PRESETS];
+                }
+            } else {
+                batchPresets = [...DEFAULT_BATCH_PRESETS];
+                localStorage.setItem('falak_batch_presets', JSON.stringify(batchPresets));
+            }
+            renderBatchButtons();
+        }
+
+        function renderBatchButtons() {
+            const container = document.getElementById('batchButtonsContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            // 1. Always include 'Hari Ini' Button
+            const todayBtn = document.createElement('button');
+            todayBtn.className = "px-3.5 py-2 rounded-xl bg-slate-950 hover:bg-emerald-500/10 border border-emerald-500/40 text-emerald-400 font-medium transition-all flex items-center gap-2 cursor-pointer";
+            todayBtn.onclick = () => setCurrentTodayDate();
+            todayBtn.innerHTML = `<i class="fa-solid fa-clock-rotate-left"></i> <span>Hari Ini</span>`;
+            container.appendChild(todayBtn);
+
+            // 2. Render Custom Dynamic Presets
+            batchPresets.forEach(preset => {
+                const group = document.createElement('div');
+                group.className = "inline-flex items-center rounded-xl bg-slate-950 border border-slate-800 hover:border-gold-500/40 transition-all overflow-hidden";
+
+                const mainBtn = document.createElement('button');
+                mainBtn.className = "px-3 py-2 text-slate-300 hover:text-gold-400 font-medium flex items-center gap-2 cursor-pointer";
+                mainBtn.onclick = () => applyBatchPreset(preset.id);
+                mainBtn.innerHTML = `<i class="fa-regular fa-calendar text-gold-400"></i> <span>${preset.label}</span>`;
+
+                const editBtn = document.createElement('button');
+                editBtn.className = "px-2 py-2 text-slate-500 hover:text-amber-300 border-l border-slate-800 hover:bg-slate-900 transition-all";
+                editBtn.title = "Edit Preset & Catatan";
+                editBtn.onclick = (e) => { e.stopPropagation(); openBatchModal(preset.id); };
+                editBtn.innerHTML = `<i class="fa-solid fa-pen text-[10px]"></i>`;
+
+                group.appendChild(mainBtn);
+                group.appendChild(editBtn);
+                container.appendChild(group);
+            });
+        }
+
+        function applyBatchPreset(id) {
+            const p = batchPresets.find(item => item.id === id);
+            if (!p) return;
+
+            document.getElementById('inputDate').value = p.date;
+            document.getElementById('declinationInput').value = p.decl;
+            document.getElementById('eotInput').value = p.eot;
+
+            calculateAllMethodTimes();
+
+            // Tampilkan Note Dropdown
+            const noteDropdown = document.getElementById('batchNoteDropdown');
+            const noteTitle = document.getElementById('noteTitle');
+            const noteContent = document.getElementById('noteContent');
+
+            noteTitle.textContent = `Catatan Simulasi: ${p.label} (${p.date})`;
+            noteContent.textContent = p.note && p.note.trim() !== '' ? p.note : 'Tidak ada catatan khusus untuk tanggal pengujian ini.';
+            noteDropdown.classList.remove('hidden');
+
+            const el = document.getElementById('tabelUtamaSection');
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function closeNoteDropdown() {
+            document.getElementById('batchNoteDropdown').classList.add('hidden');
+        }
+
+        function openBatchModal(id = null) {
+            const modal = document.getElementById('batchModal');
+            const form = document.getElementById('batchForm');
+            const title = document.getElementById('batchModalTitle');
+            const deleteBtn = document.getElementById('btnDeleteBatch');
+
+            form.reset();
+
+            if (id) {
+                const p = batchPresets.find(item => item.id === id);
+                if (p) {
+                    title.textContent = "Edit Preset Tanggal Simulasi";
+                    document.getElementById('batchId').value = p.id;
+                    document.getElementById('batchLabel').value = p.label;
+                    document.getElementById('batchDate').value = p.date;
+                    document.getElementById('batchDecl').value = p.decl;
+                    document.getElementById('batchEot').value = p.eot;
+                    document.getElementById('batchNote').value = p.note || '';
+                    deleteBtn.classList.remove('hidden');
+                }
+            } else {
+                title.textContent = "Tambah Preset Tanggal Baru";
+                document.getElementById('batchId').value = '';
+                deleteBtn.classList.add('hidden');
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeBatchModal() {
+            document.getElementById('batchModal').classList.add('hidden');
+        }
+
+        function saveBatchPreset(e) {
+            e.preventDefault();
+            const id = document.getElementById('batchId').value;
+            const label = document.getElementById('batchLabel').value;
+            const date = document.getElementById('batchDate').value;
+            const decl = parseFloat(document.getElementById('batchDecl').value) || 0;
+            const eot = parseFloat(document.getElementById('batchEot').value) || 0;
+            const note = document.getElementById('batchNote').value;
+
+            if (id) {
+                // Update
+                const index = batchPresets.findIndex(p => p.id === id);
+                if (index !== -1) {
+                    batchPresets[index] = { id, label, date, decl, eot, note };
+                }
+            } else {
+                // Create New
+                const newId = 'p_' + Date.now();
+                batchPresets.push({ id: newId, label, date, decl, eot, note });
+            }
+
+            localStorage.setItem('falak_batch_presets', JSON.stringify(batchPresets));
+            renderBatchButtons();
+            closeBatchModal();
+        }
+
+        function deleteCurrentBatchPreset() {
+            const id = document.getElementById('batchId').value;
+            if (!id) return;
+
+            if (confirm("Yakin ingin menghapus preset tanggal ini?")) {
+                batchPresets = batchPresets.filter(p => p.id !== id);
+                localStorage.setItem('falak_batch_presets', JSON.stringify(batchPresets));
+                renderBatchButtons();
+                closeBatchModal();
+                closeNoteDropdown();
+            }
         }
 
         function initFalakMap() {
@@ -673,7 +893,6 @@
         }
 
         function calculateAllMethodTimes() {
-            // Ambil Parameter Input
             const ltDeg = parseFloat(document.getElementById('ltDeg').value) || 0;
             const ltMin = parseFloat(document.getElementById('ltMin').value) || 0;
             const ltDir = document.getElementById('ltDir').value;
@@ -691,7 +910,6 @@
             const e = parseFloat(document.getElementById('eotInput').value) || 0.033;
             const ihtiyat = (parseFloat(document.getElementById('ihtiyatInput').value) || 2) / 60;
 
-            // Update Tanggal Tampilan Header
             const dateVal = document.getElementById('inputDate').value;
             if (dateVal) {
                 const dateObj = new Date(dateVal);
@@ -699,13 +917,11 @@
                 document.getElementById('gregorianDateDisplay').textContent = dateObj.toLocaleDateString('id-ID', options);
             }
 
-            // Hitung KWD & Tafawut
             const kwdHours = (bd - lambda) / 15;
 
             document.getElementById('kwdDisplay').textContent = (kwdHours >= 0 ? '+' : '') + hoursToHMS(Math.abs(kwdHours));
             document.getElementById('tafawutDisplay').textContent = hoursToHMS(Math.abs(kwdHours - e));
 
-            // Perhitungan Trigonometri Bola Waktu Salat
             const phiRad = degToRad(phi);
             const declRad = degToRad(decl);
 
@@ -734,7 +950,7 @@
             const terbitFalaky = 12.0 - tSunsetHours;
             const terbitWib = dzuhurWib - tSunsetHours;
 
-            // 4. Isya (Depresi -18 deg)
+            // 4. Isya
             const hIsyaRad = degToRad(-18.0);
             let cosHIsya = (Math.sin(hIsyaRad) - Math.sin(phiRad) * Math.sin(declRad)) / (Math.cos(phiRad) * Math.cos(declRad));
             cosHIsya = Math.max(-1, Math.min(1, cosHIsya));
@@ -743,7 +959,7 @@
             const isyaFalaky = 12.0 + tIsyaHours;
             const isyaWib = dzuhurWib + tIsyaHours;
 
-            // 5. Subuh (Depresi -20 deg)
+            // 5. Subuh
             const hSubuhRad = degToRad(-20.0);
             let cosHSubuh = (Math.sin(hSubuhRad) - Math.sin(phiRad) * Math.sin(declRad)) / (Math.cos(phiRad) * Math.cos(declRad));
             cosHSubuh = Math.max(-1, Math.min(1, cosHSubuh));
@@ -760,15 +976,14 @@
                 isya: isyaWib
             };
 
-            // Susun Matrix Data berdasarkan Tab Waktu (Falaky, Arabi, Afranjy)
             computedData = {
-                falaky: [ // Waktu Falaky / Istiwa
-                    { name: 'Dzuhur', icon: 'fa-sun text-gold-400', decDK: dzuhurFalaky.toFixed(6), hmsDK: hoursToHMS(dzuhurFalaky), decEph: dzuhurFalaky.toFixed(6), hmsEph: hoursToHMS(dzuhurFalaky) },
-                    { name: 'Ashar', icon: 'fa-cloud-sun text-orange-400', decDK: asharFalaky.toFixed(6), hmsDK: hoursToHMS(asharFalaky), decEph: (asharFalaky - 0.001).toFixed(6), hmsEph: hoursToHMS(asharFalaky - 0.001) },
-                    { name: 'Maghrib', icon: 'fa-moon text-rose-400', decDK: maghribFalaky.toFixed(6), hmsDK: hoursToHMS(maghribFalaky), decEph: (maghribFalaky + 0.002).toFixed(6), hmsEph: hoursToHMS(maghribFalaky + 0.002) },
-                    { name: 'Isya', icon: 'fa-star text-purple-400', decDK: isyaFalaky.toFixed(6), hmsDK: hoursToHMS(isyaFalaky), decEph: (isyaFalaky + 0.003).toFixed(6), hmsEph: hoursToHMS(isyaFalaky + 0.003) },
-                    { name: 'Subuh', icon: 'fa-sun text-indigo-400', decDK: subuhFalaky.toFixed(6), hmsDK: hoursToHMS(subuhFalaky), decEph: (subuhFalaky - 0.002).toFixed(6), hmsEph: hoursToHMS(subuhFalaky - 0.002) },
-                    { name: 'Terbit', icon: 'fa-mountain-sun text-amber-400', decDK: terbitFalaky.toFixed(6), hmsDK: hoursToHMS(terbitFalaky), decEph: (terbitFalaky - 0.002).toFixed(6), hmsEph: hoursToHMS(terbitFalaky - 0.002) },
+                afranjy: [ // Waktu Afranjy / Jam Sipil (WIB)
+                    { name: 'Dzuhur', icon: 'fa-sun text-gold-400', decDK: dzuhurWib.toFixed(6), hmsDK: hoursToHMS(dzuhurWib), decEph: (dzuhurWib + 0.008).toFixed(6), hmsEph: hoursToHMS(dzuhurWib + 0.008) },
+                    { name: 'Ashar', icon: 'fa-cloud-sun text-orange-400', decDK: asharWib.toFixed(6), hmsDK: hoursToHMS(asharWib), decEph: (asharWib + 0.007).toFixed(6), hmsEph: hoursToHMS(asharWib + 0.007) },
+                    { name: 'Maghrib', icon: 'fa-moon text-rose-400', decDK: maghribWib.toFixed(6), hmsDK: hoursToHMS(maghribWib), decEph: (maghribWib + 0.01).toFixed(6), hmsEph: hoursToHMS(maghribWib + 0.01) },
+                    { name: 'Isya', icon: 'fa-star text-purple-400', decDK: isyaWib.toFixed(6), hmsDK: hoursToHMS(isyaWib), decEph: (isyaWib + 0.009).toFixed(6), hmsEph: hoursToHMS(isyaWib + 0.009) },
+                    { name: 'Subuh', icon: 'fa-sun text-indigo-400', decDK: subuhWib.toFixed(6), hmsDK: hoursToHMS(subuhWib), decEph: (subuhWib - 0.005).toFixed(6), hmsEph: hoursToHMS(subuhWib - 0.005) },
+                    { name: 'Terbit', icon: 'fa-mountain-sun text-amber-400', decDK: terbitWib.toFixed(6), hmsDK: hoursToHMS(terbitWib), decEph: (terbitWib - 0.006).toFixed(6), hmsEph: hoursToHMS(terbitWib - 0.006) },
                     { name: 'Mail Syam', icon: 'fa-arrows-left-right-to-line text-slate-400', decDK: decl.toFixed(4), hmsDK: `${decl.toFixed(2)}°`, decEph: decl.toFixed(4), hmsEph: `${decl.toFixed(2)}°` }
                 ],
                 arabi: [ // Waktu Araby / Ghurabi
@@ -777,13 +992,13 @@
                     { name: 'Maghrib', icon: 'fa-moon text-rose-400', decDK: (12.0).toFixed(6), hmsDK: '12 : 00 : 00', decEph: (12.0).toFixed(6), hmsEph: '12 : 00 : 00' },
                     { name: 'Isya', icon: 'fa-star text-purple-400', decDK: ((isyaWib - maghribWib + 12) % 24).toFixed(6), hmsDK: hoursToHMS((isyaWib - maghribWib + 12) % 24), decEph: ((isyaWib - maghribWib + 12) % 24).toFixed(6), hmsEph: hoursToHMS((isyaWib - maghribWib + 12) % 24) }
                 ],
-                afranjy: [ // Waktu Afranjy / Jam Sipil (WIB)
-                    { name: 'Dzuhur', icon: 'fa-sun text-gold-400', decDK: dzuhurWib.toFixed(6), hmsDK: hoursToHMS(dzuhurWib), decEph: (dzuhurWib + 0.008).toFixed(6), hmsEph: hoursToHMS(dzuhurWib + 0.008) },
-                    { name: 'Ashar', icon: 'fa-cloud-sun text-orange-400', decDK: asharWib.toFixed(6), hmsDK: hoursToHMS(asharWib), decEph: (asharWib + 0.007).toFixed(6), hmsEph: hoursToHMS(asharWib + 0.007) },
-                    { name: 'Maghrib', icon: 'fa-moon text-rose-400', decDK: maghribWib.toFixed(6), hmsDK: hoursToHMS(maghribWib), decEph: (maghribWib + 0.01).toFixed(6), hmsEph: hoursToHMS(maghribWib + 0.01) },
-                    { name: 'Isya', icon: 'fa-star text-purple-400', decDK: isyaWib.toFixed(6), hmsDK: hoursToHMS(isyaWib), decEph: (isyaWib + 0.009).toFixed(6), hmsEph: hoursToHMS(isyaWib + 0.009) },
-                    { name: 'Subuh', icon: 'fa-sun text-indigo-400', decDK: subuhWib.toFixed(6), hmsDK: hoursToHMS(subuhWib), decEph: (subuhWib - 0.005).toFixed(6), hmsEph: hoursToHMS(subuhWib - 0.005) },
-                    { name: 'Terbit', icon: 'fa-mountain-sun text-amber-400', decDK: terbitWib.toFixed(6), hmsDK: hoursToHMS(terbitWib), decEph: (terbitWib - 0.006).toFixed(6), hmsEph: hoursToHMS(terbitWib - 0.006) },
+                falaky: [ // Waktu Falaky / Istiwa
+                    { name: 'Dzuhur', icon: 'fa-sun text-gold-400', decDK: dzuhurFalaky.toFixed(6), hmsDK: hoursToHMS(dzuhurFalaky), decEph: dzuhurFalaky.toFixed(6), hmsEph: hoursToHMS(dzuhurFalaky) },
+                    { name: 'Ashar', icon: 'fa-cloud-sun text-orange-400', decDK: asharFalaky.toFixed(6), hmsDK: hoursToHMS(asharFalaky), decEph: (asharFalaky - 0.001).toFixed(6), hmsEph: hoursToHMS(asharFalaky - 0.001) },
+                    { name: 'Maghrib', icon: 'fa-moon text-rose-400', decDK: maghribFalaky.toFixed(6), hmsDK: hoursToHMS(maghribFalaky), decEph: (maghribFalaky + 0.002).toFixed(6), hmsEph: hoursToHMS(maghribFalaky + 0.002) },
+                    { name: 'Isya', icon: 'fa-star text-purple-400', decDK: isyaFalaky.toFixed(6), hmsDK: hoursToHMS(isyaFalaky), decEph: (isyaFalaky + 0.003).toFixed(6), hmsEph: hoursToHMS(isyaFalaky + 0.003) },
+                    { name: 'Subuh', icon: 'fa-sun text-indigo-400', decDK: subuhFalaky.toFixed(6), hmsDK: hoursToHMS(subuhFalaky), decEph: (subuhFalaky - 0.002).toFixed(6), hmsEph: hoursToHMS(subuhFalaky - 0.002) },
+                    { name: 'Terbit', icon: 'fa-mountain-sun text-amber-400', decDK: terbitFalaky.toFixed(6), hmsDK: hoursToHMS(terbitFalaky), decEph: (terbitFalaky - 0.002).toFixed(6), hmsEph: hoursToHMS(terbitFalaky - 0.002) },
                     { name: 'Mail Syam', icon: 'fa-arrows-left-right-to-line text-slate-400', decDK: decl.toFixed(4), hmsDK: `${decl.toFixed(2)}°`, decEph: decl.toFixed(4), hmsEph: `${decl.toFixed(2)}°` }
                 ]
             };
@@ -819,7 +1034,7 @@
 
         function setSystemTimeMode(mode) {
             systemMode = mode;
-            ['Falaky', 'Arabi', 'Afranjy'].forEach(m => {
+            ['Afranjy', 'Arabi', 'Falaky'].forEach(m => {
                 const btn = document.getElementById(`btnSys${m}`);
                 if (!btn) return;
                 if (m.toLowerCase() === mode) {
@@ -903,7 +1118,6 @@
             }, 1000);
         }
 
-        // LOGIKA DINAMIS MENGHITUNG MUNDUR SHALAT
         function updatePrayerCountdown() {
             if (!rawCalculatedTimes.dzuhur) return;
 
@@ -924,7 +1138,7 @@
             if (nextPrayer) {
                 diffHours = nextPrayer.time - currentDecHours;
             } else {
-                nextPrayer = schedule[0]; // Besok Subuh
+                nextPrayer = schedule[0];
                 diffHours = (24.0 - currentDecHours) + nextPrayer.time;
             }
 
@@ -954,37 +1168,23 @@
             }
         }
 
-        function setTestDate(dateStr) {
-            document.getElementById('inputDate').value = dateStr;
+        function setCurrentTodayDate() {
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
 
-            if (dateStr === '2026-12-22') {
-                document.getElementById('declinationInput').value = "-23.4368";
-                document.getElementById('eotInput').value = "0.033";
-            } else if (dateStr === '2026-06-21') {
-                document.getElementById('declinationInput').value = "23.4368";
-                document.getElementById('eotInput').value = "-0.024";
-            } else if (dateStr === '2026-03-21' || dateStr === '2026-09-23') {
-                document.getElementById('declinationInput').value = "0.0000";
-                document.getElementById('eotInput').value = "0.120";
-            } else {
-                document.getElementById('declinationInput').value = "-8.1500";
-                document.getElementById('eotInput').value = "0.210";
-            }
+            document.getElementById('inputDate').value = `${yyyy}-${mm}-${dd}`;
+            document.getElementById('declinationInput').value = "-8.1500";
+            document.getElementById('eotInput').value = "0.210";
 
+            closeNoteDropdown();
             calculateAllMethodTimes();
 
             const el = document.getElementById('tabelUtamaSection');
             if (el) {
                 el.scrollIntoView({ behavior: 'smooth' });
             }
-        }
-
-        function setCurrentTodayDate() {
-            const today = new Date();
-            const yyyy = today.getFullYear();
-            const mm = String(today.getMonth() + 1).padStart(2, '0');
-            const dd = String(today.getDate()).padStart(2, '0');
-            setTestDate(`${yyyy}-${mm}-${dd}`);
         }
 
         function copySummaryToClipboard() {
@@ -994,6 +1194,7 @@
         }
 
         window.onload = function() {
+            initBatchPresets();
             setCurrentTodayDate();
             startRealtimeClock();
             initFalakMap();
