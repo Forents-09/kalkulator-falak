@@ -93,10 +93,9 @@
     <!-- Main Content Layout -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
-        <!-- BRAND HERO BANNER (REVISI TAMPILAN SESUAI PERMINTAAN) -->
+        <!-- BRAND HERO BANNER -->
         <section class="bg-gradient-to-br from-[#062c24] via-[#08382e] to-[#041f1a] rounded-2xl border border-emerald-800/40 p-6 sm:p-8 shadow-2xl relative overflow-hidden no-print">
             <div class="relative z-10 max-w-3xl space-y-4">
-                <!-- Sub Brand Tag -->
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-xl bg-amber-400/20 border border-amber-400/30 flex items-center justify-center text-amber-300">
                         <i class="fa-solid fa-moon text-lg"></i>
@@ -109,7 +108,6 @@
 
                 <hr class="border-emerald-800/60 my-2">
 
-                <!-- Main Title -->
                 <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
                     Al-Ḍaḥwah al-Kubrā Digital
                 </h1>
@@ -122,7 +120,6 @@
                     Interpretasi digital atas metode hisab dalam kitab <em class="font-serif italic font-medium">al-Ḍaḥwah al-Kubrā fī 'Ilm al-Mīqāt</em> karya <strong>Teungku Muhammad Ali Irsyad</strong>, ulama falak dari Aceh.
                 </p>
 
-                <!-- Action Buttons -->
                 <div class="flex flex-wrap gap-3 pt-2">
                     <a href="#kalkulatorSection" class="px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs shadow-lg transition-all flex items-center gap-2">
                         <span>Jelajahi Kalkulator</span>
@@ -140,7 +137,6 @@
         <section class="bg-slate-900/50 border border-slate-800/80 rounded-2xl p-4 no-print">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
                 
-                <!-- Digital Clock & Istiwa Time -->
                 <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800 flex items-center justify-between shadow-inner">
                     <div class="flex items-center gap-3">
                         <div class="p-2.5 rounded-lg bg-slate-800 text-gold-400">
@@ -157,7 +153,6 @@
                     </div>
                 </div>
 
-                <!-- Next Prayer Countdown -->
                 <div class="bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 p-3.5 rounded-xl border border-gold-500/20 flex items-center justify-between glow-gold">
                     <div class="flex items-center gap-3">
                         <div class="p-2.5 rounded-lg bg-gold-500/10 text-gold-400">
@@ -173,7 +168,6 @@
                     </div>
                 </div>
 
-                <!-- Date & Location Info -->
                 <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800 flex items-center justify-between">
                     <div class="flex items-center gap-3">
                         <div class="p-2.5 rounded-lg bg-slate-800 text-indigo-400">
@@ -189,19 +183,31 @@
             </div>
         </section>
 
-        <!-- Interactive Satellite Map Selector -->
-        <div id="kalkulatorSection" class="bg-slate-900/90 rounded-2xl border border-slate-800 p-5 shadow-xl no-print space-y-3">
+        <!-- Interactive Satellite Map Selector dengan BAR PENCARIAN MAPS -->
+        <div id="kalkulatorSection" class="bg-slate-900/90 rounded-2xl border border-slate-800 p-5 shadow-xl no-print space-y-4">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
                     <h2 class="text-base font-bold text-slate-100 flex items-center gap-2">
                         <i class="fa-solid fa-earth-asia text-emerald-400"></i>
                         Peta Satelit Interaktif (Pilih Titik Lokasi)
                     </h2>
-                    <p class="text-xs text-slate-400">Klik pada peta atau geser marker untuk menentukan koordinat Lintang & Bujur secara presisi</p>
+                    <p class="text-xs text-slate-400">Cari nama lokasi, klik pada peta, atau geser marker untuk menentukan koordinat presisi</p>
                 </div>
                 <span class="text-[11px] px-2.5 py-1 rounded-lg bg-slate-800 text-gold-400 font-mono border border-slate-700" id="mapCoordsDisplay">
                     4° 28' 00" LU, 97° 58' 00" BT
                 </span>
+            </div>
+
+            <!-- SEARCH BAR MAPS INTERAKTIF -->
+            <div class="flex gap-2">
+                <div class="relative flex-1">
+                    <input type="text" id="mapSearchInput" onkeypress="if(event.key==='Enter') searchLocationMap()" placeholder="Ketik nama kota / daerah / kecamatan (misal: Banda Aceh, Meulaboh, Jakarta)..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-slate-100 pl-10 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none">
+                    <i class="fa-solid fa-magnifying-glass text-slate-500 absolute left-3.5 top-2.5 text-xs"></i>
+                </div>
+                <button onclick="searchLocationMap()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center gap-2 transition-all">
+                    <i class="fa-solid fa-search"></i>
+                    <span>Cari Tempat</span>
+                </button>
             </div>
             
             <div id="falakMap" class="w-full h-72 sm:h-80 rounded-xl border border-slate-800 overflow-hidden z-10"></div>
@@ -218,7 +224,6 @@
                     <p class="text-xs text-slate-400 mt-0.5">Tentukan tanggal, posisi koordinat tempat, serta nilai koreksi deklinasi/equation of time</p>
                 </div>
 
-                <!-- Preset Quick Select Location -->
                 <div class="flex items-center gap-2">
                     <span class="text-xs text-slate-400 flex items-center gap-1"><i class="fa-solid fa-city"></i> Preset Kota:</span>
                     <select id="cityPreset" onchange="applyCityPreset(this.value)" class="bg-slate-800 text-slate-200 text-xs rounded-lg px-3 py-1.5 border border-slate-700 focus:ring-1 focus:ring-gold-500 outline-none">
@@ -236,13 +241,11 @@
             <!-- Form Grid Input -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
                 
-                <!-- Date Input -->
                 <div class="space-y-1">
                     <label class="font-medium text-slate-300">Tanggal Pengujian</label>
                     <input type="date" id="inputDate" onchange="calculateAllMethodTimes()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 focus:border-gold-500 outline-none">
                 </div>
 
-                <!-- Lintang Tempat (LT) -->
                 <div class="space-y-1">
                     <label class="font-medium text-slate-300">Lintang Tempat (LT / φ)</label>
                     <div class="grid grid-cols-3 gap-1">
@@ -255,7 +258,6 @@
                     </div>
                 </div>
 
-                <!-- Bujur Tempat (BT) -->
                 <div class="space-y-1">
                     <label class="font-medium text-slate-300">Bujur Tempat (BT / λ)</label>
                     <div class="grid grid-cols-3 gap-1">
@@ -268,7 +270,6 @@
                     </div>
                 </div>
 
-                <!-- Bujur Daerah (BD) -->
                 <div class="space-y-1">
                     <label class="font-medium text-slate-300">Zona Waktu (BD / Zona)</label>
                     <select id="bdSelect" onchange="calculateAllMethodTimes()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 focus:border-gold-500 outline-none">
@@ -278,7 +279,6 @@
                     </select>
                 </div>
 
-                <!-- Deklinasi Syams (δ) -->
                 <div class="space-y-1">
                     <label class="font-medium text-slate-300">Deklinasi Matahari (δ / Mail)</label>
                     <div class="grid grid-cols-2 gap-1">
@@ -287,7 +287,6 @@
                     </div>
                 </div>
 
-                <!-- Equation of Time (e) -->
                 <div class="space-y-1">
                     <label class="font-medium text-slate-300">Equation of Time (e / Ta'dil)</label>
                     <div class="grid grid-cols-2 gap-1">
@@ -296,7 +295,6 @@
                     </div>
                 </div>
 
-                <!-- Ihtiyat Waktu -->
                 <div class="space-y-1">
                     <label class="font-medium text-slate-300">Ihtiyat (Pengaman)</label>
                     <div class="grid grid-cols-2 gap-1">
@@ -305,7 +303,6 @@
                     </div>
                 </div>
 
-                <!-- Computed KWD & Tafawut Summary -->
                 <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800/80 flex flex-col justify-between">
                     <div class="flex justify-between items-center text-[11px]">
                         <span class="text-slate-400">KWD (Koreksi Waktu):</span>
@@ -331,7 +328,6 @@
                     <p class="text-xs text-slate-400 mt-1">Perbandingan hasil waktu shalat antara Kitab Da'watul Kubro, Ephemeris Modern, dan Durus al-Falak</p>
                 </div>
 
-                <!-- Display Mode Switcher -->
                 <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 no-print">
                     <button onclick="setTimeDisplayMode('lokal')" id="btnDisplayLokal" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-gold-500 text-slate-950 shadow transition-all">Waktu Lokal</button>
                     <button onclick="setTimeDisplayMode('afronjy')" id="btnDisplayAfronjy" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 transition-all">Waktu Afronjy</button>
@@ -339,7 +335,6 @@
                 </div>
             </div>
 
-            <!-- Main Comparison Table -->
             <div class="overflow-x-auto custom-scrollbar">
                 <table class="w-full text-left border-collapse">
                     <thead>
@@ -366,7 +361,6 @@
                 </table>
             </div>
 
-            <!-- Table Footer Legend -->
             <div class="p-4 bg-slate-950/60 border-t border-slate-800/80 text-xs text-slate-400 flex flex-wrap items-center justify-between gap-3">
                 <div class="flex items-center gap-4">
                     <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> <strong>A</strong> = Akurat (Selisih &le; 1 m)</span>
@@ -394,45 +388,38 @@
                 </button>
             </div>
 
-            <!-- Mathematical Elements Grid (Collapsible) -->
             <div id="mathBreakdownContainer" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-xs font-mono">
                 
-                <!-- Mail Syams -->
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
                     <div class="text-slate-400 text-[11px]">Mail Syams / Deklinasi (δ)</div>
                     <div id="calcDeclination" class="text-sm font-bold text-gold-400 mt-1">-03° 27' 00"</div>
                     <div class="text-[10px] text-slate-500 mt-1">Sinar matahari sejajar khatulistiwa</div>
                 </div>
 
-                <!-- Ghoyah Irtifa' -->
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
                     <div class="text-slate-400 text-[11px]">Ghoyah Irtifa' (Ketinggian Maks/Kulminasi)</div>
                     <div id="calcGhoyah" class="text-sm font-bold text-emerald-400 mt-1">82° 05' 00"</div>
                     <div class="text-[10px] text-slate-500 mt-1">h_max = 90° - |φ - δ|</div>
                 </div>
 
-                <!-- Ketinggian Matahari Ashar -->
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
                     <div class="text-slate-400 text-[11px]">Ketinggian Matahari Ashar (h_ashar)</div>
                     <div id="calcHAshar" class="text-sm font-bold text-indigo-400 mt-1">42° 18' 32"</div>
                     <div class="text-[10px] text-slate-500 mt-1">cot(h) = 1 + tan(|φ - δ|)</div>
                 </div>
 
-                <!-- Depresi Subuh & Isya -->
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
                     <div class="text-slate-400 text-[11px]">Depresi Matahari Subuh & Isya</div>
                     <div class="text-sm font-bold text-slate-200 mt-1">Subuh: -20° | Isya: -18°</div>
                     <div class="text-[10px] text-slate-500 mt-1">Standar Kemenag RI / MABIMS</div>
                 </div>
 
-                <!-- Nishful Fadhla -->
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
                     <div class="text-slate-400 text-[11px]">Nishful Fadhla (Setengah Busur)</div>
                     <div id="calcNishful" class="text-sm font-bold text-amber-400 mt-1">89° 42' 15"</div>
                     <div class="text-[10px] text-slate-500 mt-1">cos(t) = -tan(φ) * tan(δ)</div>
                 </div>
 
-                <!-- Tafawut Waktu -->
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
                     <div class="text-slate-400 text-[11px]">Koreksi Meridian (KWD + e)</div>
                     <div id="calcKwdDetail" class="text-sm font-bold text-emerald-400 mt-1">+00j 38m 15s</div>
@@ -454,7 +441,6 @@
                 </div>
             </div>
 
-            <!-- Quick Date Buttons -->
             <div class="flex flex-wrap gap-2 text-xs">
                 <button onclick="setTestDate('2026-12-22')" class="px-3 py-2 rounded-xl bg-slate-950 hover:bg-gold-500/10 border border-slate-800 hover:border-gold-500/40 text-slate-300 hover:text-gold-400 font-medium transition-all flex items-center gap-1.5">
                     <i class="fa-regular fa-calendar text-gold-400"></i> 22 Des (Solstis Musim Dingin)
@@ -563,7 +549,6 @@
 
     <!-- JavaScript Application Logic -->
     <script>
-        // Preset Coordinates Data
         const CITIES = {
             langsa: { name: 'Langsa, Aceh', ltDeg: 4, ltMin: 28, ltDir: 'LU', btDeg: 97, btMin: 58, btDir: 'BT', bd: 105, lat: 4.4667, lon: 97.9667 },
             bandaaceh: { name: 'Banda Aceh', ltDeg: 5, ltMin: 33, ltDir: 'LU', btDeg: 95, btMin: 19, btDir: 'BT', bd: 105, lat: 5.5500, lon: 95.3167 },
@@ -574,19 +559,15 @@
             makassar: { name: 'Makassar', ltDeg: 5, ltMin: 8, ltDir: 'LS', btDeg: 119, btMin: 25, btDir: 'BT', bd: 120, lat: -5.1333, lon: 119.4167 }
         };
 
-        // Current App State
         let displayMode = 'lokal';
         let computedPrayerTimes = {};
         let timeZoneLabel = 'WIB';
 
-        // Map State
         let falakMap, locationMarker;
 
-        // Degree / Radian Converts
         const degToRad = (deg) => (deg * Math.PI) / 180;
         const radToDeg = (rad) => (rad * 180) / Math.PI;
 
-        // Convert Decimal Hours to HH:MM:SS
         function hoursToHMS(hours, includeSeconds = true) {
             let h = Math.floor(hours);
             let rem = (hours - h) * 60;
@@ -605,7 +586,6 @@
             return includeSeconds ? `${hh}:${mm}:${ss}` : `${hh}:${mm}`;
         }
 
-        // Convert Decimal Degrees to Deg Min Sec String
         function degToDMS(degDecimal) {
             const isNeg = degDecimal < 0;
             const absDeg = Math.abs(degDecimal);
@@ -620,7 +600,6 @@
             return `${isNeg ? '-' : ''}${String(d).padStart(2, '0')}° ${String(m).padStart(2, '0')}' ${String(s).padStart(2, '0')}"`;
         }
 
-        // Initialize Leaflet Map with Google Satellite Hybrid
         function initFalakMap() {
             const initialLat = 4.4667;
             const initialLng = 97.9667;
@@ -659,6 +638,29 @@
             });
         }
 
+        // FITUR SEARCH LOKASI NOMINATIM API
+        async function searchLocationMap() {
+            const inputVal = document.getElementById('mapSearchInput').value;
+            if (!inputVal) return;
+
+            try {
+                const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(inputVal)}`);
+                const data = await res.json();
+
+                if (data && data.length > 0) {
+                    const lat = parseFloat(data[0].lat);
+                    const lon = parseFloat(data[0].lon);
+                    const displayName = data[0].display_name.split(',')[0];
+
+                    applyCoordinates(lat, lon, displayName);
+                } else {
+                    alert("Lokasi tidak ditemukan. Coba ketik nama kota/daerah lainnya.");
+                }
+            } catch (err) {
+                alert("Gagal melakukan pencarian lokasi. Pastikan koneksi internet aktif.");
+            }
+        }
+
         function updateMapLocation(lat, lon) {
             if (falakMap && locationMarker) {
                 const newLatLng = new L.LatLng(lat, lon);
@@ -667,7 +669,6 @@
             }
         }
 
-        // Auto Approximation for Ephemeris Parameters based on Day of Year
         function updateAstroParamsByDate(dateObj) {
             const start = new Date(dateObj.getFullYear(), 0, 0);
             const diff = dateObj - start;
@@ -685,7 +686,6 @@
             document.getElementById('eotInput').value = eotHours.toFixed(4);
         }
 
-        // Main Hisab Calculation Engine
         function calculateAllMethodTimes() {
             const dateStr = document.getElementById('inputDate').value;
             if (dateStr) {
