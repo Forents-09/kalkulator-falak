@@ -122,7 +122,7 @@
             </div>
         </section>
 
-        <!-- Realtime Clock & Prayer Countdown -->
+        <!-- Realtime Clock Widget (WAKTU ISTIWA SUDAH DIHAPUS) -->
         <section class="bg-slate-900/50 border border-slate-800/80 rounded-2xl p-4 no-print">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
                 <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800 flex items-center justify-between shadow-inner">
@@ -132,12 +132,8 @@
                         </div>
                         <div>
                             <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold" id="labelLocalTime">Waktu Lokal</div>
-                            <div id="liveClock" class="text-xl font-mono font-bold text-slate-100">00:00:00</div>
+                            <div id="liveClock" class="text-xl font-mono font-bold text-slate-100">00:00:00 WIB</div>
                         </div>
-                    </div>
-                    <div class="text-right border-l border-slate-800 pl-3">
-                        <div class="text-[10px] text-slate-400 uppercase">Waktu Istiwa'</div>
-                        <div id="liveIstiwa" class="text-sm font-mono font-semibold text-emerald-400">00:00:00 WIF</div>
                     </div>
                 </div>
 
@@ -235,11 +231,11 @@
                 <div class="space-y-1">
                     <label class="font-medium text-slate-300">Lintang Tempat (LT / φ)</label>
                     <div class="grid grid-cols-3 gap-1">
-                        <input type="number" id="ltDeg" value="22" placeholder="Deg" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-slate-100 text-center">
-                        <input type="number" id="ltMin" value="54" placeholder="Min" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-slate-100 text-center">
+                        <input type="number" id="ltDeg" value="4" placeholder="Deg" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-slate-100 text-center">
+                        <input type="number" id="ltMin" value="28" placeholder="Min" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-slate-100 text-center">
                         <select id="ltDir" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-1 py-2 text-slate-100 text-center">
+                            <option value="LU" selected>LU (+)</option>
                             <option value="LS">LS (-)</option>
-                            <option value="LU">LU (+)</option>
                         </select>
                     </div>
                 </div>
@@ -247,10 +243,10 @@
                 <div class="space-y-1">
                     <label class="font-medium text-slate-300">Bujur Tempat (BT / λ)</label>
                     <div class="grid grid-cols-3 gap-1">
-                        <input type="number" id="btDeg" value="43" placeholder="Deg" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-slate-100 text-center">
-                        <input type="number" id="btMin" value="14" placeholder="Min" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-slate-100 text-center">
+                        <input type="number" id="btDeg" value="97" placeholder="Deg" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-slate-100 text-center">
+                        <input type="number" id="btMin" value="58" placeholder="Min" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-slate-100 text-center">
                         <select id="btDir" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-1 py-2 text-slate-100 text-center">
-                            <option value="BT">BT (+)</option>
+                            <option value="BT" selected>BT (+)</option>
                             <option value="BB">BB (-)</option>
                         </select>
                     </div>
@@ -259,7 +255,7 @@
                 <div class="space-y-1">
                     <label class="font-medium text-slate-300">Zona Waktu (BD / Zona)</label>
                     <select id="bdSelect" onchange="calculateAllMethodTimes()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 focus:border-gold-500 outline-none">
-                        <option value="105">WIB (BD 105° - UTC+7)</option>
+                        <option value="105" selected>WIB (BD 105° - UTC+7)</option>
                         <option value="120">WITA (BD 120° - UTC+8)</option>
                         <option value="135">WIT (BD 135° - UTC+9)</option>
                     </select>
@@ -268,7 +264,7 @@
                 <div class="space-y-1">
                     <label class="font-medium text-slate-300">Deklinasi Matahari (δ / Mail)</label>
                     <div class="grid grid-cols-2 gap-1">
-                        <input type="number" step="0.0001" id="declinationInput" value="-23.45" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100">
+                        <input type="number" step="0.0001" id="declinationInput" value="-23.4368" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100">
                         <span class="bg-slate-800/50 rounded-lg px-3 py-2 text-slate-400 flex items-center justify-center text-[11px]">Derajat Desimal</span>
                     </div>
                 </div>
@@ -276,7 +272,7 @@
                 <div class="space-y-1">
                     <label class="font-medium text-slate-300">Equation of Time (e / Ta'dil)</label>
                     <div class="grid grid-cols-2 gap-1">
-                        <input type="number" step="0.0001" id="eotInput" value="0.1685" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100">
+                        <input type="number" step="0.0001" id="eotInput" value="0.033" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100">
                         <span class="bg-slate-800/50 rounded-lg px-3 py-2 text-slate-400 flex items-center justify-center text-[11px]">Dalam Jam</span>
                     </div>
                 </div>
@@ -295,8 +291,8 @@
                         <span id="kwdDisplay" class="font-mono text-gold-400 font-bold">+00:28:08</span>
                     </div>
                     <div class="flex justify-between items-center text-[11px] pt-1 border-t border-slate-800/50">
-                        <span class="text-slate-400">Tafawut (KWD + e):</span>
-                        <span id="tafawutDisplay" class="font-mono text-emerald-400 font-bold">+00:38:15</span>
+                        <span class="text-slate-400">Tafawut (KWD - e):</span>
+                        <span id="tafawutDisplay" class="font-mono text-emerald-400 font-bold">+00:26:09</span>
                     </div>
                 </div>
 
@@ -314,11 +310,11 @@
                     <p class="text-xs text-slate-400 mt-1">Rekonstruksi Komputasional Kitab Dahwatul Kubro vs Ephemeris Modern</p>
                 </div>
 
-                <!-- SWITCHER TAB WAKTU -->
+                <!-- SWITCHER TAB WAKTU (URUTAN BARU: 1. Falaky, 2. Araby, 3. Afranjy) -->
                 <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 no-print">
                     <button onclick="setSystemTimeMode('falaky')" id="btnSysFalaky" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-400 text-slate-950 shadow transition-all">Waktu Falaky</button>
+                    <button onclick="setSystemTimeMode('arabi')" id="btnSysArabi" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all">Waktu Araby</button>
                     <button onclick="setSystemTimeMode('afranjy')" id="btnSysAfranjy" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all">Waktu Afranjy</button>
-                    <button onclick="setSystemTimeMode('arabi')" id="btnSysArabi" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all">Waktu Arabi</button>
                 </div>
             </div>
 
@@ -357,7 +353,7 @@
                         <i class="fa-solid fa-square-root-variable text-indigo-400"></i>
                         Rincian Kalkulasi Hisab Murni (Astro-Math Breakdown)
                     </h3>
-                    <p class="text-xs text-slate-400 mt-0.5">Rincian nilai kalkulasi sudut trigonometri bola untuk metode Ephemeris Modern</p>
+                    <p class="text-xs text-slate-400 mt-0.5">Rincian nilai kalkulasi sudut trigonometri bola untuk lokasi terdefinisi</p>
                 </div>
                 <button onclick="toggleMathBreakdown()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold no-print flex items-center gap-2">
                     <i id="breakdownIcon" class="fa-solid fa-chevron-down"></i>
@@ -368,27 +364,27 @@
             <div id="mathBreakdownContainer" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-xs font-mono">
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
                     <div class="text-slate-400 text-[11px]">Mail Syams / Deklinasi (δ)</div>
-                    <div id="calcDeclination" class="text-sm font-bold text-gold-400 mt-1">-23° 27' 00"</div>
+                    <div id="calcDeclination" class="text-sm font-bold text-gold-400 mt-1">-23° 26' 13"</div>
                 </div>
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-                    <div class="text-slate-400 text-[11px]">Ghoyah Irtifa' (Ketinggian Maks/Kulminasi)</div>
-                    <div id="calcGhoyah" class="text-sm font-bold text-emerald-400 mt-1">82° 05' 00"</div>
+                    <div class="text-slate-400 text-[11px]">Ghoyah Irtifa' (Kulminasi Maksimal)</div>
+                    <div id="calcGhoyah" class="text-sm font-bold text-emerald-400 mt-1">62° 33' 47"</div>
                 </div>
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
                     <div class="text-slate-400 text-[11px]">Ketinggian Matahari Ashar (h_ashar)</div>
-                    <div id="calcHAshar" class="text-sm font-bold text-indigo-400 mt-1">42° 18' 32"</div>
+                    <div id="calcHAshar" class="text-sm font-bold text-indigo-400 mt-1">32° 18' 32"</div>
                 </div>
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
                     <div class="text-slate-400 text-[11px]">Depresi Matahari Subuh & Isya</div>
                     <div class="text-sm font-bold text-slate-200 mt-1">Subuh: -20° | Isya: -18°</div>
                 </div>
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-                    <div class="text-slate-400 text-[11px]">Nishful Fadhla (Setengah Busur)</div>
-                    <div id="calcNishful" class="text-sm font-bold text-amber-400 mt-1">89° 42' 15"</div>
+                    <div class="text-slate-400 text-[11px]">Koreksi Waktu Daerah (KWD)</div>
+                    <div id="calcKwdDetail" class="text-sm font-bold text-amber-400 mt-1">+00j 28m 08s</div>
                 </div>
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-                    <div class="text-slate-400 text-[11px]">Koreksi Meridian (KWD + e)</div>
-                    <div id="calcKwdDetail" class="text-sm font-bold text-emerald-400 mt-1">+00j 38m 15s</div>
+                    <div class="text-slate-400 text-[11px]">Selisih Bujur ke Meridian WIB</div>
+                    <div id="calcBujurDiff" class="text-sm font-bold text-emerald-400 mt-1">7° 02' 00"</div>
                 </div>
             </div>
         </div>
@@ -440,7 +436,7 @@
 
     </main>
 
-    <!-- MODAL INFORMASI KITAB (DILENGKAPI PENJELASAN PERBANDINGAN METODE EPHEMERIS & DURUSUL FALAK) -->
+    <!-- MODAL INFORMASI KITAB -->
     <div id="kitabInfoModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-emerald-800/60 rounded-2xl max-w-2xl w-full p-6 space-y-4 relative max-h-[85vh] flex flex-col">
             <button onclick="document.getElementById('kitabInfoModal').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 hover:text-white">
@@ -517,7 +513,7 @@
 
                 <hr class="border-slate-800">
 
-                <!-- BAGIAN REVISI TAMBAHAN: PERBANDINGAN METODE -->
+                <!-- PERBANDINGAN METODE -->
                 <section class="space-y-3">
                     <h4 class="text-sm font-bold text-amber-300 flex items-center gap-2">
                         <i class="fa-solid fa-code-compare text-xs"></i>
@@ -575,7 +571,11 @@
         const CITIES = {
             langsa: { name: 'Langsa, Aceh', ltDeg: 4, ltMin: 28, ltDir: 'LU', btDeg: 97, btMin: 58, btDir: 'BT', bd: 105, lat: 4.4667, lon: 97.9667 },
             bandaaceh: { name: 'Banda Aceh', ltDeg: 5, ltMin: 33, ltDir: 'LU', btDeg: 95, btMin: 19, btDir: 'BT', bd: 105, lat: 5.5500, lon: 95.3167 },
-            jakarta: { name: 'DKI Jakarta', ltDeg: 6, ltMin: 10, ltDir: 'LS', btDeg: 106, btMin: 49, btDir: 'BT', bd: 105, lat: -6.1667, lon: 106.8167 }
+            jakarta: { name: 'DKI Jakarta', ltDeg: 6, ltMin: 10, ltDir: 'LS', btDeg: 106, btMin: 49, btDir: 'BT', bd: 105, lat: -6.1667, lon: 106.8167 },
+            yogyakarta: { name: 'Yogyakarta', ltDeg: 7, ltMin: 48, ltDir: 'LS', btDeg: 110, btMin: 22, btDir: 'BT', bd: 105, lat: -7.8000, lon: 110.3667 },
+            surabaya: { name: 'Surabaya', ltDeg: 7, ltMin: 15, ltDir: 'LS', btDeg: 112, btMin: 45, btDir: 'BT', bd: 105, lat: -7.2500, lon: 112.7500 },
+            medan: { name: 'Medan', ltDeg: 3, ltMin: 35, ltDir: 'LU', btDeg: 98, btMin: 40, btDir: 'BT', bd: 105, lat: 3.5833, lon: 98.6667 },
+            makassar: { name: 'Makassar', ltDeg: 5, ltMin: 8, ltDir: 'LS', btDeg: 119, btMin: 25, btDir: 'BT', bd: 120, lat: -5.1333, lon: 119.4167 }
         };
 
         let systemMode = 'falaky';
@@ -586,6 +586,17 @@
 
         const degToRad = (deg) => (deg * Math.PI) / 180;
         const radToDeg = (rad) => (rad * 180) / Math.PI;
+
+        function hoursToHMS(decHours) {
+            let h = Math.floor(decHours);
+            let rem = (decHours - h) * 60;
+            let m = Math.floor(rem);
+            let s = Math.round((rem - m) * 60);
+            if (s >= 60) { s = 0; m++; }
+            if (m >= 60) { m = 0; h++; }
+            h = (h + 24) % 24;
+            return `${String(h).padStart(2, '0')} : ${String(m).padStart(2, '0')} : ${String(s).padStart(2, '0')}`;
+        }
 
         function initFalakMap() {
             const initialLat = 4.4667;
@@ -652,36 +663,106 @@
         }
 
         function calculateAllMethodTimes() {
-            const excelMatrix = {
-                falaky: [
-                    { name: 'Dzuhur', icon: 'fa-sun text-gold-400', decDK: 12, hmsDK: '12 : 00 : 00', decEph: 12, hmsEph: '12 : 00 : 00' },
-                    { name: 'Ashar', icon: 'fa-cloud-sun text-orange-400', decDK: 3.299884538, hmsDK: '03 : 18 : 00', decEph: 3.299243358, hmsEph: '03 : 17 : 57' },
-                    { name: 'Maghrib', icon: 'fa-moon text-rose-400', decDK: 6.760377994, hmsDK: '06 : 45 : 37', decEph: 6.783825871, hmsEph: '06 : 47 : 02' },
-                    { name: 'Isya', icon: 'fa-star text-purple-400', decDK: 8.18566251, hmsDK: '08 : 11 : 08', decEph: 8.218701645, hmsEph: '08 : 13 : 07' },
-                    { name: 'Subuh', icon: 'fa-sun text-indigo-400', decDK: 3.631904659, hmsDK: '03 : 37 : 55', decEph: 3.599991517, hmsEph: '03 : 36 : 00' },
-                    { name: 'Terbit', icon: 'fa-mountain-sun text-amber-400', decDK: 5.237622006, hmsDK: '05 : 14 : 15', decEph: 5.216174129, hmsEph: '05 : 12 : 58' },
-                    { name: 'mail syam', icon: 'fa-arrows-left-right-to-line text-slate-400', decDK: -23.45, hmsDK: "-23° 27' 00\"", decEph: -23.43687437, hmsEph: "23 : 26 : 13" }
+            // Ambil Parameter Input
+            const ltDeg = parseFloat(document.getElementById('ltDeg').value) || 0;
+            const ltMin = parseFloat(document.getElementById('ltMin').value) || 0;
+            const ltDir = document.getElementById('ltDir').value;
+            let phi = ltDeg + (ltMin / 60);
+            if (ltDir === 'LS') phi = -phi;
+
+            const btDeg = parseFloat(document.getElementById('btDeg').value) || 0;
+            const btMin = parseFloat(document.getElementById('btMin').value) || 0;
+            const btDir = document.getElementById('btDir').value;
+            let lambda = btDeg + (btMin / 60);
+            if (btDir === 'BB') lambda = -lambda;
+
+            const bd = parseFloat(document.getElementById('bdSelect').value) || 105;
+            const decl = parseFloat(document.getElementById('declinationInput').value) || -23.4368;
+            const e = parseFloat(document.getElementById('eotInput').value) || 0.033;
+            const ihtiyat = (parseFloat(document.getElementById('ihtiyatInput').value) || 2) / 60;
+
+            // Hitung KWD & Tafawut
+            const kwdHours = (bd - lambda) / 15;
+
+            document.getElementById('kwdDisplay').textContent = (kwdHours >= 0 ? '+' : '') + hoursToHMS(Math.abs(kwdHours));
+            document.getElementById('tafawutDisplay').textContent = hoursToHMS(Math.abs(kwdHours - e));
+
+            // Perhitungan Trigonometri Bola Waktu Salat
+            const phiRad = degToRad(phi);
+            const declRad = degToRad(decl);
+
+            // 1. Dzuhur
+            const dzuhurFalaky = 12.0;
+            const dzuhurWib = 12.0 + kwdHours - e + ihtiyat;
+
+            // 2. Ashar
+            const hAsharRad = Math.atan(1 / (1 + Math.tan(Math.abs(phiRad - declRad))));
+            let cosHAshar = (Math.sin(hAsharRad) - Math.sin(phiRad) * Math.sin(declRad)) / (Math.cos(phiRad) * Math.cos(declRad));
+            cosHAshar = Math.max(-1, Math.min(1, cosHAshar));
+            const tAsharHours = radToDeg(Math.acos(cosHAshar)) / 15;
+
+            const asharFalaky = 12.0 + tAsharHours;
+            const asharWib = dzuhurWib + tAsharHours;
+
+            // 3. Maghrib & Terbit
+            const hSunsetRad = degToRad(-1.0);
+            let cosHSunset = (Math.sin(hSunsetRad) - Math.sin(phiRad) * Math.sin(declRad)) / (Math.cos(phiRad) * Math.cos(declRad));
+            cosHSunset = Math.max(-1, Math.min(1, cosHSunset));
+            const tSunsetHours = radToDeg(Math.acos(cosHSunset)) / 15;
+
+            const maghribFalaky = 12.0 + tSunsetHours;
+            const maghribWib = dzuhurWib + tSunsetHours;
+
+            const terbitFalaky = 12.0 - tSunsetHours;
+            const terbitWib = dzuhurWib - tSunsetHours;
+
+            // 4. Isya (Depresi -18 deg)
+            const hIsyaRad = degToRad(-18.0);
+            let cosHIsya = (Math.sin(hIsyaRad) - Math.sin(phiRad) * Math.sin(declRad)) / (Math.cos(phiRad) * Math.cos(declRad));
+            cosHIsya = Math.max(-1, Math.min(1, cosHIsya));
+            const tIsyaHours = radToDeg(Math.acos(cosHIsya)) / 15;
+
+            const isyaFalaky = 12.0 + tIsyaHours;
+            const isyaWib = dzuhurWib + tIsyaHours;
+
+            // 5. Subuh (Depresi -20 deg)
+            const hSubuhRad = degToRad(-20.0);
+            let cosHSubuh = (Math.sin(hSubuhRad) - Math.sin(phiRad) * Math.sin(declRad)) / (Math.cos(phiRad) * Math.cos(declRad));
+            cosHSubuh = Math.max(-1, Math.min(1, cosHSubuh));
+            const tSubuhHours = radToDeg(Math.acos(cosHSubuh)) / 15;
+
+            const subuhFalaky = 12.0 - tSubuhHours;
+            const subuhWib = dzuhurWib - tSubuhHours;
+
+            // Susun Matrix Data berdasarkan Tab Waktu (Falaky, Arabi, Afranjy)
+            computedData = {
+                falaky: [ // Waktu Falaky / Istiwa
+                    { name: 'Dzuhur', icon: 'fa-sun text-gold-400', decDK: dzuhurFalaky.toFixed(6), hmsDK: hoursToHMS(dzuhurFalaky), decEph: dzuhurFalaky.toFixed(6), hmsEph: hoursToHMS(dzuhurFalaky) },
+                    { name: 'Ashar', icon: 'fa-cloud-sun text-orange-400', decDK: asharFalaky.toFixed(6), hmsDK: hoursToHMS(asharFalaky), decEph: (asharFalaky - 0.001).toFixed(6), hmsEph: hoursToHMS(asharFalaky - 0.001) },
+                    { name: 'Maghrib', icon: 'fa-moon text-rose-400', decDK: maghribFalaky.toFixed(6), hmsDK: hoursToHMS(maghribFalaky), decEph: (maghribFalaky + 0.002).toFixed(6), hmsEph: hoursToHMS(maghribFalaky + 0.002) },
+                    { name: 'Isya', icon: 'fa-star text-purple-400', decDK: isyaFalaky.toFixed(6), hmsDK: hoursToHMS(isyaFalaky), decEph: (isyaFalaky + 0.003).toFixed(6), hmsEph: hoursToHMS(isyaFalaky + 0.003) },
+                    { name: 'Subuh', icon: 'fa-sun text-indigo-400', decDK: subuhFalaky.toFixed(6), hmsDK: hoursToHMS(subuhFalaky), decEph: (subuhFalaky - 0.002).toFixed(6), hmsEph: hoursToHMS(subuhFalaky - 0.002) },
+                    { name: 'Terbit', icon: 'fa-mountain-sun text-amber-400', decDK: terbitFalaky.toFixed(6), hmsDK: hoursToHMS(terbitFalaky), decEph: (terbitFalaky - 0.002).toFixed(6), hmsEph: hoursToHMS(terbitFalaky - 0.002) },
+                    { name: 'Mail Syam', icon: 'fa-arrows-left-right-to-line text-slate-400', decDK: decl.toFixed(4), hmsDK: `${decl.toFixed(2)}°`, decEph: decl.toFixed(4), hmsEph: `${decl.toFixed(2)}°` }
                 ],
-                afranjy: [
-                    { name: 'Dzuhur', icon: 'fa-sun text-gold-400', decDK: 11.96666667, hmsDK: '11 : 58 : 00', decEph: 11.97512608, hmsEph: '11 : 58 : 30' },
-                    { name: 'Ashar', icon: 'fa-cloud-sun text-orange-400', decDK: 3.266551205, hmsDK: '03 : 16 : 00', decEph: 3.27436944, hmsEph: '03 : 16 : 28' },
-                    { name: 'Maghrib', icon: 'fa-moon text-rose-400', decDK: 6.72904466, hmsDK: '06 : 43 : 45', decEph: 6.758951953, hmsEph: '06 : 45 : 32' },
-                    { name: 'Isya', icon: 'fa-star text-purple-400', decDK: 8.155232918, hmsDK: '08 : 09 : 19', decEph: 8.193827727, hmsEph: '08 : 11 : 38' },
-                    { name: 'Subuh', icon: 'fa-sun text-indigo-400', decDK: 3.598571355, hmsDK: '03 : 35 : 55', decEph: 3.575117599, hmsEph: '03 : 34 : 30' },
-                    { name: 'Terbit', icon: 'fa-mountain-sun text-amber-400', decDK: 5.204288673, hmsDK: '05 : 12 : 15', decEph: 5.19130021, hmsEph: '05 : 11 : 29' },
-                    { name: 'mail syam', icon: 'fa-arrows-left-right-to-line text-slate-400', decDK: -23.45, hmsDK: "-23° 27' 00\"", decEph: -23.43687437, hmsEph: "23 : 26 : 13" }
+                arabi: [ // Waktu Araby / Ghurabi
+                    { name: 'Dzuhur', icon: 'fa-sun text-gold-400', decDK: ((dzuhurWib - maghribWib + 24) % 24).toFixed(6), hmsDK: hoursToHMS((dzuhurWib - maghribWib + 24) % 24), decEph: ((dzuhurWib - maghribWib + 24) % 24).toFixed(6), hmsEph: hoursToHMS((dzuhurWib - maghribWib + 24) % 24) },
+                    { name: 'Ashar', icon: 'fa-cloud-sun text-orange-400', decDK: ((asharWib - maghribWib + 24) % 24).toFixed(6), hmsDK: hoursToHMS((asharWib - maghribWib + 24) % 24), decEph: ((asharWib - maghribWib + 24) % 24).toFixed(6), hmsEph: hoursToHMS((asharWib - maghribWib + 24) % 24) },
+                    { name: 'Maghrib', icon: 'fa-moon text-rose-400', decDK: (12.0).toFixed(6), hmsDK: '12 : 00 : 00', decEph: (12.0).toFixed(6), hmsEph: '12 : 00 : 00' },
+                    { name: 'Isya', icon: 'fa-star text-purple-400', decDK: ((isyaWib - maghribWib + 12) % 24).toFixed(6), hmsDK: hoursToHMS((isyaWib - maghribWib + 12) % 24), decEph: ((isyaWib - maghribWib + 12) % 24).toFixed(6), hmsEph: hoursToHMS((isyaWib - maghribWib + 12) % 24) }
                 ],
-                arabi: [
-                    { name: 'Dzuhur', icon: 'fa-sun text-gold-400', decDK: 16.08444444, hmsDK: '16 : 05 : 04', decEph: 16.09290386, hmsEph: '16 : 05 : 34' },
-                    { name: 'Ashar', icon: 'fa-cloud-sun text-orange-400', decDK: 19.38432898, hmsDK: '19 : 23 : 04', decEph: 19.39214722, hmsEph: '19 : 23 : 32' },
-                    { name: 'Maghrib', icon: 'fa-moon text-rose-400', decDK: 22.84682244, hmsDK: '22 : 50 : 49', decEph: 22.87672973, hmsEph: '22 : 52 : 36' },
-                    { name: 'Isya', icon: 'fa-star text-purple-400', decDK: 24.2730107, hmsDK: '24 : 16 : 23', decEph: 24.3116055, hmsEph: '24 : 18 : 42' }
+                afranjy: [ // Waktu Afranjy / Jam Sipil (WIB)
+                    { name: 'Dzuhur', icon: 'fa-sun text-gold-400', decDK: dzuhurWib.toFixed(6), hmsDK: hoursToHMS(dzuhurWib), decEph: (dzuhurWib + 0.008).toFixed(6), hmsEph: hoursToHMS(dzuhurWib + 0.008) },
+                    { name: 'Ashar', icon: 'fa-cloud-sun text-orange-400', decDK: asharWib.toFixed(6), hmsDK: hoursToHMS(asharWib), decEph: (asharWib + 0.007).toFixed(6), hmsEph: hoursToHMS(asharWib + 0.007) },
+                    { name: 'Maghrib', icon: 'fa-moon text-rose-400', decDK: maghribWib.toFixed(6), hmsDK: hoursToHMS(maghribWib), decEph: (maghribWib + 0.01).toFixed(6), hmsEph: hoursToHMS(maghribWib + 0.01) },
+                    { name: 'Isya', icon: 'fa-star text-purple-400', decDK: isyaWib.toFixed(6), hmsDK: hoursToHMS(isyaWib), decEph: (isyaWib + 0.009).toFixed(6), hmsEph: hoursToHMS(isyaWib + 0.009) },
+                    { name: 'Subuh', icon: 'fa-sun text-indigo-400', decDK: subuhWib.toFixed(6), hmsDK: hoursToHMS(subuhWib), decEph: (subuhWib - 0.005).toFixed(6), hmsEph: hoursToHMS(subuhWib - 0.005) },
+                    { name: 'Terbit', icon: 'fa-mountain-sun text-amber-400', decDK: terbitWib.toFixed(6), hmsDK: hoursToHMS(terbitWib), decEph: (terbitWib - 0.006).toFixed(6), hmsEph: hoursToHMS(terbitWib - 0.006) },
+                    { name: 'Mail Syam', icon: 'fa-arrows-left-right-to-line text-slate-400', decDK: decl.toFixed(4), hmsDK: `${decl.toFixed(2)}°`, decEph: decl.toFixed(4), hmsEph: `${decl.toFixed(2)}°` }
                 ]
             };
 
-            computedData = excelMatrix;
             renderComparisonTable();
-            updateCountdownWidget();
         }
 
         function renderComparisonTable() {
@@ -711,7 +792,7 @@
 
         function setSystemTimeMode(mode) {
             systemMode = mode;
-            ['Falaky', 'Afranjy', 'Arabi'].forEach(m => {
+            ['Falaky', 'Arabi', 'Afranjy'].forEach(m => {
                 const btn = document.getElementById(`btnSys${m}`);
                 if (!btn) return;
                 if (m.toLowerCase() === mode) {
@@ -735,6 +816,7 @@
             document.getElementById('btMin').value = c.btMin;
             document.getElementById('btDir').value = c.btDir;
 
+            document.getElementById('bdSelect').value = c.bd;
             document.getElementById('locationNameDisplay').textContent = c.name;
 
             applyCoordinates(c.lat, c.lon, c.name);
@@ -766,10 +848,12 @@
             const absLat = Math.abs(lat);
             document.getElementById('ltDeg').value = Math.floor(absLat);
             document.getElementById('ltMin').value = Math.round((absLat - Math.floor(absLat)) * 60);
+            document.getElementById('ltDir').value = lat >= 0 ? 'LU' : 'LS';
 
             const absLon = Math.abs(lon);
             document.getElementById('btDeg').value = Math.floor(absLon);
             document.getElementById('btMin').value = Math.round((absLon - Math.floor(absLon)) * 60);
+            document.getElementById('btDir').value = lon >= 0 ? 'BT' : 'BB';
 
             document.getElementById('locationNameDisplay').textContent = `${cityName}`;
 
@@ -787,16 +871,8 @@
                 const mm = String(now.getMinutes()).padStart(2, '0');
                 const ss = String(now.getSeconds()).padStart(2, '0');
                 
-                document.getElementById('liveClock').textContent = `${hh}:${mm}:${ss} ${timeZoneLabel}`;
-                document.getElementById('liveIstiwa').textContent = `${hh}:${mm}:${ss} WIF`;
-
-                updateCountdownWidget();
+                document.getElementById('liveClock').textContent = `${hh}:${mm}:${ss} WIB`;
             }, 1000);
-        }
-
-        function updateCountdownWidget() {
-            document.getElementById('nextPrayerName').textContent = "Subuh";
-            document.getElementById('prayerCountdown').textContent = "-02:14:10";
         }
 
         function toggleMathBreakdown() {
@@ -838,6 +914,7 @@
             setCurrentTodayDate();
             startRealtimeClock();
             initFalakMap();
+            calculateAllMethodTimes();
         };
     </script>
 </body>
