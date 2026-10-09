@@ -144,7 +144,7 @@
                         </div>
                         <div>
                             <div class="text-xs text-gold-400 font-medium">Menuju Shalat Berikutnya</div>
-                            <div id="nextPrayerName" class="text-base font-bold text-slate-100">Mengkalkulasi...</div>
+                            <div id="nextPrayerName" class="text-base font-bold text-slate-100">Subuh</div>
                         </div>
                     </div>
                     <div class="text-right">
@@ -389,7 +389,7 @@
             </div>
         </div>
 
-        <!-- Date Batch Testing Simulation Bar -->
+        <!-- Date Batch Testing Simulation Bar (SUDAH DITAMBAH PRESET TANGGAL ASTRONOMI) -->
         <div class="bg-slate-900/90 rounded-2xl border border-slate-800 p-5 sm:p-6 shadow-xl no-print">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
                 <div>
@@ -402,11 +402,20 @@
             </div>
 
             <div class="flex flex-wrap gap-2 text-xs">
-                <button onclick="setTestDate('2026-12-22')" class="px-3.5 py-2 rounded-xl bg-slate-950 hover:bg-gold-500/10 border border-slate-800 hover:border-gold-500/40 text-slate-300 hover:text-gold-400 font-medium transition-all flex items-center gap-2 cursor-pointer">
-                    <i class="fa-regular fa-calendar text-gold-400"></i> 22 Desember
-                </button>
                 <button onclick="setCurrentTodayDate()" class="px-3.5 py-2 rounded-xl bg-slate-950 hover:bg-emerald-500/10 border border-emerald-500/40 text-emerald-400 font-medium transition-all flex items-center gap-2 cursor-pointer">
                     <i class="fa-solid fa-clock-rotate-left"></i> Hari Ini
+                </button>
+                <button onclick="setTestDate('2026-03-21')" class="px-3.5 py-2 rounded-xl bg-slate-950 hover:bg-gold-500/10 border border-slate-800 hover:border-gold-500/40 text-slate-300 hover:text-gold-400 font-medium transition-all flex items-center gap-2 cursor-pointer">
+                    <i class="fa-regular fa-calendar text-gold-400"></i> 21 Maret (Ekuinoks)
+                </button>
+                <button onclick="setTestDate('2026-06-21')" class="px-3.5 py-2 rounded-xl bg-slate-950 hover:bg-gold-500/10 border border-slate-800 hover:border-gold-500/40 text-slate-300 hover:text-gold-400 font-medium transition-all flex items-center gap-2 cursor-pointer">
+                    <i class="fa-regular fa-calendar text-gold-400"></i> 21 Juni (Solstice Ut)
+                </button>
+                <button onclick="setTestDate('2026-09-23')" class="px-3.5 py-2 rounded-xl bg-slate-950 hover:bg-gold-500/10 border border-slate-800 hover:border-gold-500/40 text-slate-300 hover:text-gold-400 font-medium transition-all flex items-center gap-2 cursor-pointer">
+                    <i class="fa-regular fa-calendar text-gold-400"></i> 23 September
+                </button>
+                <button onclick="setTestDate('2026-12-22')" class="px-3.5 py-2 rounded-xl bg-slate-950 hover:bg-gold-500/10 border border-slate-800 hover:border-gold-500/40 text-slate-300 hover:text-gold-400 font-medium transition-all flex items-center gap-2 cursor-pointer">
+                    <i class="fa-regular fa-calendar text-gold-400"></i> 22 Desember (Solstice Sel)
                 </button>
             </div>
         </div>
@@ -581,6 +590,7 @@
         let systemMode = 'falaky';
         let computedData = {};
         let timeZoneLabel = 'WIB';
+        let rawCalculatedTimes = {};
 
         let falakMap, locationMarker;
 
@@ -681,6 +691,14 @@
             const e = parseFloat(document.getElementById('eotInput').value) || 0.033;
             const ihtiyat = (parseFloat(document.getElementById('ihtiyatInput').value) || 2) / 60;
 
+            // Update Tanggal Tampilan Header
+            const dateVal = document.getElementById('inputDate').value;
+            if (dateVal) {
+                const dateObj = new Date(dateVal);
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                document.getElementById('gregorianDateDisplay').textContent = dateObj.toLocaleDateString('id-ID', options);
+            }
+
             // Hitung KWD & Tafawut
             const kwdHours = (bd - lambda) / 15;
 
@@ -734,6 +752,14 @@
             const subuhFalaky = 12.0 - tSubuhHours;
             const subuhWib = dzuhurWib - tSubuhHours;
 
+            rawCalculatedTimes = {
+                subuh: subuhWib,
+                dzuhur: dzuhurWib,
+                ashar: asharWib,
+                maghrib: maghribWib,
+                isya: isyaWib
+            };
+
             // Susun Matrix Data berdasarkan Tab Waktu (Falaky, Arabi, Afranjy)
             computedData = {
                 falaky: [ // Waktu Falaky / Istiwa
@@ -763,6 +789,7 @@
             };
 
             renderComparisonTable();
+            updatePrayerCountdown();
         }
 
         function renderComparisonTable() {
@@ -872,7 +899,43 @@
                 const ss = String(now.getSeconds()).padStart(2, '0');
                 
                 document.getElementById('liveClock').textContent = `${hh}:${mm}:${ss} WIB`;
+                updatePrayerCountdown();
             }, 1000);
+        }
+
+        // LOGIKA DINAMIS MENGHITUNG MUNDUR SHALAT
+        function updatePrayerCountdown() {
+            if (!rawCalculatedTimes.dzuhur) return;
+
+            const now = new Date();
+            const currentDecHours = now.getHours() + (now.getMinutes() / 60) + (now.getSeconds() / 3600);
+
+            const schedule = [
+                { name: 'Subuh', time: rawCalculatedTimes.subuh },
+                { name: 'Dzuhur', time: rawCalculatedTimes.dzuhur },
+                { name: 'Ashar', time: rawCalculatedTimes.ashar },
+                { name: 'Maghrib', time: rawCalculatedTimes.maghrib },
+                { name: 'Isya', time: rawCalculatedTimes.isya }
+            ];
+
+            let nextPrayer = schedule.find(p => p.time > currentDecHours);
+            let diffHours = 0;
+
+            if (nextPrayer) {
+                diffHours = nextPrayer.time - currentDecHours;
+            } else {
+                nextPrayer = schedule[0]; // Besok Subuh
+                diffHours = (24.0 - currentDecHours) + nextPrayer.time;
+            }
+
+            document.getElementById('nextPrayerName').textContent = nextPrayer.name;
+
+            const diffSecTotal = Math.floor(diffHours * 3600);
+            const hh = String(Math.floor(diffSecTotal / 3600)).padStart(2, '0');
+            const mm = String(Math.floor((diffSecTotal % 3600) / 60)).padStart(2, '0');
+            const ss = String(diffSecTotal % 60).padStart(2, '0');
+
+            document.getElementById('prayerCountdown').textContent = `-${hh}:${mm}:${ss}`;
         }
 
         function toggleMathBreakdown() {
@@ -891,13 +954,18 @@
             }
         }
 
-        // FUNGSI SIMULASI TANGGAL YANG SUDAH DIPERBAIKI SANGAT DINAMIS
         function setTestDate(dateStr) {
             document.getElementById('inputDate').value = dateStr;
 
             if (dateStr === '2026-12-22') {
                 document.getElementById('declinationInput').value = "-23.4368";
                 document.getElementById('eotInput').value = "0.033";
+            } else if (dateStr === '2026-06-21') {
+                document.getElementById('declinationInput').value = "23.4368";
+                document.getElementById('eotInput').value = "-0.024";
+            } else if (dateStr === '2026-03-21' || dateStr === '2026-09-23') {
+                document.getElementById('declinationInput').value = "0.0000";
+                document.getElementById('eotInput').value = "0.120";
             } else {
                 document.getElementById('declinationInput').value = "-8.1500";
                 document.getElementById('eotInput').value = "0.210";
@@ -905,7 +973,6 @@
 
             calculateAllMethodTimes();
 
-            // Scroll halus menuju tabel perbandingan
             const el = document.getElementById('tabelUtamaSection');
             if (el) {
                 el.scrollIntoView({ behavior: 'smooth' });
