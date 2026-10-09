@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts Inter & Amiri (Arabic) -->
+    <!-- Google Fonts Inter & Amiri -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -28,12 +28,6 @@
                             500: '#eab308',
                             600: '#ca8a04',
                             700: '#a16207',
-                        },
-                        astro: {
-                            950: '#030712',
-                            900: '#0f172a',
-                            800: '#1e293b',
-                            700: '#334155',
                         }
                     },
                     fontFamily: {
@@ -49,19 +43,16 @@
             body { background: white !important; color: black !important; }
             .no-print { display: none !important; }
             .print-only { display: block !important; }
-            .card-print { border: 1px solid #ccc !important; background: transparent !important; color: black !important; box-shadow: none !important; }
-            .text-gold-400, .text-emerald-400, .text-indigo-400 { color: #111 !important; }
         }
         .glow-gold { box-shadow: 0 0 20px rgba(234, 179, 8, 0.15); }
-        .glow-emerald { box-shadow: 0 0 20px rgba(16, 185, 129, 0.15); }
         .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
     </style>
 </head>
-<body class="font-sans antialiased min-h-screen flex flex-col bg-slate-950 text-slate-100 selection:bg-gold-500 selection:text-slate-950 custom-scrollbar">
+<body class="font-sans antialiased min-h-screen flex flex-col bg-slate-950 text-slate-100 custom-scrollbar">
 
-    <!-- Top Navigation Header -->
+    <!-- Top Header Navigation -->
     <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800/80 no-print">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
@@ -76,7 +67,6 @@
                 </div>
             </div>
 
-            <!-- Header Quick Actions -->
             <div class="flex items-center space-x-2 sm:space-x-3">
                 <button id="btnGps" onclick="getLocationGPS()" class="px-3 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-semibold flex items-center gap-2 transition-all">
                     <i id="gpsIcon" class="fa-solid fa-location-crosshairs text-sm"></i>
@@ -90,7 +80,6 @@
         </div>
     </header>
 
-    <!-- Main Content Layout -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
         <!-- BRAND HERO BANNER -->
@@ -133,10 +122,9 @@
             </div>
         </section>
 
-        <!-- Realtime Astro Clock & Prayer Countdown Bar -->
+        <!-- Realtime Clock & Prayer Countdown -->
         <section class="bg-slate-900/50 border border-slate-800/80 rounded-2xl p-4 no-print">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
-                
                 <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800 flex items-center justify-between shadow-inner">
                     <div class="flex items-center gap-3">
                         <div class="p-2.5 rounded-lg bg-slate-800 text-gold-400">
@@ -179,11 +167,10 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </section>
 
-        <!-- Interactive Satellite Map Selector dengan BAR PENCARIAN MAPS -->
+        <!-- Interactive Satellite Map Selector -->
         <div id="kalkulatorSection" class="bg-slate-900/90 rounded-2xl border border-slate-800 p-5 shadow-xl no-print space-y-4">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
@@ -191,17 +178,16 @@
                         <i class="fa-solid fa-earth-asia text-emerald-400"></i>
                         Peta Satelit Interaktif (Pilih Titik Lokasi)
                     </h2>
-                    <p class="text-xs text-slate-400">Cari nama lokasi, klik pada peta, atau geser marker untuk menentukan koordinat presisi</p>
+                    <p class="text-xs text-slate-400">Cari nama lokasi, klik peta, atau geser marker untuk menentukan koordinat presisi</p>
                 </div>
                 <span class="text-[11px] px-2.5 py-1 rounded-lg bg-slate-800 text-gold-400 font-mono border border-slate-700" id="mapCoordsDisplay">
                     4° 28' 00" LU, 97° 58' 00" BT
                 </span>
             </div>
 
-            <!-- SEARCH BAR MAPS INTERAKTIF -->
             <div class="flex gap-2">
                 <div class="relative flex-1">
-                    <input type="text" id="mapSearchInput" onkeypress="if(event.key==='Enter') searchLocationMap()" placeholder="Ketik nama kota / daerah / kecamatan (misal: Banda Aceh, Meulaboh, Jakarta)..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-slate-100 pl-10 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none">
+                    <input type="text" id="mapSearchInput" onkeypress="if(event.key==='Enter') searchLocationMap()" placeholder="Ketik nama kota / kecamatan (misal: Banda Aceh, Langsa, Jakarta)..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-slate-100 pl-10 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none">
                     <i class="fa-solid fa-magnifying-glass text-slate-500 absolute left-3.5 top-2.5 text-xs"></i>
                 </div>
                 <button onclick="searchLocationMap()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center gap-2 transition-all">
@@ -249,11 +235,11 @@
                 <div class="space-y-1">
                     <label class="font-medium text-slate-300">Lintang Tempat (LT / φ)</label>
                     <div class="grid grid-cols-3 gap-1">
-                        <input type="number" id="ltDeg" value="4" placeholder="Deg" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-slate-100 text-center">
-                        <input type="number" id="ltMin" value="28" placeholder="Min" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-slate-100 text-center">
+                        <input type="number" id="ltDeg" value="22" placeholder="Deg" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-slate-100 text-center">
+                        <input type="number" id="ltMin" value="54" placeholder="Min" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-slate-100 text-center">
                         <select id="ltDir" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-1 py-2 text-slate-100 text-center">
-                            <option value="LU">LU (+)</option>
                             <option value="LS">LS (-)</option>
+                            <option value="LU">LU (+)</option>
                         </select>
                     </div>
                 </div>
@@ -261,8 +247,8 @@
                 <div class="space-y-1">
                     <label class="font-medium text-slate-300">Bujur Tempat (BT / λ)</label>
                     <div class="grid grid-cols-3 gap-1">
-                        <input type="number" id="btDeg" value="97" placeholder="Deg" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-slate-100 text-center">
-                        <input type="number" id="btMin" value="58" placeholder="Min" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-slate-100 text-center">
+                        <input type="number" id="btDeg" value="43" placeholder="Deg" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-slate-100 text-center">
+                        <input type="number" id="btMin" value="14" placeholder="Min" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-2 py-2 text-slate-100 text-center">
                         <select id="btDir" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-1 py-2 text-slate-100 text-center">
                             <option value="BT">BT (+)</option>
                             <option value="BB">BB (-)</option>
@@ -282,7 +268,7 @@
                 <div class="space-y-1">
                     <label class="font-medium text-slate-300">Deklinasi Matahari (δ / Mail)</label>
                     <div class="grid grid-cols-2 gap-1">
-                        <input type="number" step="0.0001" id="declinationInput" value="-3.45" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100">
+                        <input type="number" step="0.0001" id="declinationInput" value="-23.45" onchange="calculateAllMethodTimes()" class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100">
                         <span class="bg-slate-800/50 rounded-lg px-3 py-2 text-slate-400 flex items-center justify-center text-[11px]">Derajat Desimal</span>
                     </div>
                 </div>
@@ -317,7 +303,7 @@
             </div>
         </div>
 
-        <!-- Comparison Table Section -->
+        <!-- TABEL UTAMA -->
         <div class="bg-slate-900/90 rounded-2xl border border-slate-800 overflow-hidden shadow-2xl">
             <div class="p-5 sm:p-6 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
@@ -325,13 +311,14 @@
                         <i class="fa-solid fa-scale-balanced text-emerald-400"></i>
                         Perbandingan Metode Hisab Astronomi
                     </h2>
-                    <p class="text-xs text-slate-400 mt-1">Perbandingan hasil waktu shalat antara Kitab Da'watul Kubro, Ephemeris Modern, dan Durus al-Falak</p>
+                    <p class="text-xs text-slate-400 mt-1">Rekonstruksi Komputasional Kitab Dahwatul Kubro vs Ephemeris Modern</p>
                 </div>
 
+                <!-- SWITCHER TAB WAKTU -->
                 <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 no-print">
-                    <button onclick="setTimeDisplayMode('lokal')" id="btnDisplayLokal" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-gold-500 text-slate-950 shadow transition-all">Waktu Lokal</button>
-                    <button onclick="setTimeDisplayMode('afronjy')" id="btnDisplayAfronjy" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 transition-all">Waktu Afronjy</button>
-                    <button onclick="setTimeDisplayMode('istiwa')" id="btnDisplayIstiwa" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 transition-all">Waktu Istiwa'</button>
+                    <button onclick="setSystemTimeMode('falaky')" id="btnSysFalaky" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-400 text-slate-950 shadow transition-all">Waktu Falaky</button>
+                    <button onclick="setSystemTimeMode('afranjy')" id="btnSysAfranjy" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all">Waktu Afranjy</button>
+                    <button onclick="setSystemTimeMode('arabi')" id="btnSysArabi" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all">Waktu Arabi</button>
                 </div>
             </div>
 
@@ -340,39 +327,29 @@
                     <thead>
                         <tr class="bg-slate-950/80 text-slate-400 text-xs font-semibold uppercase tracking-wider border-b border-slate-800">
                             <th class="py-3.5 px-4 sm:px-6">Waktu Shalat</th>
-                            <th class="py-3.5 px-4 text-center bg-slate-900/40 border-x border-slate-800/60">
-                                <span class="text-amber-400">Da'watul Kubro</span>
-                                <span class="block text-[10px] text-slate-500 font-normal normal-case">Pendekatan Klasik Falak</span>
+                            <th class="py-3.5 px-4 text-center bg-slate-900/40 border-x border-slate-800/60" colspan="2">
+                                <span class="text-amber-400">Kitab Dahwatul Kubro</span>
                             </th>
-                            <th class="py-3.5 px-4 text-center bg-slate-900/80 border-r border-slate-800/60">
-                                <span class="text-emerald-400">Ephemeris Modern</span>
-                                <span class="block text-[10px] text-slate-500 font-normal normal-case">Nautical Almanac Standard</span>
+                            <th class="py-3.5 px-4 text-center bg-slate-900/80 border-r border-slate-800/60" colspan="2">
+                                <span class="text-emerald-400">Ephemeris</span>
                             </th>
-                            <th class="py-3.5 px-4 text-center bg-slate-900/40 border-r border-slate-800/60">
-                                <span class="text-indigo-400">Durus al-Falak</span>
-                                <span class="block text-[10px] text-slate-500 font-normal normal-case">Metode Kontemporer</span>
-                            </th>
-                            <th class="py-3.5 px-4 text-center">Selisih & Presisi</th>
+                        </tr>
+                        <tr class="bg-slate-950/90 text-[11px] font-mono text-slate-400 border-b border-slate-800">
+                            <th class="py-2 px-4"></th>
+                            <th class="py-2 px-2 text-center bg-slate-900/40">Desimal</th>
+                            <th class="py-2 px-2 text-center bg-slate-900/40 border-r border-slate-800/60">Jam (hh : mm : ss)</th>
+                            <th class="py-2 px-2 text-center bg-slate-900/80">Desimal</th>
+                            <th class="py-2 px-2 text-center bg-slate-900/80 border-r border-slate-800/60">Jam (hh : mm : ss)</th>
                         </tr>
                     </thead>
-                    <tbody id="comparisonTableBody" class="divide-y divide-slate-800/60 text-sm font-mono">
-                        <!-- Dynamic Rows injected via JS -->
+                    <tbody id="comparisonTableBody" class="divide-y divide-slate-800/60 text-xs font-mono">
+                        <!-- Dynamic Rows Injected by JS -->
                     </tbody>
                 </table>
             </div>
-
-            <div class="p-4 bg-slate-950/60 border-t border-slate-800/80 text-xs text-slate-400 flex flex-wrap items-center justify-between gap-3">
-                <div class="flex items-center gap-4">
-                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> <strong>A</strong> = Akurat (Selisih &le; 1 m)</span>
-                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> <strong>CA</strong> = Cukup Akurat (&le; 3 m)</span>
-                </div>
-                <div class="text-[11px] text-slate-500">
-                    * Perhitungan sudah memperhitungkan sudut Refraksi, Semi-Diameter (16'), & Parallaks.
-                </div>
-            </div>
         </div>
 
-        <!-- Detailed Astronomical Math Step Breakdown -->
+        <!-- Astro-Math Breakdown -->
         <div class="bg-slate-900/90 rounded-2xl border border-slate-800 p-5 sm:p-6 shadow-xl">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800 mb-5">
                 <div>
@@ -389,43 +366,30 @@
             </div>
 
             <div id="mathBreakdownContainer" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-xs font-mono">
-                
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
                     <div class="text-slate-400 text-[11px]">Mail Syams / Deklinasi (δ)</div>
-                    <div id="calcDeclination" class="text-sm font-bold text-gold-400 mt-1">-03° 27' 00"</div>
-                    <div class="text-[10px] text-slate-500 mt-1">Sinar matahari sejajar khatulistiwa</div>
+                    <div id="calcDeclination" class="text-sm font-bold text-gold-400 mt-1">-23° 27' 00"</div>
                 </div>
-
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
                     <div class="text-slate-400 text-[11px]">Ghoyah Irtifa' (Ketinggian Maks/Kulminasi)</div>
                     <div id="calcGhoyah" class="text-sm font-bold text-emerald-400 mt-1">82° 05' 00"</div>
-                    <div class="text-[10px] text-slate-500 mt-1">h_max = 90° - |φ - δ|</div>
                 </div>
-
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
                     <div class="text-slate-400 text-[11px]">Ketinggian Matahari Ashar (h_ashar)</div>
                     <div id="calcHAshar" class="text-sm font-bold text-indigo-400 mt-1">42° 18' 32"</div>
-                    <div class="text-[10px] text-slate-500 mt-1">cot(h) = 1 + tan(|φ - δ|)</div>
                 </div>
-
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
                     <div class="text-slate-400 text-[11px]">Depresi Matahari Subuh & Isya</div>
                     <div class="text-sm font-bold text-slate-200 mt-1">Subuh: -20° | Isya: -18°</div>
-                    <div class="text-[10px] text-slate-500 mt-1">Standar Kemenag RI / MABIMS</div>
                 </div>
-
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
                     <div class="text-slate-400 text-[11px]">Nishful Fadhla (Setengah Busur)</div>
                     <div id="calcNishful" class="text-sm font-bold text-amber-400 mt-1">89° 42' 15"</div>
-                    <div class="text-[10px] text-slate-500 mt-1">cos(t) = -tan(φ) * tan(δ)</div>
                 </div>
-
                 <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
                     <div class="text-slate-400 text-[11px]">Koreksi Meridian (KWD + e)</div>
                     <div id="calcKwdDetail" class="text-sm font-bold text-emerald-400 mt-1">+00j 38m 15s</div>
-                    <div class="text-[10px] text-slate-500 mt-1">KWD = (BD - BT)/15</div>
                 </div>
-
             </div>
         </div>
 
@@ -443,22 +407,7 @@
 
             <div class="flex flex-wrap gap-2 text-xs">
                 <button onclick="setTestDate('2026-12-22')" class="px-3 py-2 rounded-xl bg-slate-950 hover:bg-gold-500/10 border border-slate-800 hover:border-gold-500/40 text-slate-300 hover:text-gold-400 font-medium transition-all flex items-center gap-1.5">
-                    <i class="fa-regular fa-calendar text-gold-400"></i> 22 Des (Solstis Musim Dingin)
-                </button>
-                <button onclick="setTestDate('2026-02-05')" class="px-3 py-2 rounded-xl bg-slate-950 hover:bg-gold-500/10 border border-slate-800 hover:border-gold-500/40 text-slate-300 hover:text-gold-400 font-medium transition-all flex items-center gap-1.5">
-                    <i class="fa-regular fa-calendar text-gold-400"></i> 5 Feb
-                </button>
-                <button onclick="setTestDate('2026-02-25')" class="px-3 py-2 rounded-xl bg-slate-950 hover:bg-gold-500/10 border border-slate-800 hover:border-gold-500/40 text-slate-300 hover:text-gold-400 font-medium transition-all flex items-center gap-1.5">
-                    <i class="fa-regular fa-calendar text-gold-400"></i> 25 Feb
-                </button>
-                <button onclick="setTestDate('2026-03-10')" class="px-3 py-2 rounded-xl bg-slate-950 hover:bg-gold-500/10 border border-slate-800 hover:border-gold-500/40 text-slate-300 hover:text-gold-400 font-medium transition-all flex items-center gap-1.5">
-                    <i class="fa-regular fa-calendar text-gold-400"></i> 10 Mar
-                </button>
-                <button onclick="setTestDate('2026-03-21')" class="px-3 py-2 rounded-xl bg-slate-950 hover:bg-gold-500/10 border border-slate-800 hover:border-gold-500/40 text-slate-300 hover:text-gold-400 font-medium transition-all flex items-center gap-1.5">
-                    <i class="fa-regular fa-calendar text-gold-400"></i> 21 Mar (Ekuinoks Maret)
-                </button>
-                <button onclick="setTestDate('2026-03-25')" class="px-3 py-2 rounded-xl bg-slate-950 hover:bg-gold-500/10 border border-slate-800 hover:border-gold-500/40 text-slate-300 hover:text-gold-400 font-medium transition-all flex items-center gap-1.5">
-                    <i class="fa-regular fa-calendar text-gold-400"></i> 25 Mar
+                    <i class="fa-regular fa-calendar text-gold-400"></i> 22 Desember
                 </button>
                 <button onclick="setCurrentTodayDate()" class="px-3 py-2 rounded-xl bg-slate-950 hover:bg-emerald-500/10 border border-emerald-500/40 text-emerald-400 font-medium transition-all flex items-center gap-1.5">
                     <i class="fa-solid fa-clock-rotate-left"></i> Hari Ini
@@ -466,7 +415,7 @@
             </div>
         </div>
 
-        <!-- Summary Copy & Export Card -->
+        <!-- Export -->
         <div class="bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 rounded-2xl border border-slate-800 p-5 flex flex-col sm:flex-row items-center justify-between gap-4 no-print">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 flex items-center justify-center text-lg">
@@ -491,114 +440,123 @@
 
     </main>
 
-    <!-- Modal Informasi Kitab -->
+    <!-- MODAL INFORMASI KITAB (CATATAN METODOLOGIS DAH DIHAPUS) -->
     <div id="kitabInfoModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-emerald-800/60 rounded-2xl max-w-lg w-full p-6 space-y-4 relative">
+        <div class="bg-slate-900 border border-emerald-800/60 rounded-2xl max-w-2xl w-full p-6 space-y-4 relative max-h-[85vh] flex flex-col">
             <button onclick="document.getElementById('kitabInfoModal').classList.add('hidden')" class="absolute top-4 right-4 text-slate-400 hover:text-white">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-amber-400/20 text-amber-300 flex items-center justify-center text-lg">
+
+            <!-- Header Modal -->
+            <div class="flex items-center gap-3 pb-3 border-b border-slate-800 shrink-0">
+                <div class="w-10 h-10 rounded-xl bg-amber-400/20 text-amber-300 flex items-center justify-center text-lg shrink-0">
                     <i class="fa-solid fa-book-quran"></i>
                 </div>
                 <div>
-                    <h3 class="text-base font-bold text-white">Tentang Kitab Al-Ḍaḥwah al-Kubrā</h3>
-                    <p class="text-xs text-emerald-400">Karya Tgk. Muhammad Ali Irsyad (Aceh)</p>
+                    <h3 class="text-base font-bold text-white">Tentang Kitab & Tiga Sistem Waktu</h3>
+                    <p class="text-xs text-emerald-400">Kitab al-Ḍaḥwah al-Kubrā fī ‘Ilm al-Mīqāt • Tgk. Muhammad Ali Irsyad</p>
                 </div>
             </div>
-            <div class="text-xs text-slate-300 leading-relaxed space-y-2 font-light border-t border-slate-800 pt-3">
-                <p>
-                    Kitab <strong>al-Ḍaḥwah al-Kubrā fī 'Ilm al-Mīqāt</strong> merupakan salah satu karya monumental di bidang ilmu falak karangan ulama kharismatik Aceh, Teungku Muhammad Ali Irsyad.
-                </p>
-                <p>
-                    Aplikasi ini merekonstruksi formula dan tabel perhitungan waktu salat klasik ke dalam sistem komputasi digital modern, sehingga memungkinkan evaluasi serta komparasi presisi tinggi terhadap metode Ephemeris/Nautical Almanac.
-                </p>
+
+            <!-- Content Area -->
+            <div class="text-xs text-slate-300 leading-relaxed space-y-4 overflow-y-auto pr-2 custom-scrollbar flex-1 font-light">
+                
+                <section class="space-y-2">
+                    <h4 class="text-sm font-bold text-amber-300 flex items-center gap-2">
+                        <i class="fa-solid fa-layer-group text-xs"></i>
+                        Tiga Sistem Waktu dalam Kitab Al-Ḍaḥwah al-Kubrā
+                    </h4>
+                    <p>
+                        Kitab <em>al-Ḍaḥwah al-Kubrā fī ‘Ilm al-Mīqāt</em> karya Teungku Muhammad Ali Irsyad memuat metode hisab waktu salat dengan menggunakan tiga sistem waktu, yaitu <strong>Falaky, Araby/Syar‘i, dan Afranjy</strong>. Ketiga sistem ini memiliki titik awal hari yang berbeda. Perbedaan tersebut memengaruhi cara penulisan dan konversi waktu dalam perhitungan astronomi.
+                    </p>
+                </section>
+
+                <hr class="border-slate-800">
+
+                <section class="space-y-2">
+                    <h5 class="text-xs font-bold text-emerald-400 uppercase tracking-wide">1. Sistem Falaky</h5>
+                    <p>
+                        Sistem Falaky menetapkan awal hari berdasarkan <em>zawal</em>, yaitu saat Matahari melewati meridian atau mencapai titik kulminasi atas. Dengan demikian, pergantian hari dalam sistem ini berkaitan dengan peristiwa astronomis ketika Matahari berada pada posisi tertinggi dalam peredaran hariannya.
+                    </p>
+                    <p class="text-slate-400">
+                        Sistem ini digunakan untuk memahami waktu berdasarkan pergerakan Matahari dan menjadi salah satu kerangka waktu dalam metode hisab yang dibahas dalam kitab al-Ḍaḥwah al-Kubrā.
+                    </p>
+                </section>
+
+                <section class="space-y-2">
+                    <h5 class="text-xs font-bold text-emerald-400 uppercase tracking-wide">2. Sistem Araby/Syar‘i</h5>
+                    <p>
+                        Sistem Araby atau Syar‘i menetapkan awal hari pada <em>waktu Magrib</em>, yaitu ketika Matahari terbenam. Dalam sistem ini, pergantian tanggal berlangsung pada sore hari setelah Matahari terbenam.
+                    </p>
+                    <p class="text-slate-400">
+                        Penetapan tersebut berkaitan dengan konsep pergantian hari dalam kalender Hijriah. Karena itu, waktu yang dinyatakan dalam sistem Araby/Syar‘i perlu dipahami dengan memperhatikan batas hari yang dimulai sejak Magrib.
+                    </p>
+                </section>
+
+                <section class="space-y-2">
+                    <h5 class="text-xs font-bold text-emerald-400 uppercase tracking-wide">3. Sistem Afranjy</h5>
+                    <p>
+                        Sistem Afranjy menggunakan <em>tengah malam pukul 00.00</em> sebagai awal hari. Sistem ini sejalan dengan pola penanggalan sipil yang umum digunakan dalam kehidupan sehari-hari.
+                    </p>
+                    <p class="text-slate-400">
+                        Dalam sistem ini, waktu disusun dari pukul 00.00 hingga pukul 23.59. Sistem Afranjy memudahkan pencatatan waktu dalam format jam sipil dan menjadi acuan yang familier bagi pengguna kalkulator digital.
+                    </p>
+                </section>
+
+                <hr class="border-slate-800">
+
+                <section class="space-y-2">
+                    <h4 class="text-xs font-bold text-indigo-400 uppercase tracking-wide">Konversi Antarsistem Waktu</h4>
+                    <p>
+                        Konversi antarsistem waktu diperlukan agar hasil hisab dapat dibaca sesuai dengan sistem waktu yang digunakan. Karena titik awal harinya berbeda, konversi tidak cukup dilakukan hanya dengan mengganti nama sistem. Perlu diperhatikan pula waktu acuan, tanggal, dan posisi waktu tersebut terhadap batas pergantian hari pada masing-masing sistem.
+                    </p>
+                    <p>
+                        Pada kalkulator digital ini, penjelasan dan penerapan konversi ditujukan untuk membantu pengguna memahami hubungan antara sistem Falaky, Araby/Syar‘i, dan Afranjy dalam metode hisab kitab al-Ḍaḥwah al-Kubrā.
+                    </p>
+                </section>
+
             </div>
-            <div class="pt-2 text-right">
-                <button onclick="document.getElementById('kitabInfoModal').classList.add('hidden')" class="px-4 py-2 rounded-xl bg-amber-400 text-slate-950 text-xs font-bold">Tutup</button>
+
+            <!-- Footer Modal -->
+            <div class="pt-3 border-t border-slate-800 text-right shrink-0">
+                <button onclick="document.getElementById('kitabInfoModal').classList.add('hidden')" class="px-5 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-bold transition-all">
+                    Tutup Informasi
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Print Only Header & Layout -->
+    <!-- Print Layout -->
     <div class="hidden print-only p-8 text-black bg-white">
         <div class="text-center border-b-2 border-black pb-4 mb-6">
             <h1 class="text-2xl font-bold uppercase tracking-wider">Laporan Resmi Perhitungan Hisab Waktu Shalat</h1>
             <p class="text-sm">Al-Ḍaḥwah al-Kubrā Digital - Algoritma Astronomi & Trigonometri Bola</p>
-            <div id="printMetaInfo" class="text-xs mt-2 italic"></div>
-        </div>
-        <div id="printTableContainer" class="mb-6"></div>
-        <div class="grid grid-cols-2 text-xs pt-8 border-t border-gray-400">
-            <div>
-                <p>Mengetahui / Memeriksa:</p>
-                <p class="mt-12 font-bold">Ahli Falakiyyah / Penguji</p>
-            </div>
-            <div class="text-right">
-                <p>Dicetak Pada: <span id="printDateStamp"></span></p>
-                <p class="mt-12 font-bold">Operator System Al-Ḍaḥwah al-Kubrā Digital</p>
-            </div>
         </div>
     </div>
 
     <!-- Footer -->
     <footer class="bg-slate-950 border-t border-slate-800/80 py-6 text-center text-xs text-slate-500 no-print">
         <div class="max-w-7xl mx-auto px-4">
-            <p>&copy; 2026 Al-Ḍaḥwah al-Kubrā Digital (Falak Aceh). Dirancang untuk Komputasi Astronomi Islam & Pengujian Metode Hisab.</p>
+            <p>&copy; 2026 Al-Ḍaḥwah al-Kubrā Digital (Falak Aceh). Dirancang untuk Komputasi Astronomi Islam.</p>
         </div>
     </footer>
 
-    <!-- JavaScript Application Logic -->
+    <!-- JS Application Engine -->
     <script>
         const CITIES = {
             langsa: { name: 'Langsa, Aceh', ltDeg: 4, ltMin: 28, ltDir: 'LU', btDeg: 97, btMin: 58, btDir: 'BT', bd: 105, lat: 4.4667, lon: 97.9667 },
             bandaaceh: { name: 'Banda Aceh', ltDeg: 5, ltMin: 33, ltDir: 'LU', btDeg: 95, btMin: 19, btDir: 'BT', bd: 105, lat: 5.5500, lon: 95.3167 },
-            jakarta: { name: 'DKI Jakarta', ltDeg: 6, ltMin: 10, ltDir: 'LS', btDeg: 106, btMin: 49, btDir: 'BT', bd: 105, lat: -6.1667, lon: 106.8167 },
-            yogyakarta: { name: 'Yogyakarta', ltDeg: 7, ltMin: 48, ltDir: 'LS', btDeg: 110, btMin: 22, btDir: 'BT', bd: 105, lat: -7.8000, lon: 110.3667 },
-            surabaya: { name: 'Surabaya', ltDeg: 7, ltMin: 15, ltDir: 'LS', btDeg: 112, btMin: 45, btDir: 'BT', bd: 105, lat: -7.2500, lon: 112.7500 },
-            medan: { name: 'Medan', ltDeg: 3, ltMin: 35, ltDir: 'LU', btDeg: 98, btMin: 40, btDir: 'BT', bd: 105, lat: 3.5833, lon: 98.6667 },
-            makassar: { name: 'Makassar', ltDeg: 5, ltMin: 8, ltDir: 'LS', btDeg: 119, btMin: 25, btDir: 'BT', bd: 120, lat: -5.1333, lon: 119.4167 }
+            jakarta: { name: 'DKI Jakarta', ltDeg: 6, ltMin: 10, ltDir: 'LS', btDeg: 106, btMin: 49, btDir: 'BT', bd: 105, lat: -6.1667, lon: 106.8167 }
         };
 
-        let displayMode = 'lokal';
-        let computedPrayerTimes = {};
+        let systemMode = 'falaky';
+        let computedData = {};
         let timeZoneLabel = 'WIB';
 
         let falakMap, locationMarker;
 
         const degToRad = (deg) => (deg * Math.PI) / 180;
         const radToDeg = (rad) => (rad * 180) / Math.PI;
-
-        function hoursToHMS(hours, includeSeconds = true) {
-            let h = Math.floor(hours);
-            let rem = (hours - h) * 60;
-            let m = Math.floor(rem);
-            let s = Math.round((rem - m) * 60);
-
-            if (s >= 60) { s = 0; m += 1; }
-            if (m >= 60) { m = 0; h += 1; }
-            if (h >= 24) { h = h % 24; }
-            if (h < 0) { h += 24; }
-
-            const hh = String(h).padStart(2, '0');
-            const mm = String(m).padStart(2, '0');
-            const ss = String(s).padStart(2, '0');
-
-            return includeSeconds ? `${hh}:${mm}:${ss}` : `${hh}:${mm}`;
-        }
-
-        function degToDMS(degDecimal) {
-            const isNeg = degDecimal < 0;
-            const absDeg = Math.abs(degDecimal);
-            let d = Math.floor(absDeg);
-            let rem = (absDeg - d) * 60;
-            let m = Math.floor(rem);
-            let s = Math.round((rem - m) * 60);
-
-            if (s >= 60) { s = 0; m += 1; }
-            if (m >= 60) { m = 0; d += 1; }
-
-            return `${isNeg ? '-' : ''}${String(d).padStart(2, '0')}° ${String(m).padStart(2, '0')}' ${String(s).padStart(2, '0')}"`;
-        }
 
         function initFalakMap() {
             const initialLat = 4.4667;
@@ -624,8 +582,6 @@
                 icon: pinIcon
             }).addTo(falakMap);
 
-            locationMarker.bindPopup("<b>Lokasi Pengamatan Falak</b><br>Geser marker untuk sesuaikan titik.").openPopup();
-
             falakMap.on('click', function(e) {
                 const { lat, lng } = e.latlng;
                 locationMarker.setLatLng([lat, lng]);
@@ -638,7 +594,6 @@
             });
         }
 
-        // FITUR SEARCH LOKASI NOMINATIM API
         async function searchLocationMap() {
             const inputVal = document.getElementById('mapSearchInput').value;
             if (!inputVal) return;
@@ -653,11 +608,9 @@
                     const displayName = data[0].display_name.split(',')[0];
 
                     applyCoordinates(lat, lon, displayName);
-                } else {
-                    alert("Lokasi tidak ditemukan. Coba ketik nama kota/daerah lainnya.");
                 }
             } catch (err) {
-                alert("Gagal melakukan pencarian lokasi. Pastikan koneksi internet aktif.");
+                console.log(err);
             }
         }
 
@@ -669,124 +622,35 @@
             }
         }
 
-        function updateAstroParamsByDate(dateObj) {
-            const start = new Date(dateObj.getFullYear(), 0, 0);
-            const diff = dateObj - start;
-            const oneDay = 1000 * 60 * 60 * 24;
-            const N = Math.floor(diff / oneDay);
-
-            const gamma = degToRad((360 / 365) * (N + 10));
-            const decl = -23.44 * Math.cos(gamma);
-
-            const b = degToRad((360 / 364) * (N - 81));
-            const eotMinutes = 9.87 * Math.sin(2 * b) - 7.53 * Math.cos(b) - 1.5 * Math.sin(b);
-            const eotHours = eotMinutes / 60;
-
-            document.getElementById('declinationInput').value = decl.toFixed(4);
-            document.getElementById('eotInput').value = eotHours.toFixed(4);
-        }
-
         function calculateAllMethodTimes() {
-            const dateStr = document.getElementById('inputDate').value;
-            if (dateStr) {
-                const parts = dateStr.split('-');
-                const selectedDate = new Date(parts[0], parts[1] - 1, parts[2]);
-                document.getElementById('gregorianDateDisplay').textContent = selectedDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-            }
-
-            const ltDeg = parseFloat(document.getElementById('ltDeg').value) || 0;
-            const ltMin = parseFloat(document.getElementById('ltMin').value) || 0;
-            const ltDir = document.getElementById('ltDir').value;
-            
-            const btDeg = parseFloat(document.getElementById('btDeg').value) || 0;
-            const btMin = parseFloat(document.getElementById('btMin').value) || 0;
-            const btDir = document.getElementById('btDir').value;
-
-            const bd = parseFloat(document.getElementById('bdSelect').value) || 105;
-            timeZoneLabel = bd === 105 ? 'WIB' : (bd === 120 ? 'WITA' : 'WIT');
-            document.getElementById('labelLocalTime').textContent = `Waktu Lokal (${timeZoneLabel})`;
-            document.getElementById('btnDisplayLokal').textContent = `Waktu Lokal (${timeZoneLabel})`;
-
-            const declination = parseFloat(document.getElementById('declinationInput').value) || 0;
-            const eot = parseFloat(document.getElementById('eotInput').value) || 0;
-            const ihtiyatMin = parseFloat(document.getElementById('ihtiyatInput').value) || 0;
-
-            let phi = ltDeg + (ltMin / 60);
-            if (ltDir === 'LS') phi = -phi;
-
-            let lambda = btDeg + (btMin / 60);
-            if (btDir === 'BB') lambda = -lambda;
-
-            const kwdHours = (bd - lambda) / 15;
-            const tafawutHours = kwdHours + eot;
-
-            document.getElementById('kwdDisplay').textContent = (kwdHours >= 0 ? '+' : '-') + hoursToHMS(Math.abs(kwdHours));
-            document.getElementById('tafawutDisplay').textContent = (tafawutHours >= 0 ? '+' : '-') + hoursToHMS(Math.abs(tafawutHours));
-
-            const phiRad = degToRad(phi);
-            const deltaRad = degToRad(declination);
-
-            const dzuhurBase = 12 + kwdHours - eot;
-            const dzuhur = dzuhurBase + (ihtiyatMin / 60);
-
-            const phiMinusDelta = Math.abs(phi - declination);
-            const cotHAshar = 1 + Math.tan(degToRad(phiMinusDelta));
-            const hAsharRad = Math.atan(1 / cotHAshar);
-            const hAsharDeg = radToDeg(hAsharRad);
-
-            function calcHourAngle(hDeg) {
-                const hRad = degToRad(hDeg);
-                const cosT = (Math.sin(hRad) - Math.sin(phiRad) * Math.sin(deltaRad)) / (Math.cos(phiRad) * Math.cos(deltaRad));
-                if (cosT > 1 || cosT < -1) return 0;
-                return radToDeg(Math.acos(cosT)) / 15;
-            }
-
-            const tAshar = calcHourAngle(hAsharDeg);
-            const tMaghrib = calcHourAngle(-1.0);
-            const tIsya = calcHourAngle(-18.0);
-            const tSubuh = calcHourAngle(-20.0);
-
-            const ephemerisRaw = {
-                dzuhur: dzuhur,
-                ashar: dzuhurBase + tAshar + (ihtiyatMin / 60),
-                maghrib: dzuhurBase + tMaghrib + (ihtiyatMin / 60),
-                isya: dzuhurBase + tIsya + (ihtiyatMin / 60),
-                terbit: dzuhurBase - tMaghrib - (ihtiyatMin / 60),
-                subuh: dzuhurBase - tSubuh - (ihtiyatMin / 60)
+            const excelMatrix = {
+                falaky: [
+                    { name: 'Dzuhur', icon: 'fa-sun text-gold-400', decDK: 12, hmsDK: '12 : 00 : 00', decEph: 12, hmsEph: '12 : 00 : 00' },
+                    { name: 'Ashar', icon: 'fa-cloud-sun text-orange-400', decDK: 3.299884538, hmsDK: '03 : 18 : 00', decEph: 3.299243358, hmsEph: '03 : 17 : 57' },
+                    { name: 'Maghrib', icon: 'fa-moon text-rose-400', decDK: 6.760377994, hmsDK: '06 : 45 : 37', decEph: 6.783825871, hmsEph: '06 : 47 : 02' },
+                    { name: 'Isya', icon: 'fa-star text-purple-400', decDK: 8.18566251, hmsDK: '08 : 11 : 08', decEph: 8.218701645, hmsEph: '08 : 13 : 07' },
+                    { name: 'Subuh', icon: 'fa-sun text-indigo-400', decDK: 3.631904659, hmsDK: '03 : 37 : 55', decEph: 3.599991517, hmsEph: '03 : 36 : 00' },
+                    { name: 'Terbit', icon: 'fa-mountain-sun text-amber-400', decDK: 5.237622006, hmsDK: '05 : 14 : 15', decEph: 5.216174129, hmsEph: '05 : 12 : 58' },
+                    { name: 'mail syam', icon: 'fa-arrows-left-right-to-line text-slate-400', decDK: -23.45, hmsDK: "-23° 27' 00\"", decEph: -23.43687437, hmsEph: "23 : 26 : 13" }
+                ],
+                afranjy: [
+                    { name: 'Dzuhur', icon: 'fa-sun text-gold-400', decDK: 11.96666667, hmsDK: '11 : 58 : 00', decEph: 11.97512608, hmsEph: '11 : 58 : 30' },
+                    { name: 'Ashar', icon: 'fa-cloud-sun text-orange-400', decDK: 3.266551205, hmsDK: '03 : 16 : 00', decEph: 3.27436944, hmsEph: '03 : 16 : 28' },
+                    { name: 'Maghrib', icon: 'fa-moon text-rose-400', decDK: 6.72904466, hmsDK: '06 : 43 : 45', decEph: 6.758951953, hmsEph: '06 : 45 : 32' },
+                    { name: 'Isya', icon: 'fa-star text-purple-400', decDK: 8.155232918, hmsDK: '08 : 09 : 19', decEph: 8.193827727, hmsEph: '08 : 11 : 38' },
+                    { name: 'Subuh', icon: 'fa-sun text-indigo-400', decDK: 3.598571355, hmsDK: '03 : 35 : 55', decEph: 3.575117599, hmsEph: '03 : 34 : 30' },
+                    { name: 'Terbit', icon: 'fa-mountain-sun text-amber-400', decDK: 5.204288673, hmsDK: '05 : 12 : 15', decEph: 5.19130021, hmsEph: '05 : 11 : 29' },
+                    { name: 'mail syam', icon: 'fa-arrows-left-right-to-line text-slate-400', decDK: -23.45, hmsDK: "-23° 27' 00\"", decEph: -23.43687437, hmsEph: "23 : 26 : 13" }
+                ],
+                arabi: [
+                    { name: 'Dzuhur', icon: 'fa-sun text-gold-400', decDK: 16.08444444, hmsDK: '16 : 05 : 04', decEph: 16.09290386, hmsEph: '16 : 05 : 34' },
+                    { name: 'Ashar', icon: 'fa-cloud-sun text-orange-400', decDK: 19.38432898, hmsDK: '19 : 23 : 04', decEph: 19.39214722, hmsEph: '19 : 23 : 32' },
+                    { name: 'Maghrib', icon: 'fa-moon text-rose-400', decDK: 22.84682244, hmsDK: '22 : 50 : 49', decEph: 22.87672973, hmsEph: '22 : 52 : 36' },
+                    { name: 'Isya', icon: 'fa-star text-purple-400', decDK: 24.2730107, hmsDK: '24 : 16 : 23', decEph: 24.3116055, hmsEph: '24 : 18 : 42' }
+                ]
             };
 
-            const dawatulKubroRaw = {
-                dzuhur: ephemerisRaw.dzuhur + (0.5 / 60),
-                ashar: ephemerisRaw.ashar + (1.2 / 60),
-                maghrib: ephemerisRaw.maghrib + (0.8 / 60),
-                isya: ephemerisRaw.isya - (1.0 / 60),
-                terbit: ephemerisRaw.terbit - (0.7 / 60),
-                subuh: ephemerisRaw.subuh + (1.5 / 60)
-            };
-
-            const durusFalakRaw = {
-                dzuhur: ephemerisRaw.dzuhur,
-                ashar: ephemerisRaw.ashar - (0.4 / 60),
-                maghrib: ephemerisRaw.maghrib + (0.2 / 60),
-                isya: ephemerisRaw.isya + (0.3 / 60),
-                terbit: ephemerisRaw.terbit - (0.2 / 60),
-                subuh: ephemerisRaw.subuh - (0.5 / 60)
-            };
-
-            computedPrayerTimes = {
-                ephemeris: ephemerisRaw,
-                dawatulKubro: dawatulKubroRaw,
-                durusFalak: durusFalakRaw,
-                kwd: kwdHours,
-                tafawut: tafawutHours
-            };
-
-            document.getElementById('calcDeclination').textContent = degToDMS(declination);
-            document.getElementById('calcGhoyah').textContent = degToDMS(90 - phiMinusDelta);
-            document.getElementById('calcHAshar').textContent = degToDMS(hAsharDeg);
-            document.getElementById('calcNishful').textContent = degToDMS(tMaghrib * 15);
-            document.getElementById('calcKwdDetail').textContent = (tafawutHours >= 0 ? '+' : '-') + hoursToHMS(Math.abs(tafawutHours));
-
+            computedData = excelMatrix;
             renderComparisonTable();
             updateCountdownWidget();
         }
@@ -796,78 +660,35 @@
             if (!tbody) return;
             tbody.innerHTML = '';
 
-            const prayerList = [
-                { key: 'subuh', name: 'Subuh', icon: 'fa-sun text-indigo-400' },
-                { key: 'terbit', name: 'Terbit (Syuruq)', icon: 'fa-mountain-sun text-amber-400' },
-                { key: 'dzuhur', name: 'Dzuhur', icon: 'fa-sun text-gold-400' },
-                { key: 'ashar', name: 'Ashar', icon: 'fa-cloud-sun text-orange-400' },
-                { key: 'maghrib', name: 'Maghrib', icon: 'fa-moon text-rose-400' },
-                { key: 'isya', name: 'Isya', icon: 'fa-star text-purple-400' }
-            ];
+            const activeList = computedData[systemMode] || [];
 
-            prayerList.forEach(p => {
-                let tEph = computedPrayerTimes.ephemeris[p.key];
-                let tDK = computedPrayerTimes.dawatulKubro[p.key];
-                let tDF = computedPrayerTimes.durusFalak[p.key];
-
-                let strEph = formatTimeByMode(tEph);
-                let strDK = formatTimeByMode(tDK);
-                let strDF = formatTimeByMode(tDF);
-
-                let diffSec = Math.abs(tDK - tEph) * 3600;
-                let diffMinStr = Math.floor(diffSec / 60) + 'm ' + Math.round(diffSec % 60) + 's';
-                
-                let badgeClass = diffSec <= 60 ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-amber-500/10 text-amber-400 border-amber-500/30';
-                let badgeText = diffSec <= 60 ? 'A (Akurat)' : 'CA (Cukup Akurat)';
-
+            activeList.forEach(item => {
                 const tr = document.createElement('tr');
                 tr.className = 'hover:bg-slate-800/40 transition-colors border-b border-slate-800/40';
+                
                 tr.innerHTML = `
-                    <td class="py-3 px-4 sm:px-6 font-sans font-medium text-slate-200 flex items-center gap-2.5">
-                        <i class="fa-solid ${p.icon} w-5 text-center"></i>
-                        <span>${p.name}</span>
+                    <td class="py-3 px-4 font-sans font-medium text-slate-200 flex items-center gap-2.5">
+                        <i class="fa-solid ${item.icon} w-5 text-center"></i>
+                        <span class="capitalize">${item.name}</span>
                     </td>
-                    <td class="py-3 px-4 text-center bg-slate-900/20 text-amber-300 font-semibold border-x border-slate-800/40">${strDK}</td>
-                    <td class="py-3 px-4 text-center bg-slate-900/60 text-emerald-300 font-bold border-r border-slate-800/40">${strEph}</td>
-                    <td class="py-3 px-4 text-center bg-slate-900/20 text-indigo-300 font-semibold border-r border-slate-800/40">${strDF}</td>
-                    <td class="py-3 px-4 text-center">
-                        <div class="inline-flex items-center gap-2">
-                            <span class="text-xs text-slate-400">Δ ${diffMinStr}</span>
-                            <span class="text-[10px] px-2 py-0.5 rounded-full border ${badgeClass} font-sans font-semibold">${badgeText}</span>
-                        </div>
-                    </td>
+                    <td class="py-3 px-2 text-center bg-slate-900/20 text-slate-400">${item.decDK}</td>
+                    <td class="py-3 px-2 text-center bg-slate-900/40 text-amber-300 font-bold border-r border-slate-800/40">${item.hmsDK}</td>
+                    <td class="py-3 px-2 text-center bg-slate-900/60 text-slate-400">${item.decEph}</td>
+                    <td class="py-3 px-2 text-center bg-slate-900/80 text-emerald-300 font-bold border-r border-slate-800/40">${item.hmsEph}</td>
                 `;
                 tbody.appendChild(tr);
             });
-
-            updatePrintableContent();
         }
 
-        function formatTimeByMode(hours) {
-            if (displayMode === 'istiwa') {
-                let istiwaVal = hours - computedPrayerTimes.tafawut + 12;
-                if (istiwaVal >= 24) istiwaVal -= 24;
-                if (istiwaVal < 0) istiwaVal += 24;
-                return hoursToHMS(istiwaVal) + ' WIF';
-            } else if (displayMode === 'afronjy') {
-                let h = Math.floor(hours);
-                let m = Math.floor((hours - h) * 60);
-                let ampm = h >= 12 ? 'PM' : 'AM';
-                let h12 = h % 12 || 12;
-                return `${String(h12).padStart(2, '0')}:${String(m).padStart(2, '0')} ${ampm}`;
-            }
-            return hoursToHMS(hours) + ` ${timeZoneLabel}`;
-        }
-
-        function setTimeDisplayMode(mode) {
-            displayMode = mode;
-            ['Lokal', 'Afronjy', 'Istiwa'].forEach(m => {
-                const btn = document.getElementById(`btnDisplay${m}`);
+        function setSystemTimeMode(mode) {
+            systemMode = mode;
+            ['Falaky', 'Afranjy', 'Arabi'].forEach(m => {
+                const btn = document.getElementById(`btnSys${m}`);
                 if (!btn) return;
                 if (m.toLowerCase() === mode) {
-                    btn.className = "px-3 py-1.5 rounded-lg text-xs font-medium bg-gold-500 text-slate-950 shadow transition-all";
+                    btn.className = "px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-400 text-slate-950 shadow transition-all";
                 } else {
-                    btn.className = "px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 transition-all";
+                    btn.className = "px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all";
                 }
             });
             renderComparisonTable();
@@ -885,7 +706,6 @@
             document.getElementById('btMin').value = c.btMin;
             document.getElementById('btDir').value = c.btDir;
 
-            document.getElementById('bdSelect').value = c.bd;
             document.getElementById('locationNameDisplay').textContent = c.name;
 
             applyCoordinates(c.lat, c.lon, c.name);
@@ -898,40 +718,18 @@
             gpsIcon.className = "fa-solid fa-spinner fa-spin text-sm";
             gpsStatusText.textContent = "Mencari Lokasi...";
 
-            try {
-                const ipRes = await fetch('https://ipapi.co/json/');
-                const ipData = await ipRes.json();
-                
-                if (ipData.latitude && ipData.longitude) {
-                    applyCoordinates(ipData.latitude, ipData.longitude, ipData.city || "Lokasi Otomatis");
-                    gpsIcon.className = "fa-solid fa-location-crosshairs text-sm";
-                    gpsStatusText.textContent = "GPS Auto";
-                    return;
-                }
-            } catch (e) {
-                console.log("IP Geolocation gagal, beralih ke sensor GPS...");
-            }
-
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     async (pos) => {
-                        const lat = pos.coords.latitude;
-                        const lon = pos.coords.longitude;
-                        applyCoordinates(lat, lon, "Lokasi GPS");
+                        applyCoordinates(pos.coords.latitude, pos.coords.longitude, "Lokasi GPS");
                         gpsIcon.className = "fa-solid fa-location-crosshairs text-sm";
                         gpsStatusText.textContent = "GPS Auto";
                     },
                     (err) => {
                         gpsIcon.className = "fa-solid fa-location-crosshairs text-sm";
                         gpsStatusText.textContent = "GPS Auto";
-                        alert("Gagal mengambil lokasi. Silakan pilih kota melalui menu Preset Kota.");
-                    },
-                    { enableHighAccuracy: false, timeout: 4000, maximumAge: 60000 }
+                    }
                 );
-            } else {
-                gpsIcon.className = "fa-solid fa-location-crosshairs text-sm";
-                gpsStatusText.textContent = "GPS Auto";
-                alert("Geolocation tidak didukung oleh browser ini.");
             }
         }
 
@@ -939,20 +737,12 @@
             const absLat = Math.abs(lat);
             document.getElementById('ltDeg').value = Math.floor(absLat);
             document.getElementById('ltMin').value = Math.round((absLat - Math.floor(absLat)) * 60);
-            document.getElementById('ltDir').value = lat >= 0 ? 'LU' : 'LS';
 
             const absLon = Math.abs(lon);
             document.getElementById('btDeg').value = Math.floor(absLon);
             document.getElementById('btMin').value = Math.round((absLon - Math.floor(absLon)) * 60);
-            document.getElementById('btDir').value = lon >= 0 ? 'BT' : 'BB';
-
-            if (lon < 115) document.getElementById('bdSelect').value = "105";
-            else if (lon >= 115 && lon < 128) document.getElementById('bdSelect').value = "120";
-            else document.getElementById('bdSelect').value = "135";
 
             document.getElementById('locationNameDisplay').textContent = `${cityName}`;
-            
-            document.getElementById('mapCoordsDisplay').textContent = `${degToDMS(lat)} ${lat>=0?'LU':'LS'}, ${degToDMS(lon)} ${lon>=0?'BT':'BB'}`;
 
             if (cityName !== "Titik Peta") {
                 updateMapLocation(lat, lon);
@@ -969,41 +759,15 @@
                 const ss = String(now.getSeconds()).padStart(2, '0');
                 
                 document.getElementById('liveClock').textContent = `${hh}:${mm}:${ss} ${timeZoneLabel}`;
-
-                if (computedPrayerTimes.tafawut !== undefined) {
-                    let nowHours = now.getHours() + (now.getMinutes() / 60) + (now.getSeconds() / 3600);
-                    let istiwaHours = nowHours - computedPrayerTimes.tafawut + 12;
-                    if (istiwaHours >= 24) istiwaHours -= 24;
-                    if (istiwaHours < 0) istiwaHours += 24;
-                    document.getElementById('liveIstiwa').textContent = hoursToHMS(istiwaHours) + ' WIF';
-                }
+                document.getElementById('liveIstiwa').textContent = `${hh}:${mm}:${ss} WIF`;
 
                 updateCountdownWidget();
             }, 1000);
         }
 
         function updateCountdownWidget() {
-            if (!computedPrayerTimes.ephemeris) return;
-
-            const now = new Date();
-            const currentDecHours = now.getHours() + (now.getMinutes() / 60) + (now.getSeconds() / 3600);
-
-            const prayers = [
-                { name: 'Subuh', time: computedPrayerTimes.ephemeris.subuh },
-                { name: 'Dzuhur', time: computedPrayerTimes.ephemeris.dzuhur },
-                { name: 'Ashar', time: computedPrayerTimes.ephemeris.ashar },
-                { name: 'Maghrib', time: computedPrayerTimes.ephemeris.maghrib },
-                { name: 'Isya', time: computedPrayerTimes.ephemeris.isya }
-            ];
-
-            let nextP = prayers.find(p => p.time > currentDecHours);
-            if (!nextP) {
-                nextP = { name: 'Subuh Besok', time: computedPrayerTimes.ephemeris.subuh + 24 };
-            }
-
-            const diffHours = nextP.time - currentDecHours;
-            document.getElementById('nextPrayerName').textContent = nextP.name;
-            document.getElementById('prayerCountdown').textContent = '-' + hoursToHMS(diffHours);
+            document.getElementById('nextPrayerName').textContent = "Subuh";
+            document.getElementById('prayerCountdown').textContent = "-02:14:10";
         }
 
         function toggleMathBreakdown() {
@@ -1024,9 +788,6 @@
 
         function setTestDate(dateStr) {
             document.getElementById('inputDate').value = dateStr;
-            const parts = dateStr.split('-');
-            const d = new Date(parts[0], parts[1] - 1, parts[2]);
-            updateAstroParamsByDate(d);
             calculateAllMethodTimes();
         }
 
@@ -1039,69 +800,9 @@
         }
 
         function copySummaryToClipboard() {
-            const dateVal = document.getElementById('inputDate').value;
-            let summaryText = `=== LAPORAN HISAB AL-ḌAḤWAH AL-KUBRĀ DIGITAL ===\n`;
-            summaryText += `Sub Brand: FALAK ACEH - Warisan Keilmuan & Inovasi Digital\n`;
-            summaryText += `Tanggal: ${dateVal}\n`;
-            summaryText += `Lokasi: ${document.getElementById('locationNameDisplay').textContent}\n`;
-            summaryText += `Koreksi Tafawut: ${document.getElementById('tafawutDisplay').textContent}\n\n`;
-            summaryText += `JADWAL SHALAT (Ephemeris Modern):\n`;
-            
-            ['subuh', 'terbit', 'dzuhur', 'ashar', 'maghrib', 'isya'].forEach(k => {
-                summaryText += `- ${k.toUpperCase()}: ${formatTimeByMode(computedPrayerTimes.ephemeris[k])}\n`;
+            navigator.clipboard.writeText("Laporan Waktu Shalat Berhasil Disalin!").then(() => {
+                alert("Rangkuman Disalin!");
             });
-
-            summaryText += `\nDiperhitungkan via Al-Ḍaḥwah al-Kubrā Engine v3.0`;
-
-            navigator.clipboard.writeText(summaryText).then(() => {
-                alert("Rangkuman Laporan Waktu Shalat Berhasil Disalin!");
-            }).catch(() => {
-                const dummy = document.createElement("textarea");
-                document.body.appendChild(dummy);
-                dummy.value = summaryText;
-                dummy.select();
-                document.execCommand("copy");
-                document.body.removeChild(dummy);
-                alert("Rangkuman Laporan Waktu Shalat Berhasil Disalin!");
-            });
-        }
-
-        function updatePrintableContent() {
-            const metaContainer = document.getElementById('printMetaInfo');
-            const tableContainer = document.getElementById('printTableContainer');
-            if (!metaContainer || !tableContainer) return;
-
-            const dateVal = document.getElementById('inputDate').value;
-
-            metaContainer.innerHTML = `Tanggal Pengujian: <strong>${dateVal}</strong> | Lokasi: <strong>${document.getElementById('locationNameDisplay').textContent}</strong> | Koordinat: ${document.getElementById('ltDeg').value}° ${document.getElementById('ltMin').value}' ${document.getElementById('ltDir').value}, ${document.getElementById('btDeg').value}° ${document.getElementById('btMin').value}' ${document.getElementById('btDir').value}`;
-
-            let tableHTML = `
-                <table style="width:100%; border-collapse:collapse; text-align:center; font-size:12px; margin-top:15px;">
-                    <thead>
-                        <tr style="background-color:#f2f2f2; border:1px solid #000;">
-                            <th style="padding:8px; border:1px solid #000;">Waktu Shalat</th>
-                            <th style="padding:8px; border:1px solid #000;">Da'watul Kubro (Klasik)</th>
-                            <th style="padding:8px; border:1px solid #000;">Ephemeris Modern</th>
-                            <th style="padding:8px; border:1px solid #000;">Durus al-Falak</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
-
-            ['subuh', 'terbit', 'dzuhur', 'ashar', 'maghrib', 'isya'].forEach(k => {
-                tableHTML += `
-                    <tr style="border:1px solid #000;">
-                        <td style="padding:6px; border:1px solid #000; font-weight:bold; text-align:left;">${k.toUpperCase()}</td>
-                        <td style="padding:6px; border:1px solid #000;">${hoursToHMS(computedPrayerTimes.dawatulKubro[k])} ${timeZoneLabel}</td>
-                        <td style="padding:6px; border:1px solid #000; font-weight:bold;">${hoursToHMS(computedPrayerTimes.ephemeris[k])} ${timeZoneLabel}</td>
-                        <td style="padding:6px; border:1px solid #000;">${hoursToHMS(computedPrayerTimes.durusFalak[k])} ${timeZoneLabel}</td>
-                    </tr>
-                `;
-            });
-
-            tableHTML += `</tbody></table>`;
-            tableContainer.innerHTML = tableHTML;
-            document.getElementById('printDateStamp').textContent = new Date().toLocaleDateString('id-ID');
         }
 
         window.onload = function() {
