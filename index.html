@@ -48,6 +48,12 @@
         .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        
+        /* Style untuk date picker transparan di widget header */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(0.8);
+            cursor: pointer;
+        }
     </style>
 </head>
 <body class="font-sans antialiased min-h-screen flex flex-col bg-slate-950 text-slate-100 custom-scrollbar">
@@ -122,7 +128,7 @@
             </div>
         </section>
 
-        <!-- Realtime Clock Widget -->
+        <!-- Realtime Clock Widget (REVISI: Tanggal Sekarang Bisa Di-set/Diklik Langsung!) -->
         <section class="bg-slate-900/50 border border-slate-800/80 rounded-2xl p-4 no-print">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
                 <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800 flex items-center justify-between shadow-inner">
@@ -152,14 +158,16 @@
                     </div>
                 </div>
 
-                <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800 flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <div class="p-2.5 rounded-lg bg-slate-800 text-indigo-400">
+                <!-- REVISI WIDGET TANGGAL: Menggunakan input date agar aktif & langsung bisa disetel -->
+                <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800 flex items-center justify-between hover:border-indigo-500/40 transition-all group">
+                    <div class="flex items-center gap-3 w-full">
+                        <div class="p-2.5 rounded-lg bg-slate-800 text-indigo-400 group-hover:bg-indigo-500/20 transition-all">
                             <i class="fa-regular fa-calendar-check text-xl"></i>
                         </div>
-                        <div>
-                            <div id="gregorianDateDisplay" class="text-sm font-semibold text-slate-200">-</div>
-                            <div id="locationNameDisplay" class="text-xs text-indigo-300">Langsa, Aceh</div>
+                        <div class="flex-1">
+                            <div class="text-[10px] text-indigo-300 font-semibold uppercase tracking-wider">Tanggal Pengujian (Klik untuk Set)</div>
+                            <input type="date" id="gregorianDateInput" onchange="syncDateFromWidget(this.value)" class="bg-transparent text-sm font-semibold text-slate-200 outline-none cursor-pointer w-full focus:text-indigo-400 transition-colors">
+                            <div id="locationNameDisplay" class="text-xs text-indigo-300/80 mt-0.5">Langsa, Aceh</div>
                         </div>
                     </div>
                 </div>
@@ -225,7 +233,7 @@
                 
                 <div class="space-y-1">
                     <label class="font-medium text-slate-300">Tanggal Pengujian</label>
-                    <input type="date" id="inputDate" onchange="calculateAllMethodTimes()" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 focus:border-gold-500 outline-none">
+                    <input type="date" id="inputDate" onchange="syncDateFromMainForm(this.value)" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 focus:border-gold-500 outline-none">
                 </div>
 
                 <div class="space-y-1">
@@ -310,7 +318,7 @@
                     <p class="text-xs text-slate-400 mt-1">Rekonstruksi Komputasional Kitab Dahwatul Kubro vs Ephemeris Modern</p>
                 </div>
 
-                <!-- SWITCHER TAB WAKTU (REVISI URUTAN: Afranjy, Araby, Falaky) -->
+                <!-- SWITCHER TAB WAKTU -->
                 <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 no-print">
                     <button onclick="setSystemTimeMode('afranjy')" id="btnSysAfranjy" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-400 text-slate-950 shadow transition-all">Waktu Afranjy</button>
                     <button onclick="setSystemTimeMode('arabi')" id="btnSysArabi" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all">Waktu Araby</button>
@@ -677,6 +685,19 @@
             return `${String(h).padStart(2, '0')} : ${String(m).padStart(2, '0')} : ${String(s).padStart(2, '0')}`;
         }
 
+        // FUNGSI SINKRONISASI TANGGAL WIDGET DENGAN FORM UTAMA
+        function syncDateFromWidget(val) {
+            if (!val) return;
+            document.getElementById('inputDate').value = val;
+            calculateAllMethodTimes();
+        }
+
+        function syncDateFromMainForm(val) {
+            if (!val) return;
+            document.getElementById('gregorianDateInput').value = val;
+            calculateAllMethodTimes();
+        }
+
         // LOAD / SAVE LOCAL STORAGE FOR BATCH PRESETS
         function initBatchPresets() {
             const saved = localStorage.getItem('falak_batch_presets');
@@ -732,6 +753,7 @@
             if (!p) return;
 
             document.getElementById('inputDate').value = p.date;
+            document.getElementById('gregorianDateInput').value = p.date;
             document.getElementById('declinationInput').value = p.decl;
             document.getElementById('eotInput').value = p.eot;
 
@@ -909,13 +931,6 @@
             const decl = parseFloat(document.getElementById('declinationInput').value) || -23.4368;
             const e = parseFloat(document.getElementById('eotInput').value) || 0.033;
             const ihtiyat = (parseFloat(document.getElementById('ihtiyatInput').value) || 2) / 60;
-
-            const dateVal = document.getElementById('inputDate').value;
-            if (dateVal) {
-                const dateObj = new Date(dateVal);
-                const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                document.getElementById('gregorianDateDisplay').textContent = dateObj.toLocaleDateString('id-ID', options);
-            }
 
             const kwdHours = (bd - lambda) / 15;
 
@@ -1173,8 +1188,10 @@
             const yyyy = today.getFullYear();
             const mm = String(today.getMonth() + 1).padStart(2, '0');
             const dd = String(today.getDate()).padStart(2, '0');
+            const formatted = `${yyyy}-${mm}-${dd}`;
 
-            document.getElementById('inputDate').value = `${yyyy}-${mm}-${dd}`;
+            document.getElementById('inputDate').value = formatted;
+            document.getElementById('gregorianDateInput').value = formatted;
             document.getElementById('declinationInput').value = "-8.1500";
             document.getElementById('eotInput').value = "0.210";
 
